@@ -182,7 +182,7 @@ export default function Home() {
           <p className="hero-quote">{ru ? '«С севера пришли они, отважные мужчины и женщины, образующие сильный Народ, продолжающие следовать путём Духа, Души, Сознания, Крови, Совести, Воли и Сокровенной Истины».' : '“They came from the North, courageous men and women forming a strong people, continuing along the path of Spirit, Soul, Consciousness, Blood, Conscience, Will and Innermost Truth.”'}</p>
         </div>
         <figure className="tree-figure">
-          <img src="./assets/tree-mark.png" alt={ru ? 'Древо жизни — дерево с оленями в традиционном русском орнаменте' : 'The Tree of Life with deer in a traditional Russian ornament'} />
+          <img src="./assets/hero-tree-v2.png" alt={ru ? 'Авторская иллюстрация Древа жизни с двумя оленями' : 'Original illustration of the Tree of Life with two deer'} />
         </figure>
       </section>
 

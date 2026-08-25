@@ -85,7 +85,6 @@ p { margin-bottom: 0; }
   overflow: hidden;
 }
 
-.site-section:nth-of-type(even) { background: var(--warm); }
 .section-title, h1 {
   margin-bottom: clamp(28px, 4vw, 52px);
   font-family: 'Cormorant Garamond', Georgia, serif;
