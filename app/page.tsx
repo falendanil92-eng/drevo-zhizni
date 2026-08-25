@@ -276,13 +276,7 @@ export default function Home() {
           <p>{ru ? 'Почта' : 'Email'}</p>
         </div>
         <div className="footer-resources">
-          {resources.map((resource) => <p key={resource}>● {resource}</p>)}
-        </div>
-        <div className="footer-socials" aria-label={ru ? 'Информационные ресурсы проекта' : 'Project information channels'}>
-          <span>TG</span><span>RU</span><span>VK</span><span>▶</span>
-          <span></span><span></span><span>VK</span><span>▶</span>
-          <span></span><span></span><span></span><span>▶</span>
-          <span></span><span></span><span>VK</span><span>▶</span>
+          {resources.map((resource) => <p key={resource}>{resource}</p>)}
         </div>
       </footer>
     </main>
