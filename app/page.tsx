@@ -152,6 +152,7 @@ export default function Home() {
         <a className="wordmark" href="#top" aria-label={ru ? 'Солнце.Культура — на главную' : 'Solntse.Culture — home'}>
           <span>СОЛНЦЕ.</span><strong>КУЛЬТУРА</strong>
         </a>
+        <a className="header-project-name" href="#top">{ru ? 'Древо жизни' : 'The Tree of Life'}</a>
         <button className="menu-toggle" type="button" onClick={() => setMenuOpen((open) => !open)} aria-expanded={menuOpen} aria-controls="main-navigation">
           {ru ? 'Меню' : 'Menu'}
         </button>
