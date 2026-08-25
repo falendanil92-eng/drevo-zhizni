@@ -47,11 +47,110 @@ function RussiaMapCanvas({ language }: { language: Language }) {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const tree = new Image();
     const basePath = window.location.pathname.startsWith('/drevo-zhizni') ? '/drevo-zhizni' : '';
-    tree.src = `${basePath}/assets/final-tree-ring.png`;
+    const mapImage = new Image();
+    const locationLogo = new Image();
+    let fillMask: HTMLCanvasElement | null = null;
+    let outlineLayer: HTMLCanvasElement | null = null;
+
+    mapImage.src = `${basePath}/assets/russia-map-source.jpg`;
+    locationLogo.src = `${basePath}/assets/map-location-logo.svg`;
+
+    const prepareMapLayers = () => {
+      const source = document.createElement('canvas');
+      source.width = mapImage.naturalWidth;
+      source.height = mapImage.naturalHeight;
+      const sourceContext = source.getContext('2d', { willReadFrequently: true });
+      if (!sourceContext) return;
+      sourceContext.drawImage(mapImage, 0, 0);
+
+      const { width, height } = source;
+      const sourcePixels = sourceContext.getImageData(0, 0, width, height);
+      const sealed = new Uint8Array(width * height);
+      const outside = new Uint8Array(width * height);
+
+      for (let index = 0; index < width * height; index += 1) {
+        const pixel = index * 4;
+        const luminance = sourcePixels.data[pixel] * 0.299 + sourcePixels.data[pixel + 1] * 0.587 + sourcePixels.data[pixel + 2] * 0.114;
+        if (luminance < 115) sealed[index] = 1;
+      }
+
+      const closedOutline = sealed.slice();
+      for (let y = 1; y < height - 1; y += 1) {
+        for (let x = 1; x < width - 1; x += 1) {
+          const index = y * width + x;
+          if (!sealed[index]) continue;
+          for (let offsetY = -1; offsetY <= 1; offsetY += 1) {
+            for (let offsetX = -1; offsetX <= 1; offsetX += 1) {
+              closedOutline[(y + offsetY) * width + x + offsetX] = 1;
+            }
+          }
+        }
+      }
+
+      const queue = new Int32Array(width * height);
+      let head = 0;
+      let tail = 0;
+      const enqueue = (index: number) => {
+        if (outside[index] || closedOutline[index]) return;
+        outside[index] = 1;
+        queue[tail] = index;
+        tail += 1;
+      };
+
+      for (let x = 0; x < width; x += 1) {
+        enqueue(x);
+        enqueue((height - 1) * width + x);
+      }
+      for (let y = 0; y < height; y += 1) {
+        enqueue(y * width);
+        enqueue(y * width + width - 1);
+      }
+
+      while (head < tail) {
+        const index = queue[head];
+        head += 1;
+        const x = index % width;
+        if (x > 0) enqueue(index - 1);
+        if (x < width - 1) enqueue(index + 1);
+        if (index >= width) enqueue(index - width);
+        if (index < width * (height - 1)) enqueue(index + width);
+      }
+
+      fillMask = document.createElement('canvas');
+      fillMask.width = width;
+      fillMask.height = height;
+      const fillContext = fillMask.getContext('2d');
+      const fillPixels = fillContext?.createImageData(width, height);
+
+      outlineLayer = document.createElement('canvas');
+      outlineLayer.width = width;
+      outlineLayer.height = height;
+      const outlineContext = outlineLayer.getContext('2d');
+      const outlinePixels = outlineContext?.createImageData(width, height);
+      if (!fillContext || !fillPixels || !outlineContext || !outlinePixels) return;
+
+      for (let index = 0; index < width * height; index += 1) {
+        const pixel = index * 4;
+        if (!outside[index]) {
+          fillPixels.data[pixel] = 255;
+          fillPixels.data[pixel + 1] = 255;
+          fillPixels.data[pixel + 2] = 255;
+          fillPixels.data[pixel + 3] = 255;
+        }
+        if (sealed[index]) {
+          outlinePixels.data[pixel] = 17;
+          outlinePixels.data[pixel + 1] = 17;
+          outlinePixels.data[pixel + 2] = 17;
+          outlinePixels.data[pixel + 3] = 255;
+        }
+      }
+      fillContext.putImageData(fillPixels, 0, 0);
+      outlineContext.putImageData(outlinePixels, 0, 0);
+    };
 
     const draw = () => {
+      if (!fillMask || !outlineLayer) return;
       const width = canvas.clientWidth;
       const height = canvas.clientHeight;
       if (!width || !height) return;
@@ -65,63 +164,49 @@ function RussiaMapCanvas({ language }: { language: Language }) {
       context.setTransform(ratio, 0, 0, ratio, 0, 0);
       context.clearRect(0, 0, width, height);
 
-      const sx = width / 1000;
-      const sy = height / 520;
-      const points: Array<[number, number]> = [
-        [72, 265], [90, 220], [132, 205], [145, 162], [193, 155], [215, 125],
-        [260, 144], [296, 122], [337, 155], [374, 146], [415, 175], [455, 153],
-        [492, 182], [530, 162], [565, 190], [610, 170], [650, 190], [686, 168],
-        [731, 194], [770, 181], [810, 205], [845, 196], [878, 226], [920, 230],
-        [908, 267], [935, 300], [906, 324], [918, 367], [872, 358], [843, 386],
-        [791, 373], [755, 402], [704, 388], [659, 420], [610, 402], [563, 430],
-        [518, 408], [467, 432], [421, 404], [372, 418], [333, 389], [283, 402],
-        [244, 371], [196, 385], [174, 347], [126, 352], [117, 318], [82, 306],
-      ];
+      const sourceRatio = fillMask.width / fillMask.height;
+      const destinationRatio = width / height;
+      const mapWidth = destinationRatio > sourceRatio ? height * sourceRatio : width;
+      const mapHeight = destinationRatio > sourceRatio ? height : width / sourceRatio;
+      const mapX = (width - mapWidth) / 2;
+      const mapY = (height - mapHeight) / 2;
 
-      context.beginPath();
-      points.forEach(([x, y], index) => {
-        if (index === 0) context.moveTo(x * sx, y * sy);
-        else context.lineTo(x * sx, y * sy);
-      });
-      context.closePath();
+      context.drawImage(fillMask, mapX, mapY, mapWidth, mapHeight);
+      context.globalCompositeOperation = 'source-in';
 
-      const gold = context.createLinearGradient(0, 0, width, height);
+      const gold = context.createLinearGradient(mapX, mapY, mapX + mapWidth, mapY + mapHeight);
       gold.addColorStop(0, '#a7742d');
       gold.addColorStop(0.5, '#e0b652');
       gold.addColorStop(1, '#b87f32');
       context.fillStyle = gold;
-      context.fill();
-      context.strokeStyle = '#111111';
-      context.lineWidth = Math.max(2, width / 420);
-      context.lineJoin = 'round';
-      context.stroke();
+      context.fillRect(mapX, mapY, mapWidth, mapHeight);
+      context.globalCompositeOperation = 'source-over';
+      context.drawImage(outlineLayer, mapX, mapY, mapWidth, mapHeight);
 
       const markers = [
-        { x: 190, y: 250, ru: 'Санкт-Петербург', en: 'Saint Petersburg' },
-        { x: 232, y: 300, ru: 'Москва', en: 'Moscow' },
-        { x: 468, y: 322, ru: 'Тюмень', en: 'Tyumen' },
-        { x: 560, y: 375, ru: 'Алтай', en: 'Altai' },
+        { x: 0.29, y: 0.51 },
+        { x: 0.38, y: 0.58 },
+        { x: 0.54, y: 0.55 },
+        { x: 0.68, y: 0.60 },
       ];
-      const iconSize = Math.max(42, Math.min(86, width / 11));
+      const iconSize = Math.max(54, Math.min(108, mapWidth / 9.5));
 
       markers.forEach((marker) => {
-        const x = marker.x * sx;
-        const y = marker.y * sy;
-        if (tree.complete && tree.naturalWidth) {
-          context.drawImage(tree, x - iconSize / 2, y - iconSize / 2, iconSize, iconSize);
+        const x = mapX + marker.x * mapWidth;
+        const y = mapY + marker.y * mapHeight;
+        if (locationLogo.complete && locationLogo.naturalWidth) {
+          context.drawImage(locationLogo, x - iconSize / 2, y - iconSize / 2, iconSize, iconSize);
         }
-        context.fillStyle = '#111111';
-        const bodyFontSize = Number.parseFloat(window.getComputedStyle(document.body).fontSize);
-        context.font = `600 ${bodyFontSize}px "Nunito Sans", sans-serif`;
-        context.textAlign = 'center';
-        context.fillText(language === 'ru' ? marker.ru : marker.en, x, y + iconSize / 2 + 20);
       });
     };
 
-    tree.onload = draw;
+    mapImage.onload = () => {
+      prepareMapLayers();
+      draw();
+    };
+    locationLogo.onload = draw;
     const observer = new ResizeObserver(draw);
     observer.observe(canvas);
-    draw();
     return () => observer.disconnect();
   }, [language]);
 
