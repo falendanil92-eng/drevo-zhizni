@@ -164,11 +164,11 @@ export default function Home() {
           <a href="#geography" onClick={closeMenu}>{ru ? 'Мы в России' : 'In Russia'}</a>
           <a href="#contacts" onClick={closeMenu}>{ru ? 'Контакты' : 'Contacts'}</a>
         </nav>
-        {/* <div className="language-switch" aria-label={ru ? 'Выбор языка' : 'Choose language'}>
+        <div className="language-switch" aria-label={ru ? 'Выбор языка' : 'Choose language'}>
           <button type="button" className={ru ? 'active' : ''} onClick={() => setLanguage('ru')} aria-pressed={ru}>RU</button>
           <span aria-hidden="true">/</span>
           <button type="button" className={!ru ? 'active' : ''} onClick={() => setLanguage('en')} aria-pressed={!ru}>EN</button>
-        </div>*/}
+        </div>
       </header>
 
       <section className="site-section hero" id="top">
