@@ -83,8 +83,7 @@ h1, h2 {
 
 .wordmark span, .wordmark strong { font-size: inherit; }
 .wordmark strong { color: var(--red); font-weight: 400; }
-.header-project-name { grid-column: 1 / 4; grid-row: 2; padding-left: clamp(20px, 2.4vw, 38px); font-family: 'Cormorant Garamond', Georgia, serif; font-size: clamp(18px, 1.65vw, 25px); text-transform: uppercase; }
-.site-header nav { grid-column: 4 / 12; grid-row: 2; display: flex; justify-content: center; gap: clamp(14px, 2vw, 32px); }
+.site-header nav { grid-column: 2 / 12; grid-row: 2; display: flex; justify-content: center; gap: clamp(14px, 2vw, 32px); }
 .site-header nav a { position: relative; padding: 12px 0; font-size: clamp(13px, 1.08vw, 16px); white-space: nowrap; }
 .site-header nav a::after { content: ''; position: absolute; right: 0; bottom: 5px; left: 0; height: 1px; background: var(--gold-dark); transform: scaleX(0); transform-origin: left; transition: transform 180ms ease; }
 .site-header nav a:hover::after, .site-header nav a:focus-visible::after { transform: scaleX(1); }
@@ -200,8 +199,7 @@ h1, h2 {
   html { scroll-padding-top: 118px; }
   .site-header { grid-template-rows: 62px 52px; min-height: 114px; }
   .wordmark { grid-column: 1 / 13; }
-  .header-project-name { grid-column: 1 / 7; padding-left: 18px; font-size: 18px; }
-  .menu-toggle { display: block; grid-column: 7 / 10; grid-row: 2; cursor: pointer; }
+  .menu-toggle { display: block; grid-column: 1 / 10; grid-row: 2; cursor: pointer; }
   .language-switch { grid-column: 10 / 13; grid-row: 2; }
   .site-header nav { position: absolute; top: 119px; right: 0; left: 0; display: none; flex-direction: column; align-items: stretch; gap: 0; padding: 18px 24px 28px; background: #fff; }
   .site-header nav.is-open { display: flex; }

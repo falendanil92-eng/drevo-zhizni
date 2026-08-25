@@ -152,7 +152,6 @@ export default function Home() {
         <a className="wordmark" href="#top" aria-label={ru ? 'Солнце.Культура — на главную' : 'Solntse.Culture — home'}>
           <span>СОЛНЦЕ.</span><strong>КУЛЬТУРА</strong>
         </a>
-        <a className="header-project-name" href="#top">{ru ? 'Древо жизни' : 'The Tree of Life'}</a>
         <button className="menu-toggle" type="button" onClick={() => setMenuOpen((open) => !open)} aria-expanded={menuOpen} aria-controls="main-navigation">
           {ru ? 'Меню' : 'Menu'}
         </button>
@@ -173,7 +172,7 @@ export default function Home() {
 
       <section className="site-section hero" id="top">
         <div className="hero-intro">
-          <h1 className="visually-hidden">{ru ? 'Древо жизни' : 'The Tree of Life'}</h1>
+          <h1>{ru ? 'Древо жизни' : 'The Tree of Life'}</h1>
           <p>{ru ? '«С севера пришли они, отважные мужчины и женщины, образующие сильный Народ, продолжающие следовать путём Духа, Души, Сознания, Крови, Совести, Воли и Сокровенной Истины. Именно это вдохнуло в них огромную силу предназначения. В их сердцах пылает огонь стремления, и пламя это позволяет им действовать и созидать».' : '“They came from the North, courageous men and women forming a strong people, continuing along the path of Spirit, Soul, Consciousness, Blood, Conscience, Will and Innermost Truth. This breathed into them the immense power of purpose. The fire of aspiration burns in their hearts, and this flame enables them to act and create.”'}</p>
         </div>
         <figure className="tree-figure">
