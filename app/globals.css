@@ -25,7 +25,7 @@
   --paper: #ffffff;
   --title-size: clamp(39px, 4.1vw, 62px);
   --body-size: clamp(17px, 1.4vw, 21px);
-  --brand-size: clamp(30px, 2.8vw, 44px);
+  --brand-size: 1.175rem;
   --footer-body-size: clamp(19px, 1.6vw, 24px);
   --section-height: clamp(720px, 62.5vw, 900px);
 }
@@ -75,13 +75,14 @@ h1, h2 {
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: var(--brand-size);
   line-height: 1;
-  letter-spacing: -.02em;
+  letter-spacing: .02em;
   text-transform: uppercase;
   white-space: nowrap;
   background: linear-gradient(100deg, #9b5d22 0%, #c78d36 22%, #e0b652 48%, #c08732 76%, #95541e 100%);
 }
 
 .wordmark span, .wordmark strong { font-size: inherit; }
+.wordmark strong { margin-left: .22em; }
 .wordmark strong { color: var(--red); font-weight: 400; }
 .site-header nav { grid-column: 2 / 12; grid-row: 2; display: flex; justify-content: center; gap: clamp(14px, 2vw, 32px); }
 .site-header nav a { position: relative; padding: 12px 0; font-size: clamp(13px, 1.08vw, 16px); white-space: nowrap; }
@@ -195,7 +196,7 @@ h1, h2 {
 }
 
 @media (max-width: 860px) {
-  :root { --title-size: clamp(36px, 9vw, 50px); --body-size: clamp(16px, 4.2vw, 19px); --brand-size: clamp(27px, 7.5vw, 38px); }
+  :root { --title-size: clamp(36px, 9vw, 50px); --body-size: clamp(16px, 4.2vw, 19px); }
   html { scroll-padding-top: 118px; }
   .site-header { grid-template-rows: 62px 52px; min-height: 114px; }
   .wordmark { grid-column: 1 / 13; }
