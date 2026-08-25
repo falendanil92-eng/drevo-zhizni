@@ -106,6 +106,7 @@ h1, h2 {
 .hero-intro { grid-column: 3 / 11; text-align: center; }
 .hero-intro h1 { margin-bottom: clamp(18px, 2vw, 28px); }
 .hero-intro p { line-height: 1.35; text-align: justify; }
+.hero-quote { font-family: 'Nunito Sans', Arial, sans-serif; font-style: italic; font-weight: 400; }
 .tree-figure { grid-column: 5 / 9; align-self: stretch; width: 100%; min-height: 0; margin-top: clamp(12px, 2vw, 30px); }
 .tree-figure img { width: 100%; height: 100%; object-fit: contain; }
 
