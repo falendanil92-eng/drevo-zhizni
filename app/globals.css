@@ -25,8 +25,8 @@
   --paper: #ffffff;
   --title-size: clamp(39px, 4.1vw, 62px);
   --body-size: clamp(17px, 1.4vw, 21px);
-  --brand-size: 1.175rem;
-  --footer-body-size: clamp(19px, 1.6vw, 24px);
+  --brand-size: clamp(30px, 2.8vw, 44px);
+  --footer-body-size: 1.175rem;
   --section-height: clamp(720px, 62.5vw, 900px);
 }
 
@@ -75,14 +75,13 @@ h1, h2 {
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: var(--brand-size);
   line-height: 1;
-  letter-spacing: .02em;
+  letter-spacing: -.02em;
   text-transform: uppercase;
   white-space: nowrap;
   background: linear-gradient(100deg, #9b5d22 0%, #c78d36 22%, #e0b652 48%, #c08732 76%, #95541e 100%);
 }
 
 .wordmark span, .wordmark strong { font-size: inherit; }
-.wordmark strong { margin-left: .22em; }
 .wordmark strong { color: var(--red); font-weight: 400; }
 .site-header nav { grid-column: 2 / 12; grid-row: 2; display: flex; justify-content: center; gap: clamp(14px, 2vw, 32px); }
 .site-header nav a { position: relative; padding: 12px 0; font-size: clamp(13px, 1.08vw, 16px); white-space: nowrap; }
@@ -182,22 +181,23 @@ h1, h2 {
 .site-footer::after { content: ''; position: absolute; top: -66px; left: 50%; width: 132px; aspect-ratio: 1; border: 2px solid rgb(119 65 22 / 55%); border-radius: 50%; background: radial-gradient(circle at 42% 38%, #f3d783 0 15%, #dfb24f 48%, #b8772b 100%); box-shadow: 0 0 42px rgb(255 223 134 / 58%); transform: translateX(-50%); }
 .site-footer > * { position: relative; z-index: 1; }
 .site-footer h2 { grid-column: 3 / 11; align-self: start; font-size: var(--title-size); text-align: center; }
-.site-footer p, .site-footer a, .site-footer span { font-size: var(--footer-body-size); line-height: 1.35; }
+.site-footer p, .site-footer a, .site-footer span { font-size: var(--footer-body-size); line-height: 1.35; letter-spacing: .02em; }
 .footer-contact { grid-column: 3 / 6; margin-top: clamp(36px, 4vw, 60px); }
 .footer-contact p { margin-bottom: 8px; }
 .footer-contact a { display: inline-block; margin-bottom: clamp(28px, 3vw, 44px); }
-.footer-resources { grid-column: 3 / 7; margin-top: clamp(54px, 6vw, 90px); }
-.footer-resources p { margin-bottom: 12px; }
+.footer-resources { grid-column: 1 / 13; display: flex; justify-content: space-between; gap: 18px; width: 100%; margin-top: clamp(54px, 6vw, 90px); padding-inline: 2cm; }
+.footer-resources p { margin: 0; white-space: nowrap; }
 .footer-resources p::first-letter { color: var(--red); }
 .footer-socials { grid-column: 8 / 12; grid-row: 2 / span 2; display: grid; grid-template-columns: repeat(4, minmax(44px, 68px)); gap: clamp(10px, 1.2vw, 18px); align-content: center; justify-content: center; margin-top: clamp(36px, 4vw, 60px); }
 .footer-socials span { display: grid; place-items: center; aspect-ratio: 1; border: 3px solid var(--red); font-size: clamp(14px, 1.25vw, 19px); }
 
 @media (max-width: 1080px) {
   .site-header nav { gap: 12px; }
+  .footer-resources { flex-wrap: wrap; justify-content: flex-start; }
 }
 
 @media (max-width: 860px) {
-  :root { --title-size: clamp(36px, 9vw, 50px); --body-size: clamp(16px, 4.2vw, 19px); }
+  :root { --title-size: clamp(36px, 9vw, 50px); --body-size: clamp(16px, 4.2vw, 19px); --brand-size: clamp(27px, 7.5vw, 38px); }
   html { scroll-padding-top: 118px; }
   .site-header { grid-template-rows: 62px 52px; min-height: 114px; }
   .wordmark { grid-column: 1 / 13; }
@@ -220,7 +220,8 @@ h1, h2 {
   .russia-map-canvas { grid-column: 1 / 13; height: 360px; }
   .geography-section > .text-button { grid-column: 3 / 11; margin-bottom: 80px; }
   .site-footer { min-height: auto; padding: 100px 0 80px; }
-  .site-footer h2, .footer-contact, .footer-resources, .footer-socials { grid-column: 2 / 12; }
+  .site-footer h2, .footer-contact, .footer-socials { grid-column: 2 / 12; }
+  .footer-resources { grid-column: 1 / 13; padding-inline: 24px; }
   .footer-socials { grid-row: auto; justify-content: start; margin-top: 48px; }
 }
 
