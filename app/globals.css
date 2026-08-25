@@ -186,7 +186,15 @@ h1, h2 {
 .footer-contact p { margin-bottom: 8px; }
 .footer-contact a { display: inline-block; margin-bottom: clamp(28px, 3vw, 44px); }
 .footer-resources { grid-column: 1 / 13; display: flex; justify-content: space-between; gap: 18px; width: 100%; margin-top: clamp(54px, 6vw, 90px); padding-inline: 2cm; }
-.footer-resources p { margin: 0; white-space: nowrap; }
+.footer-resources p {
+  display: block;
+  margin-block: 1em;
+  margin-inline: 0;
+  font-size: 1.17em;
+  font-weight: bold;
+  unicode-bidi: isolate;
+  white-space: nowrap;
+}
 .footer-resources p::first-letter { color: var(--red); }
 .footer-socials { grid-column: 8 / 12; grid-row: 2 / span 2; display: grid; grid-template-columns: repeat(4, minmax(44px, 68px)); gap: clamp(10px, 1.2vw, 18px); align-content: center; justify-content: center; margin-top: clamp(36px, 4vw, 60px); }
 .footer-socials span { display: grid; place-items: center; aspect-ratio: 1; border: 3px solid var(--red); font-size: clamp(14px, 1.25vw, 19px); }
