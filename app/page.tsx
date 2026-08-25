@@ -356,9 +356,14 @@ export default function Home() {
       <footer className="site-footer" id="contacts">
         <h2>{ru ? 'КОНТАКТЫ' : 'CONTACTS'}</h2>
         <div className="footer-contact">
-          <p>{ru ? 'ТЕЛЕФОН' : 'TELEPHONE'}</p>
-          <a href="tel:+79151643278">8 915 164 32 78</a>
-          <p>{ru ? 'ПОЧТА' : 'EMAIL'}</p>
+          <div className="footer-contact-item">
+            <p>{ru ? 'ТЕЛЕФОН' : 'TELEPHONE'}</p>
+            <a href="tel:+79151643278">8 915 164 32 78</a>
+          </div>
+          <div className="footer-contact-item">
+            <p>{ru ? 'ПОЧТА' : 'EMAIL'}</p>
+            <a href="mailto:solntse.kultura@mail.ru">solntse.kultura@mail.ru</a>
+          </div>
         </div>
         <div className="footer-resources">
           {resources.map((resource) => <p key={resource}>{resource}</p>)}

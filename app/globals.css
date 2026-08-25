@@ -182,10 +182,11 @@ h1, h2 {
 .site-footer > * { position: relative; z-index: 1; }
 .site-footer h2 { grid-column: 3 / 11; align-self: start; font-size: var(--title-size); text-align: center; }
 .site-footer p, .site-footer a, .site-footer span { font-size: var(--footer-body-size); line-height: 1.35; letter-spacing: .02em; }
-.footer-contact { grid-column: 3 / 6; margin-top: clamp(36px, 4vw, 60px); }
-.footer-contact p, .footer-contact a { font-size: clamp(23px, 2vw, 30px); }
-.footer-contact p { margin-bottom: 8px; }
-.footer-contact a { display: inline-block; margin-bottom: clamp(28px, 3vw, 44px); }
+.footer-contact { grid-column: 3 / 11; display: flex; justify-content: space-between; gap: 32px; margin-top: clamp(36px, 4vw, 60px); }
+.footer-contact-item { display: flex; align-items: baseline; gap: 14px; }
+.footer-contact p, .footer-contact a { font-size: 1.175rem; }
+.footer-contact p { margin: 0; }
+.footer-contact a { display: inline-block; margin: 0; }
 .footer-resources { grid-column: 3 / 9; display: flex; flex-direction: column; align-items: flex-start; gap: 16px; margin-top: clamp(54px, 6vw, 90px); }
 .footer-resources p {
   display: block;
@@ -196,6 +197,8 @@ h1, h2 {
   unicode-bidi: isolate;
   white-space: nowrap;
 }
+
+main > :not(.site-footer) :is(h1, h2, p, li, a, button, span) { text-align: center; }
 
 @media (max-width: 1080px) {
   .site-header nav { gap: 12px; }
@@ -226,6 +229,7 @@ h1, h2 {
   .geography-section > .text-button { grid-column: 3 / 11; margin-bottom: 80px; }
   .site-footer { min-height: auto; padding: 100px 0 80px; }
   .site-footer h2, .footer-contact, .footer-resources { grid-column: 2 / 12; }
+  .footer-contact { flex-direction: column; gap: 16px; }
 }
 
 @media (max-width: 520px) {
