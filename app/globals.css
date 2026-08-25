@@ -27,7 +27,7 @@
   --body-size: 1.175rem;
   --quote-size: clamp(17px, 1.4vw, 21px);
   --brand-size: clamp(30px, 2.8vw, 44px);
-  --footer-body-size: 1.175rem;
+  --footer-body-size: 1.17em;
   --section-height: clamp(720px, 62.5vw, 900px);
 }
 
@@ -177,7 +177,6 @@ h1, h2 {
   padding: 9% 0 7%;
   overflow: hidden;
   background: linear-gradient(125deg, #8a4f20 0%, #be7d2e 22%, #e0b652 46%, #bd7727 70%, #8d4b1c 100%);
-  font-size: 1rem;
   text-transform: uppercase;
 }
 .site-footer > * { position: relative; z-index: 1; }
