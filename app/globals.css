@@ -24,7 +24,8 @@
   --gold-dark: #9f6628;
   --paper: #ffffff;
   --title-size: clamp(39px, 4.1vw, 62px);
-  --body-size: clamp(17px, 1.4vw, 21px);
+  --body-size: clamp(24.5px, calc(1.4vw + 7.5px), 28.5px);
+  --quote-size: clamp(17px, 1.4vw, 21px);
   --brand-size: clamp(30px, 2.8vw, 44px);
   --footer-body-size: 1.175rem;
   --section-height: clamp(720px, 62.5vw, 900px);
@@ -105,7 +106,7 @@ h1, h2 {
 .hero-intro { grid-column: 3 / 11; text-align: center; }
 .hero-intro h1 { margin-bottom: clamp(18px, 2vw, 28px); }
 .hero-intro p { line-height: 1.35; text-align: justify; }
-.hero-quote { font-family: 'Nunito Sans', Arial, sans-serif; font-style: italic; font-weight: 400; }
+.hero-quote { font-family: 'Nunito Sans', Arial, sans-serif; font-size: var(--quote-size); font-style: italic; font-weight: 400; }
 .tree-figure { grid-column: 5 / 9; align-self: stretch; width: 100%; min-height: 0; margin-top: clamp(12px, 2vw, 30px); }
 .tree-figure img { width: 100%; height: 100%; object-fit: contain; }
 
@@ -176,6 +177,7 @@ h1, h2 {
   padding: 9% 0 7%;
   overflow: hidden;
   background: linear-gradient(125deg, #8a4f20 0%, #be7d2e 22%, #e0b652 46%, #bd7727 70%, #8d4b1c 100%);
+  font-size: 1rem;
 }
 .site-footer::before { content: ''; position: absolute; inset: 0; background: repeating-conic-gradient(from -72deg at 50% 0%, rgb(255 225 145 / 42%) 0deg 1.3deg, transparent 1.3deg 7deg); pointer-events: none; }
 .site-footer::after { content: ''; position: absolute; top: -66px; left: 50%; width: 132px; aspect-ratio: 1; border: 2px solid rgb(119 65 22 / 55%); border-radius: 50%; background: radial-gradient(circle at 42% 38%, #f3d783 0 15%, #dfb24f 48%, #b8772b 100%); box-shadow: 0 0 42px rgb(255 223 134 / 58%); transform: translateX(-50%); }
@@ -205,7 +207,7 @@ h1, h2 {
 }
 
 @media (max-width: 860px) {
-  :root { --title-size: clamp(36px, 9vw, 50px); --body-size: clamp(16px, 4.2vw, 19px); --brand-size: clamp(27px, 7.5vw, 38px); }
+  :root { --title-size: clamp(36px, 9vw, 50px); --body-size: clamp(23.5px, calc(4.2vw + 7.5px), 26.5px); --quote-size: clamp(16px, 4.2vw, 19px); --brand-size: clamp(27px, 7.5vw, 38px); }
   html { scroll-padding-top: 118px; }
   .site-header { grid-template-rows: 62px 52px; min-height: 114px; }
   .wordmark { grid-column: 1 / 13; }
