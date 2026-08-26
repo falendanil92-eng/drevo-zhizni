@@ -147,7 +147,7 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
 }
 .panel-wide img { width: 100%; height: 100%; object-fit: contain; }
 
-.technique-section { min-height: clamp(760px, 68vw, 980px); }
+.technique-section { min-height: auto; }
 .technique-section::before {
   content: '';
   position: absolute;
@@ -177,7 +177,7 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
 .panel-summary p { margin-bottom: 16px; line-height: 1.42; }
 .panel-summary p:last-child { margin-bottom: 0; }
 
-.offer-section { min-height: clamp(1380px, 112vw, 1660px); align-content: start; padding-top: 11%; }
+.offer-section { min-height: auto; align-content: start; padding-top: 154.64px; }
 .offer-section > h2 { grid-column: 3 / 11; margin-bottom: clamp(34px, 4vw, 60px); }
 .offer-promotion, .offer-order { grid-column: 3 / 11; position: relative; }
 .offer-promotion { padding-bottom: clamp(34px, 4vw, 58px); }
@@ -269,6 +269,7 @@ main > :not(.site-footer) :is(h1, h2, p, li, a, button, span) { text-align: cent
   .text-block, .project-section, .technique-copy, .panel-section, .offer-section, .geography-section { padding-top: 100px; }
   .project-section { padding-top: 62.2px; }
   .technique-copy { padding-top: 154.64px; }
+  .offer-section { padding-top: 154.64px; }
   .panel-wide { grid-column: 2 / 12; width: 100%; height: auto; aspect-ratio: 1; margin-top: 75.6px; }
   .panel-section { grid-template-rows: auto 380px auto; }
   .panel-section { padding-top: 154.64px; }
