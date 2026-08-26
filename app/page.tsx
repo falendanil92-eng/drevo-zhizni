@@ -366,10 +366,8 @@ export default function Home() {
       <section className="site-section geography-section" id="geography">
         <h2>{ru ? 'Мы в России' : 'In Russia'}</h2>
         <RussiaMapCanvas language={language} />
-        <div className="geography-contact">
-          <p>{ru ? 'Связаться с нами, если хотите, чтобы Ваш регион принял участие в проекте.' : 'Contact us if you would like your region to take part in the project.'}</p>
-          <a className="text-button" href="tel:+79151643278">{ru ? 'Связаться' : 'Contact us'}</a>
-        </div>
+        <p>{ru ? 'Связаться с нами, если хотите, чтобы Ваш регион принял участие в проекте.' : 'Contact us if you would like your region to take part in the project.'}</p>
+        <a className="text-button" href="tel:+79151643278">{ru ? 'Связаться' : 'Contact us'}</a>
       </section>
 
       <footer className="site-footer" id="contacts">

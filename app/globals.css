@@ -125,11 +125,10 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
   -webkit-text-fill-color: transparent;
 }
 
-.idea-section { min-height: auto; }
-.idea-section .text-block { padding-top: 3cm; }
-.idea-section .text-block p:last-child { margin-bottom: 0; }
+.idea-section { min-height: clamp(900px, 76vw, 1080px); }
+.idea-section .text-block { padding-top: 12%; }
 
-.project-section { grid-template-rows: auto 1fr; padding-top: 3cm; }
+.project-section { grid-template-rows: auto 1fr; padding-top: 12%; }
 .project-copy { grid-column: 3 / 11; text-align: center; }
 .project-copy h2 { margin-bottom: clamp(24px, 3vw, 42px); }
 .project-copy p { margin-bottom: 10px; line-height: 1.4; }
@@ -175,11 +174,11 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
 .preview-copy p { line-height: 1.42; }
 .preview-copy .text-button { margin-top: 18px; }
 
-.geography-section { min-height: auto; align-content: start; justify-items: center; padding-top: 12%; text-align: center; }
+.geography-section { min-height: clamp(780px, 66vw, 960px); align-content: start; justify-items: center; padding-top: 12%; text-align: center; }
 .geography-section h2 { grid-column: 3 / 11; }
 .russia-map-canvas { grid-column: 1 / 13; display: block; width: calc(100% - 8cm); height: clamp(440px, calc((100vw - 8cm) / 1.65), 720px); margin-top: clamp(20px, 3vw, 42px); }
-.geography-contact { grid-column: 1 / 13; display: flex; min-height: clamp(466.67px, 41.33vw, 600px); flex-direction: column; align-items: center; justify-content: center; gap: 18px; width: 100%; }
-.geography-contact p { width: 66.666%; }
+.geography-section > p { grid-column: 3 / 11; margin-top: 12px; }
+.geography-section > .text-button { grid-column: 5 / 9; margin-top: 18px; }
 
 .site-footer {
   position: relative;
@@ -229,11 +228,10 @@ main > :not(.site-footer) :is(h1, h2, p, li, a, button, span) { text-align: cent
   .site-header nav.is-open { display: flex; }
   .site-header nav a { padding: 12px 0; border-bottom: 1px solid rgb(17 17 17 / 14%); }
   .hero { min-height: calc(100svh - 114px); padding-top: 40px; }
-  .hero-intro, .text-block, .project-copy, .technique-conclusion, .panel-content, .panel-summary, .offer-section > h2, .offer-promotion, .offer-order, .geography-section h2 { grid-column: 2 / 12; }
+  .hero-intro, .text-block, .project-copy, .technique-conclusion, .panel-content, .panel-summary, .offer-section > h2, .offer-promotion, .offer-order, .geography-section h2, .geography-section > p { grid-column: 2 / 12; }
   .tree-figure { grid-column: 3 / 11; }
   .idea-section, .project-section, .technique-section, .panel-section, .offer-section, .geography-section { min-height: auto; }
-  .text-block, .technique-copy, .panel-section, .offer-section, .geography-section { padding-top: 100px; }
-  .idea-section .text-block, .project-section { padding-top: 3cm; }
+  .text-block, .project-section, .technique-copy, .panel-section, .offer-section, .geography-section { padding-top: 100px; }
   .panel-wide { grid-column: 2 / 12; height: 340px; margin-top: 54px; }
   .panel-section { grid-template-rows: auto auto 380px auto; }
   .video-placeholder { grid-column: 2 / 12; min-height: 380px; }
@@ -241,8 +239,7 @@ main > :not(.site-footer) :is(h1, h2, p, li, a, button, span) { text-align: cent
   .offer-promotion .text-button { position: static; margin-top: 20px; }
   .offer-image, .preview-copy { grid-column: 2 / 12; }
   .russia-map-canvas { grid-column: 1 / 13; width: calc(100% - 48px); height: clamp(300px, calc((100vw - 48px) / 1.65), 480px); }
-  .geography-contact { min-height: 360px; padding-inline: 24px; }
-  .geography-contact p { width: 100%; }
+  .geography-section > .text-button { grid-column: 3 / 11; margin-bottom: 80px; }
   .site-footer { height: auto; min-height: auto; padding: 72px 24px 64px; }
   .site-footer h2, .footer-contact, .footer-resources { grid-column: 2 / 12; }
   .site-footer h2 { grid-row: auto; }
