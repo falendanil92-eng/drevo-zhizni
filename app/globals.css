@@ -107,7 +107,7 @@ h1, h2 {
 
 main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
 
-.hero { grid-template-rows: auto 1fr; min-height: calc(100svh - 122px); padding-top: clamp(28px, 3vw, 44px); }
+.hero { grid-template-rows: auto; min-height: auto; padding-top: clamp(28px, 3vw, 44px); }
 .hero-intro { grid-column: 3 / 11; text-align: center; }
 .hero-intro h1 { margin-bottom: clamp(18px, 2vw, 28px); }
 .hero-intro p { line-height: 1.35; text-align: justify; }
@@ -127,7 +127,7 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
 }
 
 .idea-section { min-height: auto; }
-.idea-section .text-block { padding-top: 12%; }
+.idea-section .text-block { padding-top: 3cm; }
 .idea-section .text-block p:last-child { margin-bottom: 0; }
 
 .project-section { grid-template-rows: auto auto; align-content: start; padding-top: calc(12% - 49.8px); }
@@ -262,7 +262,7 @@ main > :not(.site-footer) :is(h1, h2, p, li, a, button, span) { text-align: cent
   .site-header nav { position: absolute; top: 119px; right: 0; left: 0; display: none; flex-direction: column; align-items: stretch; gap: 0; padding: 18px 24px 28px; background: #fff; }
   .site-header nav.is-open { display: flex; }
   .site-header nav a { padding: 12px 0; border-bottom: 1px solid rgb(17 17 17 / 14%); }
-  .hero { min-height: calc(100svh - 114px); padding-top: 40px; }
+  .hero { min-height: auto; padding-top: 40px; }
   .hero-intro, .text-block, .project-copy, .panel-content, .panel-summary, .offer-section > h2, .offer-promotion, .offer-order, .geography-section h2, .geography-section > p { grid-column: 2 / 12; }
   .tree-figure { grid-column: 3 / 11; }
   .idea-section, .project-section, .technique-section, .panel-section, .offer-section, .geography-section { min-height: auto; }
