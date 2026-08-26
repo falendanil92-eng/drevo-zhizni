@@ -151,7 +151,7 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
 .technique-copy ol { margin: clamp(22px, 2.5vw, 36px) 0;  list-style-type: decimal; list-style-position: inside; }
 .technique-copy li { margin-bottom: clamp(16px, 1.8vw, 26px);line-height: 1.42; }
 
-.panel-section { min-height: clamp(1380px, 116vw, 1680px); grid-template-rows: auto minmax(420px, 1fr) auto; padding-top: 10%; }
+.panel-section { min-height: clamp(1380px, 116vw, 1680px); grid-template-rows: auto minmax(420px, 1fr) auto; padding-top: 154.64px; }
 .panel-content { grid-column: 3 / 11; margin-top: clamp(60px, 7vw, 104px); }
 .panel-content h2 { margin-bottom: clamp(28px, 3vw, 44px); }
 .panel-content ul { margin: 0; padding-left: 1.25em; }
@@ -244,6 +244,7 @@ main > :not(.site-footer) :is(h1, h2, p, li, a, button, span) { text-align: cent
   .project-section { padding-top: 62.2px; }
   .panel-wide { grid-column: 2 / 12; width: 100%; height: auto; aspect-ratio: 1; margin-top: 75.6px; }
   .panel-section { grid-template-rows: auto 380px auto; }
+  .panel-section { padding-top: 154.64px; }
   .video-placeholder { grid-column: 2 / 12; min-height: 380px; }
   .offer-promotion > p:not(.offer-label) { max-width: 100%; }
   .offer-promotion .text-button { position: static; margin-top: 20px; }
