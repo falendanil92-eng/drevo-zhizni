@@ -129,7 +129,7 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
 .idea-section .text-block { padding-top: 12%; }
 .idea-section .text-block p:last-child { margin-bottom: 0; }
 
-.project-section { grid-template-rows: auto 1fr; padding-top: calc(12% - 6px); }
+.project-section { grid-template-rows: auto 1fr; padding-top: calc(12% - 12px); }
 .project-copy { grid-column: 3 / 11; text-align: center; }
 .project-copy h2 { margin-bottom: clamp(24px, 3vw, 42px); }
 .project-copy p { margin-bottom: 10px; line-height: 1.4; }
