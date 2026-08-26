@@ -192,7 +192,8 @@ function RussiaMapCanvas({ language }: { language: Language }) {
       context.drawImage(outlineLayer, mapBounds.x, mapBounds.y, mapBounds.width, mapBounds.height, mapX, mapY, mapWidth, mapHeight);
 
       const markers = [
-        { name: 'Санкт-Петербург', x: 0.145, y: 0.43 },
+        // Keep the north-west marker inside the map silhouette at every size.
+        { name: 'Санкт-Петербург', x: 0.17, y: 0.47 },
         { name: 'Москва', x: 0.18, y: 0.54 },
         { name: 'Тюмень', x: 0.34, y: 0.60 },
         { name: 'Алтай', x: 0.47, y: 0.80 },
