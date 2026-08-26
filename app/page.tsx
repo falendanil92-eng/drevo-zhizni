@@ -304,22 +304,7 @@ export default function Home() {
         </figure>
       </section>
 
-      <section className="site-section technique-section">
-        <article className="text-block technique-copy">
-          <p>{ru ? 'Изучение европейской и азиатской истории искусств показывает, что рельефное жемчужное шитьё всегда оставалось прерогативой узкого круга — верховной знати и высшего духовенства. На Руси сложилась диаметрально противоположная ситуация, обусловленная двумя факторами.' : 'The history of European and Asian art shows that raised pearl embroidery remained the privilege of a narrow circle — the highest nobility and senior clergy. In Rus, a diametrically opposite situation emerged due to two factors.'}</p>
-          <ol>
-            <li>{ru ? 'Реки Русского Севера — бассейны Северной Двины, Онеги и реки Кольского полуострова — были естественным ареалом обитания пресноводной жемчужницы. Добыча речного жемчуга была традиционным промыслом, доступным местному населению.' : 'The rivers of the Russian North were a natural habitat for freshwater pearl mussels. Harvesting river pearls was a traditional craft available to local communities.'}</li>
-            <li>{ru ? 'В русском обществе до начала XVIII века отсутствовала строгая государственная монополия на ношение жемчуга. Поэтому сажение по бели проникло во все слои общества, став не просто элитарным искусством, но общенациональным Культурным Кодом.' : 'Until the early eighteenth century, Russian society had no strict state monopoly on wearing pearls. Sazhene po beli therefore spread throughout society and became a national Cultural Code.'}</li>
-          </ol>
-          <p>{ru ? 'Орнаментика жемчужного шитья представляла собой строгую знаковую систему. Жемчуг в древнерусской традиции символизировал чистоту, радость и небесный свет. Прокладывая льняной шнур и покрывая его жемчугом, мастерица буквально структурировала хаос, создавая защитный сакральный контур для себя, своего рода, народа, Родины. Она плела узор будущего.' : 'The ornamentation of pearl embroidery formed a strict symbolic system. In ancient Russian tradition, pearls symbolised purity, joy and heavenly light. By laying linen cord and covering it with pearls, the artisan shaped chaos into a sacred protective contour for herself, her family, her people and her homeland. She wove the pattern of the future.'}</p>
-        </article>
-      </section>
-
       <section className="site-section panel-section" id="panel">
-        <article className="technique-conclusion">
-          <p>{ru ? 'Искусство русского «сажения по бели» не имеет мировых аналогов!' : 'The Russian art of sazhene po beli has no equivalent in the world!'}</p>
-          <p>{ru ? 'Русская традиция явила миру идеальный симбиоз надёжной органической инженерии — льняная бель — и абсолютной доступности сакральной красоты. Массовое бытование сложнейшего жемчужного шитья свидетельствует о высочайшем уровне внутренней культуры, экономической состоятельности народа и удивительном торжестве эстетической свободы в Древней Руси.' : 'The Russian tradition united reliable organic engineering with access to sacred beauty. The widespread use of complex pearl embroidery testifies to the extraordinary inner culture, prosperity and aesthetic freedom of ancient Rus.'}</p>
-        </article>
         <div className="panel-content">
           <h2>{ru ? 'О панно' : 'The panel'}</h2>
           <ul>{panelFacts[language].map((fact) => <li key={fact}>{fact}</li>)}</ul>
@@ -330,6 +315,19 @@ export default function Home() {
         <article className="panel-summary">
           <p>{ru ? 'Это первое и единственное в России панно с соответствующей целью, смыслом, символами, образом такого размера, выполненное в данной технике исполнения.' : 'This is the first and only panel in Russia with this purpose, meaning and symbolism, at this scale and in this technique.'}</p>
           <p>{ru ? 'Панно является экспонатом музейного уровня, уникальным арт-объектом для выставочных пространств, общественной и жилой среды.' : 'The panel is a museum-level exhibit and a unique art object for exhibition spaces, public interiors and homes.'}</p>
+        </article>
+      </section>
+
+      <section className="site-section technique-section">
+        <article className="text-block technique-copy">
+          <p>{ru ? 'Изучение европейской и азиатской истории искусств показывает, что рельефное жемчужное шитьё всегда оставалось прерогативой узкого круга — верховной знати и высшего духовенства. На Руси сложилась диаметрально противоположная ситуация, обусловленная двумя факторами.' : 'The history of European and Asian art shows that raised pearl embroidery remained the privilege of a narrow circle — the highest nobility and senior clergy. In Rus, a diametrically opposite situation emerged due to two factors.'}</p>
+          <ol>
+            <li>{ru ? 'Реки Русского Севера — бассейны Северной Двины, Онеги и реки Кольского полуострова — были естественным ареалом обитания пресноводной жемчужницы. Добыча речного жемчуга была традиционным промыслом, доступным местному населению.' : 'The rivers of the Russian North were a natural habitat for freshwater pearl mussels. Harvesting river pearls was a traditional craft available to local communities.'}</li>
+            <li>{ru ? 'В русском обществе до начала XVIII века отсутствовала строгая государственная монополия на ношение жемчуга. Поэтому сажение по бели проникло во все слои общества, став не просто элитарным искусством, но общенациональным Культурным Кодом.' : 'Until the early eighteenth century, Russian society had no strict state monopoly on wearing pearls. Sazhene po beli therefore spread throughout society and became a national Cultural Code.'}</li>
+          </ol>
+          <p>{ru ? 'Орнаментика жемчужного шитья представляла собой строгую знаковую систему. Жемчуг в древнерусской традиции символизировал чистоту, радость и небесный свет. Прокладывая льняной шнур и покрывая его жемчугом, мастерица буквально структурировала хаос, создавая защитный сакральный контур для себя, своего рода, народа, Родины. Она плела узор будущего.' : 'The ornamentation of pearl embroidery formed a strict symbolic system. In ancient Russian tradition, pearls symbolised purity, joy and heavenly light. By laying linen cord and covering it with pearls, the artisan shaped chaos into a sacred protective contour for herself, her family, her people and her homeland. She wove the pattern of the future.'}</p>
+          <p>{ru ? 'Искусство русского «сажения по бели» не имеет мировых аналогов!' : 'The Russian art of sazhene po beli has no equivalent in the world!'}</p>
+          <p>{ru ? 'Русская традиция явила миру идеальный симбиоз надёжной органической инженерии — льняная бель — и абсолютной доступности сакральной красоты. Массовое бытование сложнейшего жемчужного шитья свидетельствует о высочайшем уровне внутренней культуры, экономической состоятельности народа и удивительном торжестве эстетической свободы в Древней Руси.' : 'The Russian tradition united reliable organic engineering with access to sacred beauty. The widespread use of complex pearl embroidery testifies to the extraordinary inner culture, prosperity and aesthetic freedom of ancient Rus.'}</p>
         </article>
       </section>
 
