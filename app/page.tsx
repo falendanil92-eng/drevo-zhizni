@@ -312,6 +312,9 @@ export default function Home() {
           <h1>{ru ? 'Древо жизни' : 'The Tree of Life'}</h1>
           <p className="hero-quote">{ru ? '«С севера пришли они, отважные мужчины и женщины, образующие сильный Народ, продолжающие следовать путём Духа, Души, Сознания, Крови, Совести, Воли и Сокровенной Истины. Именно это вдохнуло в них огромную силу предназначения. В их сердцах пылает огонь стремления, и пламя это позволяет им действовать и созидать».' : '“They came from the North, courageous men and women forming a strong people, continuing along the path of Spirit, Soul, Consciousness, Blood, Conscience, Will and Innermost Truth. This breathed into them the immense power of purpose. The fire of aspiration burns in their hearts, and this flame enables them to act and create.”'}</p>
         </div>
+        <figure className="panel-wide">
+          <img src="./assets/panel-tree-cutout.png" alt={ru ? 'Эскиз панно «Древо жизни»' : 'Tree of Life panel sketch'} />
+        </figure>
       </section>
 
       <section className="site-section idea-section" id="idea">
@@ -331,9 +334,6 @@ export default function Home() {
           <p>{ru ? '«ДРЕВО ЖИЗНИ» представлено в формате монументального панно.' : 'THE TREE OF LIFE is presented as a monumental panel.'}</p>
           <p className="dark-gradient-text">{ru ? 'Основной смысл этого объекта — наше волеизъявление в выборе пути жизни и жизнетворения, проявленного через символ «ДРЕВО ЖИЗНИ».' : 'The central meaning of this object is our conscious choice of the path of life and life-giving creation, expressed through the TREE OF LIFE symbol.'}</p>
         </div>
-        <figure className="panel-wide">
-          <img src="./assets/panel-tree-cutout.png" alt={ru ? 'Эскиз панно «Древо жизни»' : 'Tree of Life panel sketch'} />
-        </figure>
       </section>
 
       <section className="site-section panel-section" id="panel">
