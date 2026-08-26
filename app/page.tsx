@@ -300,7 +300,7 @@ export default function Home() {
           <p className="dark-gradient-text">{ru ? 'Основной смысл этого объекта — наше волеизъявление в выборе пути жизни и жизнетворения, проявленного через символ «ДРЕВО ЖИЗНИ».' : 'The central meaning of this object is our conscious choice of the path of life and life-giving creation, expressed through the TREE OF LIFE symbol.'}</p>
         </div>
         <figure className="panel-wide">
-          <img src="./assets/panel-detail.png" alt={ru ? 'Фрагмент панно в процессе создания' : 'Detail of the panel in progress'} />
+          <img src="./assets/panel-tree-cutout.png" alt={ru ? 'Эскиз панно «Древо жизни»' : 'Tree of Life panel sketch'} />
         </figure>
       </section>
 

@@ -144,7 +144,7 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
   border: 1px solid transparent;
   background: linear-gradient(#fff, #fff) padding-box, linear-gradient(115deg, #9f6628, #e0b652, #b87f32) border-box;
 }
-.panel-wide img { width: 100%; height: 100%; object-fit: cover; }
+.panel-wide img { width: 100%; height: 100%; object-fit: contain; }
 
 .technique-section { min-height: clamp(760px, 68vw, 980px); }
 .technique-copy { padding-top: 154.64px; }
