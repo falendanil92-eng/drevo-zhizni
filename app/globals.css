@@ -114,6 +114,13 @@ h1, h2 {
 .text-block { grid-column: 3 / 11; align-self: start; padding-top: 13%; }
 .text-block h2 { margin-bottom: clamp(34px, 4vw, 60px); }
 .text-block p { margin-bottom: clamp(20px, 2vw, 30px); line-height: 1.42; text-align: justify; }
+.dark-gradient-text {
+  color: #633712;
+  background: linear-gradient(105deg, #4b280f 0%, #8a511f 48%, #5a2e10 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 
 .idea-section { min-height: clamp(900px, 76vw, 1080px); }
 .idea-section .text-block { padding-top: 12%; }
