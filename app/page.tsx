@@ -352,7 +352,9 @@ export default function Home() {
           <p>{ru ? 'Это то, что будет вечно и передаваться из поколения в поколение.' : 'It is something eternal, passed from one generation to the next.'}</p>
         </article>
         <figure className="offer-image">
-          <img src="./assets/panel-detail.png" alt={ru ? 'Фрагмент создаваемого панно' : 'Detail of the panel being created'} />
+          <video controls playsInline preload="metadata" aria-label={ru ? 'Видео о создании панно' : 'Video about the creation of the panel'}>
+            <source src="./assets/panel-process.mp4" type="video/mp4" />
+          </video>
         </figure>
         <div className="preview-copy">
           <p>{ru ? 'Сейчас «ДРЕВО ЖИЗНИ» находится в исполнении, завершение — 2026 год. Панно открыто для индивидуального просмотра партнёрами и заказчиками.' : 'THE TREE OF LIFE is currently in production and will be completed in 2026. The panel is open for private previews by partners and clients.'}</p>
