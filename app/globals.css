@@ -27,7 +27,7 @@
   --body-size: 1.175rem;
   --quote-size: clamp(17px, 1.4vw, 21px);
   --brand-size: clamp(30px, 2.8vw, 44px);
-  --footer-body-size: 1.17em;
+  --footer-body-size: 18.8px;
   --section-height: clamp(720px, 62.5vw, 900px);
 }
 
@@ -173,21 +173,25 @@ h1, h2 {
   position: relative;
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
-  min-height: clamp(700px, 62vw, 900px);
-  padding: 9% 0 7%;
+  grid-template-rows: auto 1fr;
+  height: clamp(233.33px, 20.67vw, 300px);
+  min-height: 0;
+  padding: clamp(20px, 2vw, 30px) 2cm;
   overflow: hidden;
   background: linear-gradient(125deg, #8a4f20 0%, #be7d2e 22%, #e0b652 46%, #bd7727 70%, #8d4b1c 100%);
+  font-family: 'Nunito Sans', Arial, sans-serif;
+  font-weight: 800;
   text-transform: uppercase;
 }
 .site-footer > * { position: relative; z-index: 1; }
-.site-footer h2 { grid-column: 3 / 11; align-self: start; font-size: var(--title-size); text-align: center; }
-.site-footer p, .site-footer a, .site-footer span { font-size: var(--footer-body-size); line-height: 1.35; letter-spacing: .02em; }
-.footer-contact { grid-column: 3 / 11; display: flex; justify-content: space-between; gap: 32px; margin-top: clamp(36px, 4vw, 60px); }
+.site-footer h2 { grid-column: 1 / 6; grid-row: 1; align-self: start; font-family: 'Nunito Sans', Arial, sans-serif; font-size: var(--footer-body-size); font-weight: 800; line-height: 1.35; letter-spacing: .02em; text-align: center; }
+.site-footer p, .site-footer a, .site-footer span { font-family: 'Nunito Sans', Arial, sans-serif; font-size: var(--footer-body-size); font-weight: 800; line-height: 1.35; letter-spacing: .02em; }
+.footer-contact { grid-column: 1 / 6; grid-row: 2; display: flex; flex-wrap: wrap; align-content: center; justify-content: center; gap: 12px 24px; margin-top: 10px; }
 .footer-contact-item { display: flex; align-items: baseline; gap: 14px; }
-.footer-contact p, .footer-contact a { font-size: 1.175rem; }
+.footer-contact p, .footer-contact a { font-size: var(--footer-body-size); }
 .footer-contact p { margin: 0; }
 .footer-contact a { display: inline-block; margin: 0; }
-.footer-resources { grid-column: 3 / 9; display: flex; flex-direction: column; align-items: flex-start; gap: 16px; margin-top: clamp(54px, 6vw, 90px); }
+.footer-resources { grid-column: 7 / 13; grid-row: 1 / 3; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 6px; margin: 0; }
 .footer-resources p {
   display: block;
   margin-block: 0;
@@ -227,9 +231,11 @@ main > :not(.site-footer) :is(h1, h2, p, li, a, button, span) { text-align: cent
   .offer-image, .preview-copy { grid-column: 2 / 12; }
   .russia-map-canvas { grid-column: 1 / 13; width: calc(100% - 48px); height: clamp(300px, calc((100vw - 48px) / 1.65), 480px); }
   .geography-section > .text-button { grid-column: 3 / 11; margin-bottom: 80px; }
-  .site-footer { min-height: auto; padding: 100px 0 80px; }
+  .site-footer { height: auto; min-height: auto; padding: 72px 24px 64px; }
   .site-footer h2, .footer-contact, .footer-resources { grid-column: 2 / 12; }
-  .footer-contact { flex-direction: column; gap: 16px; }
+  .site-footer h2 { grid-row: auto; }
+  .footer-contact { grid-row: auto; flex-direction: column; gap: 16px; }
+  .footer-resources { grid-row: auto; margin-top: 36px; }
 }
 
 @media (max-width: 520px) {
