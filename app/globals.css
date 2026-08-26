@@ -25,6 +25,7 @@
   --paper: #ffffff;
   --title-size: clamp(39px, 4.1vw, 62px);
   --body-size: 1.175rem;
+  --main-copy-size: calc(1.175rem + 7.5px);
   --quote-size: clamp(17px, 1.4vw, 21px);
   --brand-size: clamp(30px, 2.8vw, 44px);
   --footer-body-size: 1.17em;
@@ -102,6 +103,8 @@ h1, h2 {
   overflow: hidden;
   background: var(--paper);
 }
+
+main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
 
 .hero { grid-template-rows: auto 1fr; min-height: calc(100svh - 122px); padding-top: clamp(28px, 3vw, 44px); }
 .hero-intro { grid-column: 3 / 11; text-align: center; }
