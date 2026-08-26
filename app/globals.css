@@ -150,7 +150,7 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
 .panel-section {
   min-height: auto;
   align-content: start;
-  padding: 3cm 0;
+  padding: 3cm 0 0;
 }
 .panel-content, .technique-copy, .panel-summary { grid-column: 3 / 11; }
 .panel-content, .technique-copy { justify-self: center; width: min(773.18px, 100%); }
@@ -298,7 +298,7 @@ main > .panel-section .technique-copy li { text-align: left; }
   .geography-section { padding-top: 3cm; }
   .project-section { padding-top: 62.2px; }
   .panel-wide { grid-column: 2 / 12; width: 100%; height: auto; aspect-ratio: 1; margin-top: 75.6px; }
-  .panel-section { padding: 100px 0; }
+  .panel-section { padding: 100px 0 0; }
   .panel-content, .panel-video, .technique-copy { width: 100%; }
   .russia-map-canvas { grid-column: 1 / 13; width: calc(100% - 48px); height: clamp(300px, calc((100vw - 48px) / 1.65), 480px); }
   .geography-section > .text-button { grid-column: 3 / 11; margin-bottom: 80px; }
