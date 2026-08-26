@@ -125,8 +125,9 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
   -webkit-text-fill-color: transparent;
 }
 
-.idea-section { min-height: clamp(900px, 76vw, 1080px); }
+.idea-section { min-height: auto; }
 .idea-section .text-block { padding-top: 12%; }
+.idea-section .text-block p:last-child { margin-bottom: 0; }
 
 .project-section { grid-template-rows: auto 1fr; padding-top: 12%; }
 .project-copy { grid-column: 3 / 11; text-align: center; }
