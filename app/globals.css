@@ -180,7 +180,7 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
 .offer-section { min-height: clamp(1380px, 112vw, 1660px); align-content: start; padding-top: 11%; }
 .offer-section > h2 { grid-column: 3 / 11; margin-bottom: clamp(34px, 4vw, 60px); }
 .offer-promotion, .offer-order { grid-column: 3 / 11; position: relative; }
-.offer-promotion { padding-bottom: clamp(34px, 4vw, 58px); border-bottom: 1px solid rgb(17 17 17 / 25%); }
+.offer-promotion { padding-bottom: clamp(34px, 4vw, 58px); }
 .offer-order { padding-top: clamp(34px, 4vw, 58px); }
 .offer-label { margin-bottom: clamp(22px, 2.5vw, 34px); text-transform: uppercase; }
 .offer-promotion > p:not(.offer-label) { max-width: 76%; margin-inline: auto; line-height: 1.42; }
