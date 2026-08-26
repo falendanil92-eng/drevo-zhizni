@@ -147,7 +147,7 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
 .panel-wide img { width: 100%; height: 100%; object-fit: cover; }
 
 .technique-section { min-height: clamp(760px, 68vw, 980px); }
-.technique-copy { padding-top: 14%; }
+.technique-copy { padding-top: 154.64px; }
 .technique-copy ol { margin: clamp(22px, 2.5vw, 36px) 0;  list-style-type: decimal; list-style-position: inside; }
 .technique-copy li { margin-bottom: clamp(16px, 1.8vw, 26px);line-height: 1.42; }
 
@@ -160,8 +160,9 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
 .video-placeholder { grid-column: 3 / 11; position: relative; align-self: stretch; min-height: 430px; margin-top: clamp(42px, 5vw, 74px); overflow: hidden; }
 .video-placeholder img { width: 100%; height: 100%; object-fit: cover; }
 .video-placeholder::after { content: ''; position: absolute; inset: 0; border: 4px solid var(--gold); pointer-events: none; }
-.panel-summary { grid-column: 3 / 11; align-self: end; padding: clamp(40px, 5vw, 74px) 0; }
+.panel-summary { grid-column: 3 / 11; align-self: end; padding: clamp(40px, 5vw, 74px) 0 0; }
 .panel-summary p { margin-bottom: 16px; line-height: 1.42; }
+.panel-summary p:last-child { margin-bottom: 0; }
 
 .offer-section { min-height: clamp(1380px, 112vw, 1660px); align-content: start; padding-top: 11%; }
 .offer-section > h2 { grid-column: 3 / 11; margin-bottom: clamp(34px, 4vw, 60px); }
@@ -242,6 +243,7 @@ main > :not(.site-footer) :is(h1, h2, p, li, a, button, span) { text-align: cent
   .idea-section, .project-section, .technique-section, .panel-section, .offer-section, .geography-section { min-height: auto; }
   .text-block, .project-section, .technique-copy, .panel-section, .offer-section, .geography-section { padding-top: 100px; }
   .project-section { padding-top: 62.2px; }
+  .technique-copy { padding-top: 154.64px; }
   .panel-wide { grid-column: 2 / 12; width: 100%; height: auto; aspect-ratio: 1; margin-top: 75.6px; }
   .panel-section { grid-template-rows: auto 380px auto; }
   .panel-section { padding-top: 154.64px; }
