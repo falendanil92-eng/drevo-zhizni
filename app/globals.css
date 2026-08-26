@@ -129,7 +129,7 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
 .idea-section .text-block { padding-top: 12%; }
 .idea-section .text-block p:last-child { margin-bottom: 0; }
 
-.project-section { grid-template-rows: auto auto; align-content: start; padding-top: calc(12% - 12px); }
+.project-section { grid-template-rows: auto auto; align-content: start; padding-top: calc(12% - 49.8px); }
 .project-copy { grid-column: 3 / 11; text-align: center; }
 .project-copy h2 { margin-bottom: clamp(24px, 3vw, 42px); }
 .project-copy p { margin-bottom: 10px; line-height: 1.4; }
@@ -242,6 +242,7 @@ main > :not(.site-footer) :is(h1, h2, p, li, a, button, span) { text-align: cent
   .tree-figure { grid-column: 3 / 11; }
   .idea-section, .project-section, .technique-section, .panel-section, .offer-section, .geography-section { min-height: auto; }
   .text-block, .project-section, .technique-copy, .panel-section, .offer-section, .geography-section { padding-top: 100px; }
+  .project-section { padding-top: 62.2px; }
   .panel-wide { grid-column: 2 / 12; width: 100%; height: auto; aspect-ratio: 1; margin-top: 75.6px; }
   .panel-section { grid-template-rows: auto auto 380px auto; }
   .video-placeholder { grid-column: 2 / 12; min-height: 380px; }
