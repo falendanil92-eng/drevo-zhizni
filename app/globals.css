@@ -126,7 +126,7 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
 }
 
 .idea-section { min-height: auto; }
-.idea-section .text-block { padding-top: 12%; }
+.idea-section .text-block { padding-top: calc(12% + 6px); }
 .idea-section .text-block p:last-child { margin-bottom: 0; }
 
 .project-section { grid-template-rows: auto 1fr; padding-top: 12%; }
