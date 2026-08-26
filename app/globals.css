@@ -186,7 +186,7 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
 .offer-promotion > p:not(.offer-label) { max-width: 76%; margin-inline: auto; line-height: 1.42; }
 .offer-order > p, .offer-order li { line-height: 1.42; }
 .offer-order > p { margin-bottom: 18px; }
-.offer-order ul { margin: 10px 0 22px; padding-left: 1.25em; }
+.offer-order ul { margin: 10px 0 22px; padding-left: 0; list-style-position: inside; }
 .offer-order li { margin-bottom: 14px; }
 .text-button { display: inline-flex; justify-content: center; min-width: 180px; padding: 7px 24px; border: 2px solid var(--red); text-align: center; }
 .offer-order > .text-button { display: flex; width: max-content; margin: 24px 0 0 auto; }
