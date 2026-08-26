@@ -197,7 +197,7 @@ function RussiaMapCanvas({ language }: { language: Language }) {
         { name: 'Тюмень', x: 0.34, y: 0.60 },
         { name: 'Алтай', x: 0.47, y: 0.80 },
       ];
-      const iconSize = Math.max(42, Math.min(78, mapWidth / 14));
+      const iconSize = Math.max(28, Math.min(52, mapWidth / 20));
 
       markers.forEach((marker) => {
         const x = mapX + marker.x * mapWidth;
