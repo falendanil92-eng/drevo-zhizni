@@ -89,9 +89,10 @@ h1, h2 {
 .site-header nav a { position: relative; padding: 12px 0; font-family: 'Nunito Sans', Arial, sans-serif; font-size: 18.8px; font-weight: 800; text-transform: uppercase; white-space: nowrap; }
 .site-header nav a::after { content: ''; position: absolute; right: 0; bottom: 5px; left: 0; height: 1px; background: var(--gold-dark); transform: scaleX(0); transform-origin: left; transition: transform 180ms ease; }
 .site-header nav a:hover::after, .site-header nav a:focus-visible::after { transform: scaleX(1); }
-.language-switch { grid-column: 12 / 13; grid-row: 2; display: flex; justify-content: center; gap: 5px; }
+.language-switch { grid-column: 12 / 13; grid-row: 2; display: flex; align-items: center; justify-content: center; gap: 5px; }
 .language-switch button, .language-switch span, .menu-toggle { font-family: 'Nunito Sans', Arial, sans-serif; font-size: 18.8px; font-weight: 800; text-transform: uppercase; }
 .language-switch button { padding: 5px 0; border: 0; background: transparent; color: #777; cursor: pointer; }
+.language-switch span { display: flex; align-items: center; align-self: stretch; line-height: 1; }
 .language-switch button.active { color: var(--ink); font-weight: 800; }
 .menu-toggle { display: none; border: 0; background: transparent; }
 
