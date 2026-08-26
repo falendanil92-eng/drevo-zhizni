@@ -352,7 +352,7 @@ export default function Home() {
           <p>{ru ? 'Это то, что будет вечно и передаваться из поколения в поколение.' : 'It is something eternal, passed from one generation to the next.'}</p>
         </article>
         <figure className="offer-image">
-          <video controls playsInline preload="metadata" aria-label={ru ? 'Видео о создании панно' : 'Video about the creation of the panel'}>
+          <video autoPlay muted loop playsInline preload="metadata" aria-label={ru ? 'Видео о создании панно' : 'Video about the creation of the panel'}>
             <source src="./assets/panel-process.mp4" type="video/mp4" />
           </video>
         </figure>
