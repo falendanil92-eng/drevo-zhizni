@@ -52,6 +52,7 @@ function RussiaMapCanvas({ language }: { language: Language }) {
     const locationLogo = new Image();
     let fillMask: HTMLCanvasElement | null = null;
     let outlineLayer: HTMLCanvasElement | null = null;
+    let mapBounds = { x: 0, y: 0, width: 1, height: 1 };
 
     mapImage.src = `${basePath}/assets/russia-map-source.jpg`;
     locationLogo.src = `${basePath}/assets/map-location-logo.svg`;
@@ -130,9 +131,19 @@ function RussiaMapCanvas({ language }: { language: Language }) {
       const outlinePixels = outlineContext?.createImageData(width, height);
       if (!fillContext || !fillPixels || !outlineContext || !outlinePixels) return;
 
+      let minX = width;
+      let minY = height;
+      let maxX = 0;
+      let maxY = 0;
       for (let index = 0; index < width * height; index += 1) {
         const pixel = index * 4;
         if (!outside[index]) {
+          const x = index % width;
+          const y = Math.floor(index / width);
+          minX = Math.min(minX, x);
+          minY = Math.min(minY, y);
+          maxX = Math.max(maxX, x);
+          maxY = Math.max(maxY, y);
           fillPixels.data[pixel] = 255;
           fillPixels.data[pixel + 1] = 255;
           fillPixels.data[pixel + 2] = 255;
@@ -147,6 +158,12 @@ function RussiaMapCanvas({ language }: { language: Language }) {
       }
       fillContext.putImageData(fillPixels, 0, 0);
       outlineContext.putImageData(outlinePixels, 0, 0);
+      mapBounds = {
+        x: Math.max(0, minX - 8),
+        y: Math.max(0, minY - 8),
+        width: Math.min(width, maxX + 9) - Math.max(0, minX - 8),
+        height: Math.min(height, maxY + 9) - Math.max(0, minY - 8),
+      };
     };
 
     const draw = () => {
@@ -164,30 +181,30 @@ function RussiaMapCanvas({ language }: { language: Language }) {
       context.setTransform(ratio, 0, 0, ratio, 0, 0);
       context.clearRect(0, 0, width, height);
 
-      const sourceRatio = fillMask.width / fillMask.height;
+      const sourceRatio = mapBounds.width / mapBounds.height;
       const destinationRatio = width / height;
       const mapWidth = destinationRatio > sourceRatio ? height * sourceRatio : width;
       const mapHeight = destinationRatio > sourceRatio ? height : width / sourceRatio;
       const mapX = (width - mapWidth) / 2;
       const mapY = (height - mapHeight) / 2;
 
-      context.drawImage(fillMask, mapX, mapY, mapWidth, mapHeight);
+      context.drawImage(fillMask, mapBounds.x, mapBounds.y, mapBounds.width, mapBounds.height, mapX, mapY, mapWidth, mapHeight);
       context.globalCompositeOperation = 'source-in';
 
       const gold = context.createLinearGradient(mapX, mapY, mapX + mapWidth, mapY + mapHeight);
-      gold.addColorStop(0, '#a7742d');
-      gold.addColorStop(0.5, '#e0b652');
-      gold.addColorStop(1, '#b87f32');
+      gold.addColorStop(0, '#c99545');
+      gold.addColorStop(0.5, '#f1d47d');
+      gold.addColorStop(1, '#d7a650');
       context.fillStyle = gold;
       context.fillRect(mapX, mapY, mapWidth, mapHeight);
       context.globalCompositeOperation = 'source-over';
-      context.drawImage(outlineLayer, mapX, mapY, mapWidth, mapHeight);
+      context.drawImage(outlineLayer, mapBounds.x, mapBounds.y, mapBounds.width, mapBounds.height, mapX, mapY, mapWidth, mapHeight);
 
       const markers = [
-        { x: 0.29, y: 0.51 },
-        { x: 0.38, y: 0.58 },
-        { x: 0.54, y: 0.55 },
-        { x: 0.68, y: 0.60 },
+        { x: 0.18, y: 0.49 },
+        { x: 0.29, y: 0.60 },
+        { x: 0.49, y: 0.56 },
+        { x: 0.65, y: 0.65 },
       ];
       const iconSize = Math.max(54, Math.min(108, mapWidth / 9.5));
 
