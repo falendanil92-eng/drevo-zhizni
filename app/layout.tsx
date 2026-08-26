@@ -1,9 +1,38 @@
 import type { Metadata } from 'next';
 import './globals.css';
 
+const siteUrl = 'https://solntse-drevo.ru';
+
 export const metadata: Metadata = {
-  title: 'Древо жизни — Солнце.Культура',
-  description: 'Монументальное панно «Древо жизни» — культурный проект о выборе жизни, традиции русского жемчужного шитья и созидании.',
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: 'Древо жизни — монументальное панно | Солнце.Культура',
+    template: '%s | Солнце.Культура',
+  },
+  description:
+    '«Древо жизни» — монументальное панно 3 × 3 метра, созданное в традиции русского жемчужного шитья. Культурный проект о созидании, жизни и живом мире.',
+  alternates: {
+    canonical: '/',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'ru_RU',
+    url: siteUrl,
+    siteName: 'Солнце.Культура',
+    title: 'Древо жизни — монументальное панно',
+    description:
+      'Культурный проект о созидании и традиции русского жемчужного шитья.',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Древо жизни — монументальное панно',
+    description:
+      'Культурный проект о созидании и традиции русского жемчужного шитья.',
+  },
 };
 
 export default function RootLayout({
