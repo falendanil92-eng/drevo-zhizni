@@ -336,7 +336,6 @@ export default function Home() {
         <article className="offer-promotion">
           <p className="offer-label">{ru ? '1. Продвижение' : '1. Promotion'}</p>
           <p>{ru ? 'Сотрудничество с целью демонстрации панно и совместных проектов с выставочными площадками, информационными партнёрами, деятелями культуры, меценатами, предпринимателями и другими заинтересованными лицами.' : 'Cooperation to present the panel and create joint projects with exhibition venues, media partners, cultural practitioners, patrons, entrepreneurs and other interested parties.'}</p>
-          <a className="text-button" href="tel:+79151643278">{ru ? 'Связаться' : 'Contact us'}</a>
         </article>
         <article className="offer-order">
           <p className="offer-label">{ru ? '2. Индивидуальный заказ' : '2. Bespoke commission'}</p>
