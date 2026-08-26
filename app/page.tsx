@@ -31,15 +31,6 @@ const panelFacts = {
   ],
 };
 
-const resources = [
-  'СОЛНЦЕ',
-  'СОЛНЦЕ.КУЛЬТУРА',
-  'СОЛНЦЕ.ЖИВОЕ ДЕЛО',
-  'СОЛНЦЕ.ЖИВАЯ ПЛАНЕТА',
-  'СОЛНЦЕ.СОТВОРЕНИЕ',
-  'СОЛНЦЕ.РУССКИЙ ОБЛИК',
-];
-
 function RussiaMapCanvas({ language }: { language: Language }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -201,12 +192,12 @@ function RussiaMapCanvas({ language }: { language: Language }) {
       context.drawImage(outlineLayer, mapBounds.x, mapBounds.y, mapBounds.width, mapBounds.height, mapX, mapY, mapWidth, mapHeight);
 
       const markers = [
-        { x: 0.18, y: 0.49 },
-        { x: 0.29, y: 0.60 },
-        { x: 0.49, y: 0.56 },
-        { x: 0.65, y: 0.65 },
+        { name: 'Санкт-Петербург', x: 0.145, y: 0.43 },
+        { name: 'Москва', x: 0.18, y: 0.54 },
+        { name: 'Тюмень', x: 0.34, y: 0.60 },
+        { name: 'Алтай', x: 0.47, y: 0.80 },
       ];
-      const iconSize = Math.max(54, Math.min(108, mapWidth / 9.5));
+      const iconSize = Math.max(42, Math.min(78, mapWidth / 14));
 
       markers.forEach((marker) => {
         const x = mapX + marker.x * mapWidth;
@@ -253,8 +244,8 @@ export default function Home() {
 
     containers.forEach((container) => {
       const selector = container.matches('.site-footer')
-        ? ':scope > h2, :scope > .footer-contact, :scope > .footer-resources'
-        : 'h1, h2, p, li, .text-button, .panel-wide, .tree-figure, .video-placeholder, .offer-image, .russia-map-canvas';
+        ? ':scope > h2, :scope > .footer-contact'
+        : 'h1, h2, h3, p, li, .text-button, .panel-wide, .section-divider, .russia-map-canvas';
       const items = container.querySelectorAll<HTMLElement>(selector);
       items.forEach((item, index) => {
         item.classList.add('reveal-item');
@@ -293,10 +284,8 @@ export default function Home() {
         </button>
         <nav id="main-navigation" className={menuOpen ? 'is-open' : ''} aria-label={ru ? 'Основная навигация' : 'Main navigation'}>
           <a href="#top" onClick={closeMenu}>{ru ? 'Древо жизни' : 'Tree of Life'}</a>
-          <a href="#idea" onClick={closeMenu}>{ru ? 'Живой мир' : 'Living world'}</a>
           <a href="#project" onClick={closeMenu}>{ru ? 'Проект' : 'Project'}</a>
           <a href="#panel" onClick={closeMenu}>{ru ? 'О панно' : 'The panel'}</a>
-          <a href="#offer" onClick={closeMenu}>{ru ? 'Предложение' : 'Proposal'}</a>
           <a href="#geography" onClick={closeMenu}>{ru ? 'Мы в России' : 'In Russia'}</a>
           <a href="#contacts" onClick={closeMenu}>{ru ? 'Контакты' : 'Contacts'}</a>
         </nav>
@@ -319,11 +308,9 @@ export default function Home() {
 
       <section className="site-section idea-section" id="idea">
         <article className="text-block">
-          <h2>{ru ? 'Живой мир' : 'Living world'}</h2>
           <p>{ru ? 'Мир находится в точке выбора дальнейшего пути: пути жизни или пути вымирания.' : 'The world has reached a point of choice: the path of life or the path of extinction.'}</p>
           <p>{ru ? 'Первое, что проявляет этот выбор в Мир, формирует импульс и путь его реализации — это Культура.' : 'Culture is the first force that expresses this choice and shapes the impulse and the path of its realisation.'}</p>
           <p className="dark-gradient-text">{ru ? 'Проект «СОЛНЦЕ.КУЛЬТУРА» выбирает путь жизни: помогает раскрыть Творца в Человеке, запускает импульс проявления Культурного Кода, формирования Культурного Поля жизни и жизнетворения, формирования Среды СоТворения, укрепляет Национальную Идентичность Народа и Культурный Суверенитет Родины для формирования Нового Мира.' : 'SOLNTSE.CULTURE chooses the path of life: it helps reveal the creator within each person, gives an impulse to the Cultural Code and a life-giving Cultural Field, creates an environment of co-creation, and strengthens national identity and cultural sovereignty.'}</p>
-          <p>{ru ? 'Концепция проекта «СОЛНЦЕ.КУЛЬТУРА» — это очень глубокая и многомерная идея, которая объединяет духовное, культурное и творческое развитие страны через призму Национальной идентичности, Культурного Кода и Культурного Поля.' : 'The concept of SOLNTSE.CULTURE is a deep, multidimensional idea uniting the spiritual, cultural and creative development of the country through national identity, Cultural Code and Cultural Field.'}</p>
           <p>{ru ? 'Мы — деятели Культуры, предлагаем творческий объект «ДРЕВО ЖИЗНИ» как символ, образ для всех, кто выбирает путь жизни и жизнетворения, предлагаем объединяться и СоТворять Новый Мир.' : 'We, cultural practitioners, offer THE TREE OF LIFE as a symbol for everyone choosing life and life-giving creation, and invite people to unite and co-create a New World.'}</p>
         </article>
       </section>
@@ -332,26 +319,22 @@ export default function Home() {
         <div className="project-copy">
           <h2>{ru ? 'Проект Древо жизни' : 'The Tree of Life project'}</h2>
           <p>{ru ? '«ДРЕВО ЖИЗНИ» представлено в формате монументального панно.' : 'THE TREE OF LIFE is presented as a monumental panel.'}</p>
-          <p className="dark-gradient-text">{ru ? 'Основной смысл этого объекта — наше волеизъявление в выборе пути жизни и жизнетворения, проявленного через символ «ДРЕВО ЖИЗНИ».' : 'The central meaning of this object is our conscious choice of the path of life and life-giving creation, expressed through the TREE OF LIFE symbol.'}</p>
+          <p className="dark-gradient-text">{ru ? 'Основной смысл панно — наше волеизъявление в выборе жизни и жизнетворения.' : 'The central meaning of the panel is our conscious choice of life and life-giving creation.'}</p>
         </div>
       </section>
 
       <section className="site-section panel-section" id="panel">
         <div className="panel-content">
-          <h2>{ru ? 'О панно' : 'The panel'}</h2>
+          <h3 className="subsection-title">{ru ? 'О панно' : 'The panel'}</h3>
           <ul>{panelFacts[language].map((fact) => <li key={fact}>{fact}</li>)}</ul>
         </div>
-        <div className="video-placeholder" aria-label={ru ? 'Место для видео о создании панно' : 'Placeholder for the making-of film'}>
-          <img src="./assets/panel-detail.png" alt="" />
-        </div>
-        <article className="panel-summary">
-          <p>{ru ? 'Это первое и единственное в России панно с соответствующей целью, смыслом, символами, образом такого размера, выполненное в данной технике исполнения.' : 'This is the first and only panel in Russia with this purpose, meaning and symbolism, at this scale and in this technique.'}</p>
-          <p>{ru ? 'Панно является экспонатом музейного уровня, уникальным арт-объектом для выставочных пространств, общественной и жилой среды.' : 'The panel is a museum-level exhibit and a unique art object for exhibition spaces, public interiors and homes.'}</p>
-        </article>
-      </section>
-
-      <section className="site-section technique-section">
-        <article className="text-block technique-copy">
+        <figure className="panel-video">
+          <video autoPlay muted loop playsInline preload="metadata" aria-label={ru ? 'Видео о создании панно «Древо жизни»' : 'Video showing the creation of the Tree of Life panel'}>
+            <source src="./assets/panel-process.mp4" type="video/mp4" />
+          </video>
+        </figure>
+        <article className="technique-copy">
+          <h3 className="subsection-title">{ru ? 'О технике сажение по бели' : 'About the sazhene po beli technique'}</h3>
           <p>{ru ? 'Изучение европейской и азиатской истории искусств показывает, что рельефное жемчужное шитьё всегда оставалось прерогативой узкого круга — верховной знати и высшего духовенства. На Руси сложилась диаметрально противоположная ситуация, обусловленная двумя факторами.' : 'The history of European and Asian art shows that raised pearl embroidery remained the privilege of a narrow circle — the highest nobility and senior clergy. In Rus, a diametrically opposite situation emerged due to two factors.'}</p>
           <ol>
             <li>{ru ? 'Реки Русского Севера — бассейны Северной Двины, Онеги и реки Кольского полуострова — были естественным ареалом обитания пресноводной жемчужницы. Добыча речного жемчуга была традиционным промыслом, доступным местному населению.' : 'The rivers of the Russian North were a natural habitat for freshwater pearl mussels. Harvesting river pearls was a traditional craft available to local communities.'}</li>
@@ -361,36 +344,11 @@ export default function Home() {
           <p>{ru ? 'Искусство русского «сажения по бели» не имеет мировых аналогов!' : 'The Russian art of sazhene po beli has no equivalent in the world!'}</p>
           <p>{ru ? 'Русская традиция явила миру идеальный симбиоз надёжной органической инженерии — льняная бель — и абсолютной доступности сакральной красоты. Массовое бытование сложнейшего жемчужного шитья свидетельствует о высочайшем уровне внутренней культуры, экономической состоятельности народа и удивительном торжестве эстетической свободы в Древней Руси.' : 'The Russian tradition united reliable organic engineering with access to sacred beauty. The widespread use of complex pearl embroidery testifies to the extraordinary inner culture, prosperity and aesthetic freedom of ancient Rus.'}</p>
         </article>
-      </section>
-
-      <section className="site-section offer-section" id="offer">
-        <h2>{ru ? 'Наше предложение' : 'Our proposal'}</h2>
-        <article className="offer-promotion">
-          <p className="offer-label">{ru ? '1. Продвижение' : '1. Promotion'}</p>
-          <p>{ru ? 'Сотрудничество с целью демонстрации панно и совместных проектов с выставочными площадками, информационными партнёрами, деятелями культуры, меценатами, предпринимателями и другими заинтересованными лицами.' : 'Cooperation to present the panel and create joint projects with exhibition venues, media partners, cultural practitioners, patrons, entrepreneurs and other interested parties.'}</p>
+        <div className="section-divider" aria-hidden="true" />
+        <article className="panel-summary">
+          <p>{ru ? 'Это первое и единственное в России панно с соответствующей целью, смыслом, символами, образом такого размера, выполненное в данной технике исполнения.' : 'This is the first and only panel in Russia with this purpose, meaning and symbolism, at this scale and in this technique.'}</p>
+          <p>{ru ? 'Панно является экспонатом музейного уровня, уникальным культурным объектом для выставочных пространств, общественной и жилой среды.' : 'The panel is a museum-level exhibit and a unique cultural object for exhibition spaces, public interiors and homes.'}</p>
         </article>
-        <article className="offer-order">
-          <p className="offer-label">{ru ? '2. Индивидуальный заказ' : '2. Bespoke commission'}</p>
-          <p>{ru ? 'Изготовление панно по индивидуальному заказу для частных лиц, общественных и коммерческих организаций, государственных структур.' : 'A bespoke panel for individuals, public and commercial organisations, and government bodies.'}</p>
-          <p>{ru ? 'Панно изготавливается индивидуально с учётом цели:' : 'Each panel is created individually according to its purpose:'}</p>
-          <ul>
-            <li>{ru ? 'Символ живого мира.' : 'A symbol of a living world.'}</li>
-            <li>{ru ? 'Родовое древо для Вашей истории.' : 'A family tree for your story.'}</li>
-            <li>{ru ? 'Древо — символ устойчивости и развития организации.' : 'A tree symbolising the resilience and growth of an organisation.'}</li>
-            <li>{ru ? 'Древо — символ устойчивости и развития региона.' : 'A tree symbolising the resilience and growth of a region.'}</li>
-          </ul>
-          <p>{ru ? 'Разработка индивидуального концепта включает в себя: подбор смыслов, разработку индивидуальной истории, высокохудожественного эскиза, подбор материалов. Уникальное для Вас панно изготавливается в единственном экземпляре.' : 'The bespoke concept includes meanings, an individual story, a highly artistic sketch and selected materials. Your unique panel is made as a single edition.'}</p>
-          <p>{ru ? 'Это то, что будет вечно и передаваться из поколения в поколение.' : 'It is something eternal, passed from one generation to the next.'}</p>
-        </article>
-        <figure className="offer-image">
-          <video autoPlay muted loop playsInline preload="metadata" aria-label={ru ? 'Видео о создании панно' : 'Video about the creation of the panel'}>
-            <source src="./assets/panel-process.mp4" type="video/mp4" />
-          </video>
-        </figure>
-        <div className="preview-copy">
-          <p>{ru ? 'Сейчас «ДРЕВО ЖИЗНИ» находится в исполнении, завершение — 2026 год. Панно открыто для индивидуального просмотра партнёрами и заказчиками.' : 'THE TREE OF LIFE is currently in production and will be completed in 2026. The panel is open for private previews by partners and clients.'}</p>
-          <a className="text-button" href="tel:+79151643278">{ru ? 'Связаться для предварительного просмотра' : 'Arrange a private preview'}</a>
-        </div>
       </section>
 
       <section className="site-section geography-section" id="geography">
@@ -403,17 +361,8 @@ export default function Home() {
       <footer className="site-footer" id="contacts">
         <h2>{ru ? 'КОНТАКТЫ' : 'CONTACTS'}</h2>
         <div className="footer-contact">
-          <div className="footer-contact-item">
-            <p>{ru ? 'ТЕЛЕФОН' : 'TELEPHONE'}</p>
-            <a href="tel:+79151643278">8 915 164 32 78</a>
-          </div>
-          <div className="footer-contact-item">
-            <p>{ru ? 'ПОЧТА' : 'EMAIL'}</p>
-            <a href="mailto:solntse.kultura@mail.ru">solntse.kultura@mail.ru</a>
-          </div>
-        </div>
-        <div className="footer-resources">
-          {resources.map((resource) => <p key={resource}>{resource}</p>)}
+          <p><strong>{ru ? 'ТЕЛЕФОН' : 'TELEPHONE'}</strong> 8 915 164 32 78</p>
+          <p><strong>{ru ? 'ПОЧТА' : 'EMAIL'}</strong> solntse.kultura@mail.ru</p>
         </div>
       </footer>
     </main>
