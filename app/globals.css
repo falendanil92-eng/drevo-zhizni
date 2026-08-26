@@ -238,6 +238,16 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
 
 main > :not(.site-footer) :is(h1, h2, p, li, a, button, span) { text-align: center; }
 
+.reveal-item {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 700ms cubic-bezier(.22, 1, .36, 1) var(--reveal-delay, 0ms),
+    transform 700ms cubic-bezier(.22, 1, .36, 1) var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+.reveal-item.is-visible { opacity: 1; transform: translateY(0); }
+
 @media (max-width: 1080px) {
   .site-header nav { gap: 12px; }
 }
@@ -288,4 +298,5 @@ main > :not(.site-footer) :is(h1, h2, p, li, a, button, span) { text-align: cent
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition-duration: .01ms !important; }
+  .reveal-item { opacity: 1; transform: none; }
 }

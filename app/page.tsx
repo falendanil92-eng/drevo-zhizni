@@ -246,6 +246,40 @@ export default function Home() {
     document.documentElement.lang = language;
   }, [language]);
 
+  useEffect(() => {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const containers = document.querySelectorAll<HTMLElement>('main > section, .site-footer');
+    const revealItems: HTMLElement[] = [];
+
+    containers.forEach((container) => {
+      const selector = container.matches('.site-footer')
+        ? ':scope > h2, :scope > .footer-contact, :scope > .footer-resources'
+        : 'h1, h2, p, li, .text-button, .panel-wide, .tree-figure, .video-placeholder, .offer-image, .russia-map-canvas';
+      const items = container.querySelectorAll<HTMLElement>(selector);
+      items.forEach((item, index) => {
+        item.classList.add('reveal-item');
+        item.style.setProperty('--reveal-delay', `${Math.min(index, 8) * 80}ms`);
+        revealItems.push(item);
+      });
+    });
+
+    if (reduceMotion) {
+      revealItems.forEach((item) => item.classList.add('is-visible'));
+      return;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -8% 0px' });
+
+    revealItems.forEach((item) => observer.observe(item));
+    return () => observer.disconnect();
+  }, []);
+
   const closeMenu = () => setMenuOpen(false);
 
   return (
