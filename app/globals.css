@@ -225,7 +225,7 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
 .footer-contact p, .footer-contact a { font-size: 1.175rem; }
 .footer-contact p { margin: 0; }
 .footer-contact a { display: inline-block; margin: 0; }
-.footer-resources { grid-column: 7 / 13; grid-row: 1 / 3; display: flex; flex-direction: column; align-items: flex-end; justify-content: center; gap: 6px; margin: 0; text-align: right; }
+.footer-resources { grid-column: 7 / 13; grid-row: 1 / 3; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 6px; margin: 0; text-align: left; }
 .footer-resources p {
   display: block;
   margin-block: 0;
