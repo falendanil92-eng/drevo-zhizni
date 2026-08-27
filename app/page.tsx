@@ -6,14 +6,14 @@ type Language = 'ru' | 'en';
 
 const panelFacts = {
   ru: [
-    'Мы создаём символ Нового Мира — живого и животворящего.',
-    'Наша Формула Творения — Многомерность.',
-    'Обращаемся к высокохудожественной традиционной технике узорочья.',
-    'Мы используем древнейший русский приём вышивки — сажение по бели.',
-    'Размер панно — 3 метра × 3 метра.',
-    'Проработка эскизов и подготовка образцов элементов панно — 3 месяца.',
+    'Мы создаем – символ Нового Мира живого и животворящего.',
+    'Наша Формула Творения – Многомерность.',
+    'Обращаемся к высоко-художественной традиционной техника узорочья.',
+    'Мы используем древнейший русский приём вышивки сажение по бели.',
+    'Размер панно 3 метра х 3 метра.',
+    'Проработка эскизов и подготовка образцов элементов панно – 3 месяца.',
     '4 мастера работают над панно 1 год.',
-    'Используемый материал — натуральный лён, 3 500 метров хлопкового шнура, перевитого вручную и выложенного непрерывно.',
+    'Используемый материал – натуральный лен, 3 500 метров хлопкового шнура, перевитого вручную и выложенного непрерывно.',
     'Используется 7 кг жемчуга и бусин из натурального камня.',
     'Сделано 500 000 стежков.',
   ],
@@ -43,10 +43,27 @@ function RussiaMapCanvas({ language }: { language: Language }) {
     const locationLogo = new Image();
     let fillMask: HTMLCanvasElement | null = null;
     let outlineLayer: HTMLCanvasElement | null = null;
+    let treeLayer: HTMLCanvasElement | null = null;
     let mapBounds = { x: 0, y: 0, width: 1, height: 1 };
 
     mapImage.src = `${basePath}/assets/russia-map-source.jpg`;
-    locationLogo.src = `${basePath}/assets/map-location-logo.svg`;
+    locationLogo.src = `${basePath}/assets/tree-mark.png`;
+
+    const prepareTreeLayer = () => {
+      if (!locationLogo.naturalWidth || !locationLogo.naturalHeight) return;
+      treeLayer = document.createElement('canvas');
+      treeLayer.width = locationLogo.naturalWidth;
+      treeLayer.height = locationLogo.naturalHeight;
+      const treeContext = treeLayer.getContext('2d', { willReadFrequently: true });
+      if (!treeContext) return;
+      treeContext.drawImage(locationLogo, 0, 0);
+      const pixels = treeContext.getImageData(0, 0, treeLayer.width, treeLayer.height);
+      for (let index = 0; index < pixels.data.length; index += 4) {
+        const luminance = pixels.data[index] * 0.299 + pixels.data[index + 1] * 0.587 + pixels.data[index + 2] * 0.114;
+        pixels.data[index + 3] = Math.max(0, Math.min(255, (238 - luminance) * 6));
+      }
+      treeContext.putImageData(pixels, 0, 0);
+    };
 
     const prepareMapLayers = () => {
       const source = document.createElement('canvas');
@@ -193,18 +210,35 @@ function RussiaMapCanvas({ language }: { language: Language }) {
 
       const markers = [
         // Keep the north-west marker inside the map silhouette at every size.
-        { name: 'Санкт-Петербург', x: 0.17, y: 0.47 },
-        { name: 'Москва', x: 0.18, y: 0.54 },
-        { name: 'Тюмень', x: 0.34, y: 0.60 },
-        { name: 'Алтай', x: 0.47, y: 0.80 },
+        { name: 'Санкт-Петербург', x: 0.18, y: 0.44 },
+        { name: 'Москва', x: 0.255, y: 0.56 },
+        { name: 'Тюмень', x: 0.355, y: 0.60 },
+        { name: 'Центр Республики Алтай', x: 0.465, y: 0.77 },
       ];
-      const iconSize = Math.max(28, Math.min(52, mapWidth / 20));
+      const iconSize = Math.max(28, Math.min(46, mapWidth / 22));
 
       markers.forEach((marker) => {
-        const x = mapX + marker.x * mapWidth;
-        const y = mapY + marker.y * mapHeight;
-        if (locationLogo.complete && locationLogo.naturalWidth) {
-          context.drawImage(locationLogo, x - iconSize / 2, y - iconSize / 2, iconSize, iconSize);
+        const halfIcon = iconSize / 2;
+        const x = Math.max(mapX + halfIcon, Math.min(mapX + mapWidth - halfIcon, mapX + marker.x * mapWidth));
+        const y = Math.max(mapY + halfIcon, Math.min(mapY + mapHeight - halfIcon, mapY + marker.y * mapHeight));
+        if (treeLayer) {
+          context.save();
+          context.beginPath();
+          context.rect(mapX, mapY, mapWidth, mapHeight);
+          context.clip();
+
+          const goldMarker = context.createLinearGradient(x - halfIcon, y - halfIcon, x + halfIcon, y + halfIcon);
+          goldMarker.addColorStop(0, '#c99545');
+          goldMarker.addColorStop(0.5, '#f1d47d');
+          goldMarker.addColorStop(1, '#d7a650');
+          context.beginPath();
+          context.arc(x, y, halfIcon - 1, 0, Math.PI * 2);
+          context.fillStyle = goldMarker;
+          context.fill();
+
+          const treeSize = iconSize;
+          context.drawImage(treeLayer, x - treeSize / 2, y - treeSize / 2, treeSize, treeSize);
+          context.restore();
         }
       });
     };
@@ -213,7 +247,10 @@ function RussiaMapCanvas({ language }: { language: Language }) {
       prepareMapLayers();
       draw();
     };
-    locationLogo.onload = draw;
+    locationLogo.onload = () => {
+      prepareTreeLayer();
+      draw();
+    };
     const observer = new ResizeObserver(draw);
     observer.observe(canvas);
     return () => observer.disconnect();
@@ -224,7 +261,7 @@ function RussiaMapCanvas({ language }: { language: Language }) {
       ref={canvasRef}
       className="russia-map-canvas"
       role="img"
-      aria-label={language === 'ru' ? 'Карта России: Москва, Санкт-Петербург, Тюмень и Алтай' : 'Map of Russia: Moscow, Saint Petersburg, Tyumen and Altai'}
+      aria-label={language === 'ru' ? 'Карта России: Москва, Санкт-Петербург, Тюмень и центр Республики Алтай' : 'Map of Russia: Moscow, Saint Petersburg, Tyumen and the centre of the Altai Republic'}
     />
   );
 }
@@ -232,10 +269,38 @@ function RussiaMapCanvas({ language }: { language: Language }) {
 export default function Home() {
   const [language, setLanguage] = useState<Language>('ru');
   const [menuOpen, setMenuOpen] = useState(false);
+  const panelAlignmentAnchorRef = useRef<HTMLSpanElement>(null);
   const ru = language === 'ru';
 
   useEffect(() => {
     document.documentElement.lang = language;
+  }, [language]);
+
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [menuOpen]);
+
+  useEffect(() => {
+    const anchor = panelAlignmentAnchorRef.current;
+    if (!anchor) return;
+
+    const updatePanelAlignment = () => {
+      document.documentElement.style.setProperty('--panel-content-left', `${anchor.getBoundingClientRect().right}px`);
+    };
+
+    updatePanelAlignment();
+    document.fonts.ready.then(updatePanelAlignment);
+    const observer = new ResizeObserver(updatePanelAlignment);
+    observer.observe(anchor);
+    window.addEventListener('resize', updatePanelAlignment);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', updatePanelAlignment);
+    };
   }, [language]);
 
   useEffect(() => {
@@ -280,8 +345,9 @@ export default function Home() {
         <a className="wordmark" href="#top" aria-label={ru ? 'Солнце.Культура — на главную' : 'Solntse.Culture — home'}>
           <span>СОЛНЦЕ.</span><strong>КУЛЬТУРА</strong>
         </a>
-        <button className="menu-toggle" type="button" onClick={() => setMenuOpen((open) => !open)} aria-expanded={menuOpen} aria-controls="main-navigation">
-          {ru ? 'Меню' : 'Menu'}
+        <button className={`menu-toggle${menuOpen ? ' is-open' : ''}`} type="button" onClick={() => setMenuOpen((open) => !open)} aria-expanded={menuOpen} aria-controls="main-navigation" aria-label={menuOpen ? (ru ? 'Закрыть меню' : 'Close menu') : (ru ? 'Открыть меню' : 'Open menu')}>
+          <span aria-hidden="true" />
+          <span aria-hidden="true" />
         </button>
         <nav id="main-navigation" className={menuOpen ? 'is-open' : ''} aria-label={ru ? 'Основная навигация' : 'Main navigation'}>
           <a href="#top" onClick={closeMenu}>{ru ? 'Древо жизни' : 'Tree of Life'}</a>
@@ -309,9 +375,11 @@ export default function Home() {
       <section className="site-section idea-section" id="idea">
         <article className="text-block">
           <p>{ru ? 'Мир находится в точке выбора дальнейшего пути: пути жизни или пути вымирания.' : 'The world has reached a point of choice: the path of life or the path of extinction.'}</p>
-          <p>{ru ? 'Первое, что проявляет этот выбор в Мир, формирует импульс и путь его реализации — это Культура.' : 'Culture is the first force that expresses this choice and shapes the impulse and the path of its realisation.'}</p>
-          <p className="dark-gradient-text">{ru ? 'Проект «СОЛНЦЕ.КУЛЬТУРА» выбирает путь жизни: помогает раскрыть Творца в Человеке, запускает импульс проявления Культурного Кода, формирования Культурного Поля жизни и жизнетворения, формирования Среды СоТворения, укрепляет Национальную Идентичность Народа и Культурный Суверенитет Родины для формирования Нового Мира.' : 'SOLNTSE.CULTURE chooses the path of life: it helps reveal the creator within each person, gives an impulse to the Cultural Code and a life-giving Cultural Field, creates an environment of co-creation, and strengthens national identity and cultural sovereignty.'}</p>
-          <p>{ru ? 'Мы — деятели Культуры, предлагаем творческий объект «ДРЕВО ЖИЗНИ» как символ, образ для всех, кто выбирает путь жизни и жизнетворения, предлагаем объединяться и СоТворять Новый Мир.' : 'We, cultural practitioners, offer THE TREE OF LIFE as a symbol for everyone choosing life and life-giving creation, and invite people to unite and co-create a New World.'}</p>
+          <p>{ru ? 'Первое, что проявляет этот выбор в Мир, формирует импульс и путь его реализации – это Культура.' : 'Culture is the first force that expresses this choice and shapes the impulse and the path of its realisation.'}</p>
+          <p className="dark-gradient-text">
+            {ru ? <><span ref={panelAlignmentAnchorRef}>П</span>роект «СОЛНЦЕ.КУЛЬТУРА» выбирает путь жизни: помогает раскрыть Творца в Человеке, запускает импульс проявления Культурного Кода, формирования Культурного Поля жизни и жизнетворения, формирования Среды СоТворения, укрепляет Национальную Идентичность Народа и Культурный Суверенитет Родины для формирования Нового Мира.</> : <><span ref={panelAlignmentAnchorRef}>S</span>OLNTSE.CULTURE chooses the path of life: it helps reveal the creator within each person, gives an impulse to the Cultural Code and a life-giving Cultural Field, creates an environment of co-creation, and strengthens national identity and cultural sovereignty.</>}
+          </p>
+          <p>{ru ? 'Мы предлагаем творческий объект «ДРЕВО ЖИЗНИ» как символ, образ для всех, кто выбирает путь жизни и жизнетворения, предлагаем объединяться и СоТворять Новый Мир.' : 'We offer THE TREE OF LIFE as a symbol for everyone choosing life and life-giving creation, and invite people to unite and co-create a New World.'}</p>
         </article>
       </section>
 
@@ -319,7 +387,7 @@ export default function Home() {
         <div className="project-copy">
           <h2>{ru ? 'Проект Древо жизни' : 'The Tree of Life project'}</h2>
           <p>{ru ? '«ДРЕВО ЖИЗНИ» представлено в формате монументального панно.' : 'THE TREE OF LIFE is presented as a monumental panel.'}</p>
-          <p className="dark-gradient-text">{ru ? 'Основной смысл панно — наше волеизъявление в выборе жизни и жизнетворения.' : 'The central meaning of the panel is our conscious choice of life and life-giving creation.'}</p>
+          <p className="dark-gradient-text">{ru ? 'Основной смысл панно – наше волеизъявление в выборе жизни и жизнетворения.' : 'The central meaning of the panel is our conscious choice of life and life-giving creation.'}</p>
         </div>
       </section>
 
@@ -335,18 +403,18 @@ export default function Home() {
         </figure>
         <article className="technique-copy">
           <h3 className="subsection-title">{ru ? 'О технике сажение по бели' : 'About the sazhene po beli technique'}</h3>
-          <p>{ru ? 'Изучение европейской и азиатской истории искусств показывает, что рельефное жемчужное шитьё всегда оставалось прерогативой узкого круга — верховной знати и высшего духовенства. На Руси сложилась диаметрально противоположная ситуация, обусловленная двумя факторами.' : 'The history of European and Asian art shows that raised pearl embroidery remained the privilege of a narrow circle — the highest nobility and senior clergy. In Rus, a diametrically opposite situation emerged due to two factors.'}</p>
+          <p>{ru ? 'Изучение европейской и азиатской истории искусств показывает, что рельефное жемчужное шитье всегда оставалось прерогативой узкого круга — верховной знати и высшего духовенства. На Руси сложилась диаметрально противоположная ситуация, обусловленная двумя факторами.' : 'The history of European and Asian art shows that raised pearl embroidery remained the privilege of a narrow circle — the highest nobility and senior clergy. In Rus, a diametrically opposite situation emerged due to two factors.'}</p>
           <ol>
-            <li>{ru ? 'Реки Русского Севера — бассейны Северной Двины, Онеги и реки Кольского полуострова — были естественным ареалом обитания пресноводной жемчужницы. Добыча речного жемчуга была традиционным промыслом, доступным местному населению.' : 'The rivers of the Russian North were a natural habitat for freshwater pearl mussels. Harvesting river pearls was a traditional craft available to local communities.'}</li>
-            <li>{ru ? 'В русском обществе до начала XVIII века отсутствовала строгая государственная монополия на ношение жемчуга. Поэтому сажение по бели проникло во все слои общества, став не просто элитарным искусством, но общенациональным Культурным Кодом.' : 'Until the early eighteenth century, Russian society had no strict state monopoly on wearing pearls. Sazhene po beli therefore spread throughout society and became a national Cultural Code.'}</li>
+            <li>{ru ? 'Реки Русского Севера (бассейны Северной Двины, Онеги, реки Кольского полуострова) были естественным ареалом обитания пресноводной жемчужницы. Добыча речного (скатного) жемчуга была традиционным промыслом, доступным местному населению.' : 'The rivers of the Russian North (the basins of the Northern Dvina and Onega and the rivers of the Kola Peninsula) were a natural habitat for freshwater pearl mussels. Harvesting river pearls was a traditional craft available to local communities.'}</li>
+            <li>{ru ? 'В русском обществе до начала XVIII века отсутствовала строгая государственная монополия на ношение жемчуга. Это привело к тому, что сажение по бели проникло во все слои общества, став не просто элитарным искусством, но общенациональным Культурным Кодом.' : 'Until the early eighteenth century, Russian society had no strict state monopoly on wearing pearls. This allowed sazhene po beli to spread throughout society and become a national Cultural Code.'}</li>
           </ol>
           <p>{ru ? 'Орнаментика жемчужного шитья представляла собой строгую знаковую систему. Жемчуг в древнерусской традиции символизировал чистоту, радость и небесный свет. Прокладывая льняной шнур и покрывая его жемчугом, мастерица буквально структурировала хаос, создавая защитный сакральный контур для себя, своего рода, народа, Родины. Она плела узор будущего.' : 'The ornamentation of pearl embroidery formed a strict symbolic system. In ancient Russian tradition, pearls symbolised purity, joy and heavenly light. By laying linen cord and covering it with pearls, the artisan shaped chaos into a sacred protective contour for herself, her family, her people and her homeland. She wove the pattern of the future.'}</p>
           <p>{ru ? 'Искусство русского «сажения по бели» не имеет мировых аналогов!' : 'The Russian art of sazhene po beli has no equivalent in the world!'}</p>
-          <p>{ru ? 'Русская традиция явила миру идеальный симбиоз надёжной органической инженерии — льняная бель — и абсолютной доступности сакральной красоты. Массовое бытование сложнейшего жемчужного шитья свидетельствует о высочайшем уровне внутренней культуры, экономической состоятельности народа и удивительном торжестве эстетической свободы в Древней Руси.' : 'The Russian tradition united reliable organic engineering with access to sacred beauty. The widespread use of complex pearl embroidery testifies to the extraordinary inner culture, prosperity and aesthetic freedom of ancient Rus.'}</p>
+          <p>{ru ? 'Русская традиция явила миру идеальный симбиоз надежной органической инженерии (льняная бель) и абсолютной доступности сакральной красоты. Массовое бытование сложнейшего жемчужного шитья свидетельствует о высочайшем уровне внутренней культуры, экономической состоятельности народа и удивительном торжестве эстетической свободы в Древней Руси.' : 'The Russian tradition united reliable organic engineering with access to sacred beauty. The widespread use of complex pearl embroidery testifies to the extraordinary inner culture, prosperity and aesthetic freedom of ancient Rus.'}</p>
         </article>
         <div className="section-divider" aria-hidden="true" />
         <article className="panel-summary">
-          <p>{ru ? 'Это первое и единственное в России панно с соответствующей целью, смыслом, символами, образом такого размера, выполненное в данной технике исполнения.' : 'This is the first and only panel in Russia with this purpose, meaning and symbolism, at this scale and in this technique.'}</p>
+          <p>{ru ? 'Это первое и единственное в России панно с соответствующей целью, смыслом, символами, образом такого размера, выполненного в данной технике исполнения.' : 'This is the first and only panel in Russia with this purpose, meaning and symbolism, at this scale and in this technique.'}</p>
           <p>{ru ? 'Панно является экспонатом музейного уровня, уникальным культурным объектом для выставочных пространств, общественной и жилой среды.' : 'The panel is a museum-level exhibit and a unique cultural object for exhibition spaces, public interiors and homes.'}</p>
         </article>
       </section>
@@ -354,7 +422,7 @@ export default function Home() {
       <section className="site-section geography-section" id="geography">
         <h2>{ru ? 'Мы в России' : 'In Russia'}</h2>
         <RussiaMapCanvas language={language} />
-        <p>{ru ? 'Связаться с нами, если хотите, чтобы Ваш регион принял участие в проекте.' : 'Contact us if you would like your region to take part in the project.'}</p>
+        <p>{ru ? 'Связаться с нами если хотите, чтобы Ваш регион принял участие в проекте.' : 'Contact us if you would like your region to take part in the project.'}</p>
         <a className="text-button" href="tel:+79151643278">{ru ? 'Связаться' : 'Contact us'}</a>
       </section>
 
