@@ -291,7 +291,7 @@ main > .panel-section .technique-copy li { text-align: left; }
   :root {
     --body-size: 12.53px;
     --main-copy-size: 17.53px;
-    --title-size: clamp(56.88px, calc(18vw - 15.12px), 84.88px);
+    --title-size: clamp(26px, 8vw, 42px);
     --quote-size: clamp(16px, 4.2vw, 19px);
     --brand-size: clamp(27px, 7.5vw, 38px);
   }
@@ -351,12 +351,14 @@ main > .panel-section .technique-copy li { text-align: left; }
     width: 100%;
     padding: 0;
     border: 0;
-    color: #777;
-    font-size: 22px;
-    font-weight: 500;
+    color: #111;
+    font-family: 'Nunito Sans', Arial, sans-serif;
+    font-size: var(--main-copy-size);
+    font-weight: 400;
     line-height: 1.1;
     text-align: left;
   }
+  h1, h2, .subsection-title { white-space: nowrap; }
   .site-header nav a:hover, .site-header nav a:focus-visible { color: #111; }
   .site-header nav a::after { display: none; }
   .hero { min-height: auto; padding-top: 40px; }
