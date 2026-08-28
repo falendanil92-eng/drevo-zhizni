@@ -165,9 +165,10 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
 .panel-content, .technique-copy {
   grid-column: 1 / 13;
   justify-self: start;
-  width: min(773.18px, calc(100vw - var(--panel-content-left) - 2cm));
   margin-left: var(--panel-content-left);
 }
+.panel-content { width: min(773.18px, calc(100vw - var(--panel-content-left) - 2cm)); }
+.technique-copy { width: min(1000px, calc(100vw - var(--panel-content-left) - 2cm)); }
 .panel-summary { grid-column: 3 / 11; }
 .panel-video {
   grid-column: 1 / 13;
