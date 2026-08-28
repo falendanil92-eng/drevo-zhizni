@@ -160,7 +160,7 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
 .panel-section {
   min-height: auto;
   align-content: start;
-  padding: 2cm 0 0;
+  padding: 1cm 0 0;
 }
 .panel-content, .technique-copy {
   grid-column: 1 / 13;
@@ -195,7 +195,9 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
   padding-left: 1.15em;
   line-height: 1.34;
   text-align: left;
+  white-space: nowrap;
 }
+.panel-content .two-line-fact span { display: block; white-space: nowrap; }
 .panel-content li::before {
   content: '';
   position: absolute;
@@ -373,7 +375,7 @@ main > .panel-section .technique-copy li { text-align: left; }
   .geography-section { padding-top: 1cm; }
   .project-section { padding-top: 2cm; }
   .panel-wide { grid-column: 2 / 12; width: calc(100% + 2cm); height: auto; aspect-ratio: 1; margin-top: calc(75.6px - 1cm); }
-  .panel-section { padding: 100px 0 0; }
+  .panel-section { padding: calc(100px - 1cm) 0 0; }
   .panel-content, .technique-copy {
     justify-self: stretch;
     width: 100%;

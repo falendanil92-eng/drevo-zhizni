@@ -394,7 +394,11 @@ export default function Home() {
       <section className="site-section panel-section" id="panel">
         <div className="panel-content">
           <h3 className="subsection-title">{ru ? 'О панно' : 'The panel'}</h3>
-          <ul>{panelFacts[language].map((fact) => <li key={fact}>{fact}</li>)}</ul>
+          <ul>{panelFacts[language].map((fact, index) => (
+            <li key={fact} className={index === 7 ? 'two-line-fact' : undefined}>
+              {index === 7 ? (ru ? <><span>Используемый материал – натуральный лен, 3 500 метров хлопкового шнура,</span><span>перевитого вручную и выложенного непрерывно.</span></> : <><span>The materials are natural linen and 3,500 metres of cotton cord,</span><span>twisted by hand and laid continuously.</span></>) : fact}
+            </li>
+          ))}</ul>
         </div>
         <figure className="panel-video">
           <video autoPlay muted loop playsInline preload="metadata" aria-label={ru ? 'Видео о создании панно «Древо жизни»' : 'Video showing the creation of the Tree of Life panel'}>
