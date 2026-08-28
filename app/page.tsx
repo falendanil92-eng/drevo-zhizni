@@ -259,6 +259,9 @@ function RussiaMapCanvas({ language }: { language: Language }) {
       prepareTreeLayer();
       draw();
     };
+    if (mapImage.complete && mapImage.naturalWidth) prepareMapLayers();
+    if (locationLogo.complete && locationLogo.naturalWidth) prepareTreeLayer();
+    if (mapImage.complete && locationLogo.complete) draw();
     const observer = new ResizeObserver(draw);
     observer.observe(canvas);
     return () => observer.disconnect();
