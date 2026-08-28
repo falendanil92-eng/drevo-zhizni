@@ -259,9 +259,6 @@ function RussiaMapCanvas({ language }: { language: Language }) {
       prepareTreeLayer();
       draw();
     };
-    if (mapImage.complete && mapImage.naturalWidth) prepareMapLayers();
-    if (locationLogo.complete && locationLogo.naturalWidth) prepareTreeLayer();
-    if (mapImage.complete && locationLogo.complete) draw();
     const observer = new ResizeObserver(draw);
     observer.observe(canvas);
     return () => observer.disconnect();
@@ -366,9 +363,9 @@ export default function Home() {
     };
 
     const observer = new IntersectionObserver(([entry]) => {
-      isThirtyPercentVisible = entry.isIntersecting && entry.intersectionRatio >= 0.3;
+      isThirtyPercentVisible = entry.isIntersecting && entry.intersectionRatio >= 0.35;
       applySoundRule();
-    }, { threshold: [0, 0.3, 1] });
+    }, { threshold: [0, 0.35, 1] });
 
     const retryAfterInteraction = () => applySoundRule();
     observer.observe(video);
