@@ -259,6 +259,9 @@ function RussiaMapCanvas({ language }: { language: Language }) {
       prepareTreeLayer();
       draw();
     };
+    if (mapImage.complete && mapImage.naturalWidth) prepareMapLayers();
+    if (locationLogo.complete && locationLogo.naturalWidth) prepareTreeLayer();
+    if (mapImage.complete && locationLogo.complete) draw();
     const observer = new ResizeObserver(draw);
     observer.observe(canvas);
     return () => observer.disconnect();
@@ -444,7 +447,7 @@ export default function Home() {
           ))}</ul>
         </div>
         <figure className="panel-video">
-          <video ref={panelVideoRef} autoPlay muted loop playsInline preload="metadata" aria-label={ru ? 'Видео о создании панно «Древо жизни»' : 'Video showing the creation of the Tree of Life panel'}>
+          <video ref={panelVideoRef} autoPlay muted loop playsInline controls preload="metadata" aria-label={ru ? 'Видео о создании панно «Древо жизни»' : 'Video showing the creation of the Tree of Life panel'}>
             <source src="./assets/panel-process.mp4" type="video/mp4" />
           </video>
         </figure>
