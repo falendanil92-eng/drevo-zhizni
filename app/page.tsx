@@ -407,7 +407,7 @@ export default function Home() {
 
       <section className="site-section hero" id="top">
         <div className="hero-intro">
-          <h1>{ru ? 'Древо жизни' : 'The tree of life'}</h1>
+          <h1>{ru ? 'Древо жизни' : 'The Tree of Life'}</h1>
           <p className="hero-quote">{ru ? '«С севера пришли они, отважные мужчины и женщины, образующие сильный Народ, продолжающие следовать путём Духа, Души, Сознания, Крови, Совести, Воли и Сокровенной Истины. Именно это вдохнуло в них огромную силу предназначения. В их сердцах пылает огонь стремления, и пламя это позволяет им действовать и созидать».' : '“They came from the North, courageous men and women forming a strong people, continuing along the path of Spirit, Soul, Consciousness, Blood, Conscience, Will and Innermost Truth. This breathed into them the immense power of purpose. The fire of aspiration burns in their hearts, and this flame enables them to act and create.”'}</p>
         </div>
         <figure className="panel-wide">
@@ -428,7 +428,7 @@ export default function Home() {
 
       <section className="site-section project-section" id="project">
         <div className="project-copy">
-          <h2>{ru ? 'Проект древо жизни' : 'The tree of life project'}</h2>
+          <h2>{ru ? 'Проект Древо жизни' : 'The Tree of Life project'}</h2>
           <p>{ru ? '«ДРЕВО ЖИЗНИ» представлено в формате монументального панно.' : 'THE TREE OF LIFE is presented as a monumental panel.'}</p>
           <p className="dark-gradient-text">{ru ? 'Основной смысл панно – наше волеизъявление в выборе жизни и жизнетворения.' : 'The central meaning of the panel is our conscious choice of life and life-giving creation.'}</p>
         </div>
@@ -467,14 +467,14 @@ export default function Home() {
       </section>
 
       <section className="site-section geography-section" id="geography">
-        <h2>{ru ? 'Мы в россии' : 'In russia'}</h2>
+        <h2>{ru ? 'Мы в России' : 'In Russia'}</h2>
         <RussiaMapCanvas language={language} />
         <p>{ru ? 'Связаться с нами для участия Вашего региона в проекте.' : 'Contact us if you would like your region to take part in the project.'}</p>
         <a className="text-button" href="tel:+79151643278">{ru ? 'Связаться' : 'Contact us'}</a>
       </section>
 
       <footer className="site-footer" id="contacts">
-        <h2>{ru ? 'Контакты' : 'Contacts'}</h2>
+        <h2>{ru ? 'КОНТАКТЫ' : 'CONTACTS'}</h2>
         <div className="footer-contact">
           <p><strong>{ru ? 'ТЕЛЕФОН' : 'TELEPHONE'}</strong> +7 915 164 32 78</p>
           <p><strong>{ru ? 'ПОЧТА' : 'EMAIL'}</strong> solntse.kultura@mail.ru</p>
