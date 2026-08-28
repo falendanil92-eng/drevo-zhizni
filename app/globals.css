@@ -165,8 +165,8 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
 .panel-video {
   grid-column: 1 / 13;
   justify-self: center;
-  width: calc(100% - 6cm);
-  max-width: calc(1920px - 6cm);
+  width: calc(100% - 12cm);
+  max-width: calc(1920px - 12cm);
   aspect-ratio: 16 / 9;
   margin-top: 2cm;
   overflow: hidden;
@@ -378,7 +378,7 @@ main > .panel-section .technique-copy li { text-align: left; }
     width: 100%;
     margin-left: 0;
   }
-  .panel-video { grid-column: 1 / 13; width: calc(100% - 6cm); }
+  .panel-video { grid-column: 1 / 13; width: calc(100% - 12cm); }
   .russia-map-canvas { grid-column: 1 / 13; width: calc(100% - 2cm); height: clamp(280px, calc((100vw - 2cm) / 1.65), 480px); }
   .section-divider { margin-top: 1cm; }
   .panel-summary { padding-top: 1cm; }
