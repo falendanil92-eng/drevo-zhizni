@@ -191,7 +191,7 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
   text-align: left;
   white-space: nowrap;
 }
-.panel-content li::before {
+.panel-content li::before, .technique-copy li::before {
   content: '';
   position: absolute;
   top: .62em;
@@ -206,10 +206,9 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
 .technique-copy ol {
   margin: clamp(22px, 2.5vw, 36px) 0;
   padding-left: 0;
-  list-style-type: disc;
-  list-style-position: inside;
+  list-style: none;
 }
-.technique-copy li { margin-bottom: clamp(16px, 1.8vw, 26px); line-height: 1.42; }
+.technique-copy li { position: relative; margin-bottom: clamp(16px, 1.8vw, 26px); padding-left: 1.15em; line-height: 1.42; }
 .section-divider {
   grid-column: 1 / 13;
   justify-self: center;
