@@ -86,15 +86,7 @@ h1, h2 {
 
 .wordmark span, .wordmark strong { font-size: inherit; }
 .wordmark strong { color: var(--red); font-weight: 400; }
-.site-header nav {
-  grid-column: 2 / 12;
-  grid-row: 2;
-  display: flex;
-  justify-content: space-between;
-  justify-self: center;
-  width: calc(100% + 3cm);
-  gap: 0;
-}
+.site-header nav { grid-column: 2 / 12; grid-row: 2; display: flex; justify-content: center; gap: clamp(14px, 2vw, 32px); }
 .site-header nav a { position: relative; padding: 12px 0; font-family: 'Nunito Sans', Arial, sans-serif; font-size: 18.8px; font-weight: 800; text-transform: uppercase; white-space: nowrap; }
 .site-header nav a::after { content: ''; position: absolute; right: 0; bottom: 5px; left: 0; height: 1px; background: var(--gold-dark); transform: scaleX(0); transform-origin: left; transition: transform 180ms ease; }
 .site-header nav a:hover::after, .site-header nav a:focus-visible::after { transform: scaleX(1); }
@@ -293,6 +285,10 @@ main > .panel-section .technique-copy li { text-align: left; }
   will-change: opacity, transform;
 }
 .reveal-item.is-visible { opacity: 1; transform: translateY(0); }
+
+@media (max-width: 1080px) {
+  .site-header nav { gap: 12px; }
+}
 
 @media (max-width: 860px) {
   :root {
