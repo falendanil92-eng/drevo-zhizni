@@ -148,10 +148,10 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
 .panel-wide {
   grid-column: 3 / 11;
   justify-self: center;
-  width: min(773.18px, 100%);
+  width: min(calc(773.18px + 2cm), calc(100% + 2cm));
   height: auto;
   aspect-ratio: 1;
-  margin-top: 75.6px;
+  margin-top: calc(75.6px - 1cm);
   border: 5px solid transparent;
   background: linear-gradient(#fff, #fff) padding-box, linear-gradient(115deg, #9f6628, #e0b652, #b87f32) border-box;
 }
@@ -372,7 +372,7 @@ main > .panel-section .technique-copy li { text-align: left; }
   .text-block, .project-section { padding-top: 100px; }
   .geography-section { padding-top: 1cm; }
   .project-section { padding-top: 62.2px; }
-  .panel-wide { grid-column: 2 / 12; width: 100%; height: auto; aspect-ratio: 1; margin-top: 75.6px; }
+  .panel-wide { grid-column: 2 / 12; width: calc(100% + 2cm); height: auto; aspect-ratio: 1; margin-top: calc(75.6px - 1cm); }
   .panel-section { padding: 100px 0 0; }
   .panel-content, .technique-copy {
     justify-self: stretch;
