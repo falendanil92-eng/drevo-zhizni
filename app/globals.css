@@ -140,7 +140,7 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
 .idea-section .text-block { padding-top: 2.5cm; }
 .idea-section .text-block p:last-child { margin-bottom: 0; }
 
-.project-section { min-height: auto; grid-template-rows: auto; align-content: start; padding-top: calc(12% - 49.8px); }
+.project-section { min-height: auto; grid-template-rows: auto; align-content: start; padding-top: 2cm; }
 .project-copy { grid-column: 3 / 11; text-align: center; }
 .project-copy h2 { margin-bottom: clamp(24px, 3vw, 42px); }
 .project-copy p { margin-bottom: 10px; line-height: 1.4; }
@@ -371,7 +371,7 @@ main > .panel-section .technique-copy li { text-align: left; }
   .idea-section, .project-section, .panel-section, .geography-section { min-height: auto; }
   .text-block, .project-section { padding-top: 100px; }
   .geography-section { padding-top: 1cm; }
-  .project-section { padding-top: 62.2px; }
+  .project-section { padding-top: 2cm; }
   .panel-wide { grid-column: 2 / 12; width: calc(100% + 2cm); height: auto; aspect-ratio: 1; margin-top: calc(75.6px - 1cm); }
   .panel-section { padding: 100px 0 0; }
   .panel-content, .technique-copy {
