@@ -92,7 +92,7 @@ h1, h2 {
   display: flex;
   justify-content: space-between;
   justify-self: center;
-  width: calc(100% - 16cm);
+  width: calc(100% - 18.67cm);
   gap: 0;
 }
 .site-header nav a { position: relative; padding: 12px 0; font-family: 'Nunito Sans', Arial, sans-serif; font-size: 18.8px; font-weight: 800; text-transform: uppercase; white-space: nowrap; }
