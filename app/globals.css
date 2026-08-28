@@ -198,7 +198,6 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
   text-align: left;
   white-space: nowrap;
 }
-.panel-content .two-line-fact span { display: block; font-size: inherit; white-space: nowrap; }
 .panel-content li::before {
   content: '';
   position: absolute;

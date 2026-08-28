@@ -396,7 +396,7 @@ export default function Home() {
           <h3 className="subsection-title">{ru ? 'О панно' : 'The panel'}</h3>
           <ul>{panelFacts[language].map((fact, index) => (
             <li key={fact} className={index === 7 ? 'two-line-fact' : undefined}>
-              {index === 7 ? (ru ? <><span>Используемый материал – натуральный лен, 3 500 метров хлопкового шнура,</span><span>перевитого вручную и выложенного непрерывно.</span></> : <><span>The materials are natural linen and 3,500 metres of cotton cord,</span><span>twisted by hand and laid continuously.</span></>) : fact}
+              {index === 7 ? (ru ? <>Используемый материал – натуральный лен, 3 500 метров хлопкового шнура,<br />перевитого вручную и выложенного непрерывно.</> : <>The materials are natural linen and 3,500 metres of cotton cord,<br />twisted by hand and laid continuously.</>) : fact}
             </li>
           ))}</ul>
         </div>
