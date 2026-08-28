@@ -236,6 +236,14 @@ function RussiaMapCanvas({ language }: { language: Language }) {
           context.fillStyle = goldMarker;
           context.fill();
 
+          const redOutline = context.createLinearGradient(x - halfIcon, y - halfIcon, x + halfIcon, y + halfIcon);
+          redOutline.addColorStop(0, '#7d0d12');
+          redOutline.addColorStop(0.48, '#c93b42');
+          redOutline.addColorStop(1, '#8f1116');
+          context.strokeStyle = redOutline;
+          context.lineWidth = 2;
+          context.stroke();
+
           const treeSize = iconSize;
           context.drawImage(treeLayer, x - treeSize / 2, y - treeSize / 2, treeSize, treeSize);
           context.restore();
