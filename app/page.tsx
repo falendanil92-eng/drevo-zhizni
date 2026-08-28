@@ -270,6 +270,7 @@ export default function Home() {
   const [language, setLanguage] = useState<Language>('ru');
   const [menuOpen, setMenuOpen] = useState(false);
   const panelAlignmentAnchorRef = useRef<HTMLSpanElement>(null);
+  const panelVideoRef = useRef<HTMLVideoElement>(null);
   const ru = language === 'ru';
 
   useEffect(() => {
@@ -337,6 +338,40 @@ export default function Home() {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const video = panelVideoRef.current;
+    if (!video) return;
+
+    let isThirtyPercentVisible = false;
+
+    const applySoundRule = () => {
+      video.muted = !isThirtyPercentVisible;
+      if (isThirtyPercentVisible) {
+        void video.play().catch(() => {
+          video.muted = true;
+          void video.play().catch(() => undefined);
+        });
+      }
+    };
+
+    const observer = new IntersectionObserver(([entry]) => {
+      isThirtyPercentVisible = entry.isIntersecting && entry.intersectionRatio >= 0.3;
+      applySoundRule();
+    }, { threshold: [0, 0.3, 1] });
+
+    const retryAfterInteraction = () => applySoundRule();
+    observer.observe(video);
+    window.addEventListener('pointerdown', retryAfterInteraction, { passive: true });
+    window.addEventListener('keydown', retryAfterInteraction);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('pointerdown', retryAfterInteraction);
+      window.removeEventListener('keydown', retryAfterInteraction);
+      video.muted = true;
+    };
+  }, []);
+
   const closeMenu = () => setMenuOpen(false);
 
   return (
@@ -401,7 +436,7 @@ export default function Home() {
           ))}</ul>
         </div>
         <figure className="panel-video">
-          <video autoPlay muted loop playsInline preload="metadata" aria-label={ru ? 'Видео о создании панно «Древо жизни»' : 'Video showing the creation of the Tree of Life panel'}>
+          <video ref={panelVideoRef} autoPlay muted loop playsInline preload="metadata" aria-label={ru ? 'Видео о создании панно «Древо жизни»' : 'Video showing the creation of the Tree of Life panel'}>
             <source src="./assets/panel-process.mp4" type="video/mp4" />
           </video>
         </figure>
