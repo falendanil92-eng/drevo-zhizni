@@ -86,7 +86,15 @@ h1, h2 {
 
 .wordmark span, .wordmark strong { font-size: inherit; }
 .wordmark strong { color: var(--red); font-weight: 400; }
-.site-header nav { grid-column: 2 / 12; grid-row: 2; display: flex; justify-content: center; gap: clamp(14px, 2vw, 32px); }
+.site-header nav {
+  grid-column: 1 / 13;
+  grid-row: 2;
+  display: flex;
+  justify-content: space-between;
+  justify-self: center;
+  width: calc(100% - 12cm);
+  gap: 0;
+}
 .site-header nav a { position: relative; padding: 12px 0; font-family: 'Nunito Sans', Arial, sans-serif; font-size: 18.8px; font-weight: 800; text-transform: uppercase; white-space: nowrap; }
 .site-header nav a::after { content: ''; position: absolute; right: 0; bottom: 5px; left: 0; height: 1px; background: var(--gold-dark); transform: scaleX(0); transform-origin: left; transition: transform 180ms ease; }
 .site-header nav a:hover::after, .site-header nav a:focus-visible::after { transform: scaleX(1); }
@@ -258,7 +266,7 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
   grid-template-rows: auto auto;
   height: clamp(233.33px, 20.67vw, 300px);
   min-height: 0;
-  padding: 1cm 6cm clamp(20px, 2vw, 30px);
+  padding: 1cm 2cm clamp(20px, 2vw, 30px);
   overflow: hidden;
   background: linear-gradient(125deg, #8a4f20 0%, #be7d2e 22%, #e0b652 46%, #bd7727 70%, #8d4b1c 100%);
   text-transform: uppercase;
@@ -284,10 +292,6 @@ main > .panel-section .technique-copy li { text-align: left; }
   will-change: opacity, transform;
 }
 .reveal-item.is-visible { opacity: 1; transform: translateY(0); }
-
-@media (max-width: 1080px) {
-  .site-header nav { gap: 12px; }
-}
 
 @media (max-width: 860px) {
   :root {
@@ -382,7 +386,7 @@ main > .panel-section .technique-copy li { text-align: left; }
   .section-divider { margin-top: 1cm; }
   .panel-summary { padding-top: 1cm; }
   .geography-section > .text-button { grid-column: 3 / 11; margin-bottom: 80px; }
-  .site-footer { height: auto; min-height: auto; padding: 1cm 6cm 64px; }
+  .site-footer { height: auto; min-height: auto; padding: 1cm 24px 64px; }
   .site-footer h2, .footer-contact { grid-column: 2 / 12; }
   .site-footer h2 { grid-row: auto; }
   .footer-contact { grid-row: auto; flex-direction: column; gap: 16px; }
