@@ -209,11 +209,11 @@ function RussiaMapCanvas({ language }: { language: Language }) {
       context.drawImage(outlineLayer, mapBounds.x, mapBounds.y, mapBounds.width, mapBounds.height, mapX, mapY, mapWidth, mapHeight);
 
       const markers = [
-        // Keep the north-west marker inside the map silhouette at every size.
-        { name: 'Санкт-Петербург', x: 0.18, y: 0.44 },
-        { name: 'Москва', x: 0.255, y: 0.56 },
-        { name: 'Тюмень', x: 0.355, y: 0.60 },
-        { name: 'Центр Республики Алтай', x: 0.465, y: 0.77 },
+        // Albers equal-area projection (central meridian 90° E) fitted to the source outline and its 8 px mask padding.
+        { name: 'Санкт-Петербург', x: 0.144063, y: 0.457566 },
+        { name: 'Москва', x: 0.139739, y: 0.589989 },
+        { name: 'Тюмень', x: 0.322546, y: 0.742538 },
+        { name: 'Центр Республики Алтай', x: 0.469130, y: 0.944220 },
       ];
       const iconSize = Math.max(28, Math.min(46, mapWidth / 22));
 
