@@ -41,12 +41,14 @@ function MapCanvas({ language, kind }: { language: Language; kind: 'russia' | 'w
 
     const basePath = window.location.pathname.startsWith('/drevo-zhizni') ? '/drevo-zhizni' : '';
     const mapImage = new Image();
+    const worldLandMask = new Image();
     const locationLogo = new Image();
     let mapPath: Path2D | null = null;
     let treeLayer: HTMLCanvasElement | null = null;
     let mapBounds = { x: 0, y: 0, width: 1, height: 1 };
 
-    mapImage.src = `${basePath}/assets/${isWorld ? 'world-map-source.jpg' : 'russia-map-source.jpg'}`;
+    mapImage.src = `${basePath}/assets/${isWorld ? 'world-map-trace.png' : 'russia-map-source.jpg'}`;
+    if (isWorld) worldLandMask.src = `${basePath}/assets/world-map-land-mask.png`;
     locationLogo.src = `${basePath}/assets/tree-mark.png`;
 
     const prepareTreeLayer = () => {
@@ -66,6 +68,17 @@ function MapCanvas({ language, kind }: { language: Language; kind: 'russia' | 'w
     };
 
     const prepareMapPath = () => {
+      if (isWorld) {
+        mapPath = new Path2D();
+        mapBounds = {
+          x: 0,
+          y: 0,
+          width: mapImage.naturalWidth,
+          height: mapImage.naturalHeight,
+        };
+        return;
+      }
+
       const source = document.createElement('canvas');
       source.width = mapImage.naturalWidth;
       source.height = mapImage.naturalHeight;
@@ -81,11 +94,11 @@ function MapCanvas({ language, kind }: { language: Language; kind: 'russia' | 'w
       for (let index = 0; index < width * height; index += 1) {
         const pixel = index * 4;
         const luminance = sourcePixels.data[pixel] * 0.299 + sourcePixels.data[pixel + 1] * 0.587 + sourcePixels.data[pixel + 2] * 0.114;
-        if (luminance < (isWorld ? 145 : 115)) sealed[index] = 1;
+        if (luminance < 115) sealed[index] = 1;
       }
 
       const closedOutline = sealed.slice();
-      const sealRadius = isWorld ? 2 : 1;
+      const sealRadius = 1;
       for (let y = sealRadius; y < height - sealRadius; y += 1) {
         for (let x = sealRadius; x < width - sealRadius; x += 1) {
           const index = y * width + x;
@@ -252,59 +265,35 @@ function MapCanvas({ language, kind }: { language: Language; kind: 'russia' | 'w
       gold.addColorStop(0, '#c99545');
       gold.addColorStop(0.5, '#f1d47d');
       gold.addColorStop(1, '#d7a650');
-      context.save();
-      context.translate(mapX - mapBounds.x * (mapWidth / mapBounds.width), mapY - mapBounds.y * (mapHeight / mapBounds.height));
-      context.scale(mapWidth / mapBounds.width, mapHeight / mapBounds.height);
-      context.fillStyle = gold;
-      context.fill(mapPath);
-      context.strokeStyle = '#111111';
-      context.lineWidth = Math.max(1.6, 2.2 * mapBounds.width / mapWidth);
-      context.lineJoin = 'round';
-      context.lineCap = 'round';
-      context.stroke(mapPath);
-      context.restore();
-
       if (isWorld) {
+        if (!worldLandMask.naturalWidth) return;
+        const landLayer = document.createElement('canvas');
+        landLayer.width = canvas.width;
+        landLayer.height = canvas.height;
+        const landContext = landLayer.getContext('2d');
+        if (!landContext) return;
+        landContext.setTransform(ratio, 0, 0, ratio, 0, 0);
+        const landGold = landContext.createLinearGradient(mapX, mapY, mapX + mapWidth, mapY + mapHeight);
+        landGold.addColorStop(0, '#c99545');
+        landGold.addColorStop(0.5, '#f1d47d');
+        landGold.addColorStop(1, '#d7a650');
+        landContext.fillStyle = landGold;
+        landContext.fillRect(mapX, mapY, mapWidth, mapHeight);
+        landContext.globalCompositeOperation = 'destination-in';
+        landContext.drawImage(worldLandMask, mapX, mapY, mapWidth, mapHeight);
+        context.drawImage(landLayer, 0, 0, width, height);
+        context.drawImage(mapImage, mapX, mapY, mapWidth, mapHeight);
+      } else {
         context.save();
+        context.translate(mapX - mapBounds.x * (mapWidth / mapBounds.width), mapY - mapBounds.y * (mapHeight / mapBounds.height));
+        context.scale(mapWidth / mapBounds.width, mapHeight / mapBounds.height);
         context.fillStyle = gold;
+        context.fill(mapPath);
         context.strokeStyle = '#111111';
-        context.lineWidth = 2;
+        context.lineWidth = Math.max(1.6, 2.2 * mapBounds.width / mapWidth);
         context.lineJoin = 'round';
-        context.beginPath();
-        context.moveTo(mapX + mapWidth * 0.14, mapY + mapHeight * 0.88);
-        context.bezierCurveTo(mapX + mapWidth * 0.25, mapY + mapHeight * 0.91, mapX + mapWidth * 0.31, mapY + mapHeight * 0.89, mapX + mapWidth * 0.4, mapY + mapHeight * 0.92);
-        context.bezierCurveTo(mapX + mapWidth * 0.51, mapY + mapHeight * 0.95, mapX + mapWidth * 0.6, mapY + mapHeight * 0.9, mapX + mapWidth * 0.69, mapY + mapHeight * 0.92);
-        context.bezierCurveTo(mapX + mapWidth * 0.78, mapY + mapHeight * 0.94, mapX + mapWidth * 0.84, mapY + mapHeight * 0.9, mapX + mapWidth * 0.88, mapY + mapHeight * 0.88);
-        context.bezierCurveTo(mapX + mapWidth * 0.78, mapY + mapHeight * 0.98, mapX + mapWidth * 0.25, mapY + mapHeight * 0.99, mapX + mapWidth * 0.14, mapY + mapHeight * 0.88);
-        context.closePath();
-        context.fill();
-        context.stroke();
-
-        context.strokeStyle = 'rgb(17 17 17 / 48%)';
-        context.lineWidth = 0.65;
-        [-0.42, -0.28, -0.14, 0, 0.14, 0.28, 0.42].forEach((offset) => {
-          const centreX = mapX + mapWidth / 2;
-          const topX = centreX + offset * mapWidth * 0.48;
-          const middleX = centreX + offset * mapWidth;
-          context.beginPath();
-          context.moveTo(topX, mapY + mapHeight * 0.08);
-          context.bezierCurveTo(middleX, mapY + mapHeight * 0.3, middleX, mapY + mapHeight * 0.7, topX, mapY + mapHeight * 0.96);
-          context.stroke();
-        });
-        [0.24, 0.4, 0.56, 0.72].forEach((position) => {
-          const curve = Math.abs(position - 0.5) * mapHeight * 0.12;
-          context.beginPath();
-          context.moveTo(mapX + mapWidth * 0.08, mapY + mapHeight * position);
-          context.bezierCurveTo(
-            mapX + mapWidth * 0.32,
-            mapY + mapHeight * position + curve,
-            mapX + mapWidth * 0.68,
-            mapY + mapHeight * position + curve,
-            mapX + mapWidth * 0.92,
-            mapY + mapHeight * position,
-          );
-          context.stroke();
-        });
+        context.lineCap = 'round';
+        context.stroke(mapPath);
         context.restore();
       }
 
@@ -361,8 +350,10 @@ function MapCanvas({ language, kind }: { language: Language; kind: 'russia' | 'w
       prepareTreeLayer();
       draw();
     };
+    worldLandMask.onload = draw;
     if (mapImage.complete && mapImage.naturalWidth) prepareMapPath();
     if (locationLogo.complete && locationLogo.naturalWidth) prepareTreeLayer();
+    if (isWorld && worldLandMask.complete && worldLandMask.naturalWidth) draw();
     if (mapImage.complete && locationLogo.complete) draw();
     const observer = new ResizeObserver(draw);
     observer.observe(canvas);

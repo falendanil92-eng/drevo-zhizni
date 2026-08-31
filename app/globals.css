@@ -350,7 +350,7 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
 
 .geography-section { min-height: clamp(780px, 66vw, 960px); align-content: start; justify-items: center; padding-top: 2.5cm; text-align: center; }
 .geography-section h2 { grid-column: 3 / 11; }
-.russia-map-canvas, .world-map-canvas { grid-column: 1 / 13; display: block; width: calc(100% - 8cm); margin-top: clamp(20px, 3vw, 42px); }
+.russia-map-canvas, .world-map-canvas { grid-column: 1 / 13; display: block; justify-self: center; width: calc(100% - 8cm); max-width: 100%; margin-top: clamp(20px, 3vw, 42px); }
 .russia-map-canvas { height: clamp(440px, calc((100vw - 8cm) / 1.65), 720px); }
 .world-map-canvas { height: clamp(420px, calc((100vw - 8cm) / 1.75), 690px); }
 .geography-section > p { grid-column: 3 / 11; margin-top: 2cm; }
@@ -497,14 +497,17 @@ main > .offer-section .text-button { text-align: center; }
   }
   .panel-video { grid-column: 1 / 13; width: calc(100% - 32px); }
   .offer-section, .events-section { padding-top: 2cm; }
+  .offer-section, .events-section, .world-section { overflow-x: clip; }
   .offer-promotion > p:not(.offer-label) { max-width: 100%; }
   .offer-order ul { padding-left: 1.4em; }
-  .preview-copy .text-button { margin-right: 0; }
+  .preview-copy .text-button { width: 100%; max-width: 100%; margin-right: 0; white-space: normal; }
   .events-section { padding-bottom: 2cm; }
+  .events-section > h2 { font-size: clamp(18px, 5.4vw, 26px); }
+  .events-content { min-width: 0; max-width: 100%; }
   .events-table-wrap { margin-right: -20px; }
   .events-table { min-width: 680px; }
   .events-table th, .events-table td { padding: 15px 16px; }
-  .russia-map-canvas, .world-map-canvas { grid-column: 1 / 13; width: calc(100% - 2cm); }
+  .russia-map-canvas, .world-map-canvas { grid-column: 1 / 13; width: calc(100vw - 2cm); max-width: calc(100vw - 2cm); }
   .russia-map-canvas { height: clamp(280px, calc((100vw - 2cm) / 1.65), 480px); }
   .world-map-canvas { height: clamp(260px, calc((100vw - 2cm) / 1.75), 440px); }
   .section-divider { margin: calc(1.5cm - 5px) 0; }
