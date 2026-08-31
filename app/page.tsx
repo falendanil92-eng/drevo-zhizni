@@ -31,8 +31,9 @@ const panelFacts = {
   ],
 };
 
-function RussiaMapCanvas({ language }: { language: Language }) {
+function MapCanvas({ language, kind }: { language: Language; kind: 'russia' | 'world' }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const isWorld = kind === 'world';
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -41,12 +42,11 @@ function RussiaMapCanvas({ language }: { language: Language }) {
     const basePath = window.location.pathname.startsWith('/drevo-zhizni') ? '/drevo-zhizni' : '';
     const mapImage = new Image();
     const locationLogo = new Image();
-    let fillMask: HTMLCanvasElement | null = null;
-    let outlineLayer: HTMLCanvasElement | null = null;
+    let mapPath: Path2D | null = null;
     let treeLayer: HTMLCanvasElement | null = null;
     let mapBounds = { x: 0, y: 0, width: 1, height: 1 };
 
-    mapImage.src = `${basePath}/assets/russia-map-source.jpg`;
+    mapImage.src = `${basePath}/assets/${isWorld ? 'world-map-source.jpg' : 'russia-map-source.jpg'}`;
     locationLogo.src = `${basePath}/assets/tree-mark.png`;
 
     const prepareTreeLayer = () => {
@@ -65,7 +65,7 @@ function RussiaMapCanvas({ language }: { language: Language }) {
       treeContext.putImageData(pixels, 0, 0);
     };
 
-    const prepareMapLayers = () => {
+    const prepareMapPath = () => {
       const source = document.createElement('canvas');
       source.width = mapImage.naturalWidth;
       source.height = mapImage.naturalHeight;
@@ -126,46 +126,97 @@ function RussiaMapCanvas({ language }: { language: Language }) {
         if (index < width * (height - 1)) enqueue(index + width);
       }
 
-      fillMask = document.createElement('canvas');
-      fillMask.width = width;
-      fillMask.height = height;
-      const fillContext = fillMask.getContext('2d');
-      const fillPixels = fillContext?.createImageData(width, height);
-
-      outlineLayer = document.createElement('canvas');
-      outlineLayer.width = width;
-      outlineLayer.height = height;
-      const outlineContext = outlineLayer.getContext('2d');
-      const outlinePixels = outlineContext?.createImageData(width, height);
-      if (!fillContext || !fillPixels || !outlineContext || !outlinePixels) return;
-
+      const inside = new Uint8Array(width * height);
       let minX = width;
       let minY = height;
       let maxX = 0;
       let maxY = 0;
       for (let index = 0; index < width * height; index += 1) {
-        const pixel = index * 4;
         if (!outside[index]) {
+          inside[index] = 1;
           const x = index % width;
           const y = Math.floor(index / width);
           minX = Math.min(minX, x);
           minY = Math.min(minY, y);
           maxX = Math.max(maxX, x);
           maxY = Math.max(maxY, y);
-          fillPixels.data[pixel] = 255;
-          fillPixels.data[pixel + 1] = 255;
-          fillPixels.data[pixel + 2] = 255;
-          fillPixels.data[pixel + 3] = 255;
-        }
-        if (sealed[index]) {
-          outlinePixels.data[pixel] = 17;
-          outlinePixels.data[pixel + 1] = 17;
-          outlinePixels.data[pixel + 2] = 17;
-          outlinePixels.data[pixel + 3] = 255;
         }
       }
-      fillContext.putImageData(fillPixels, 0, 0);
-      outlineContext.putImageData(outlinePixels, 0, 0);
+
+      type Point = { x: number; y: number };
+      type Edge = { from: Point; to: Point; used: boolean };
+      const edges: Edge[] = [];
+      const edgesByStart = new Map<string, number[]>();
+      const pointKey = (point: Point) => `${point.x},${point.y}`;
+      const addEdge = (from: Point, to: Point) => {
+        const edgeIndex = edges.length;
+        edges.push({ from, to, used: false });
+        const key = pointKey(from);
+        const matches = edgesByStart.get(key);
+        if (matches) matches.push(edgeIndex);
+        else edgesByStart.set(key, [edgeIndex]);
+      };
+
+      for (let y = minY; y <= maxY; y += 1) {
+        for (let x = minX; x <= maxX; x += 1) {
+          const index = y * width + x;
+          if (!inside[index]) continue;
+          if (y === 0 || !inside[index - width]) addEdge({ x, y }, { x: x + 1, y });
+          if (x === width - 1 || !inside[index + 1]) addEdge({ x: x + 1, y }, { x: x + 1, y: y + 1 });
+          if (y === height - 1 || !inside[index + width]) addEdge({ x: x + 1, y: y + 1 }, { x, y: y + 1 });
+          if (x === 0 || !inside[index - 1]) addEdge({ x, y: y + 1 }, { x, y });
+        }
+      }
+
+      const pointDistance = (point: Point, start: Point, end: Point) => {
+        const dx = end.x - start.x;
+        const dy = end.y - start.y;
+        if (!dx && !dy) return Math.hypot(point.x - start.x, point.y - start.y);
+        const position = Math.max(0, Math.min(1, ((point.x - start.x) * dx + (point.y - start.y) * dy) / (dx * dx + dy * dy)));
+        return Math.hypot(point.x - (start.x + position * dx), point.y - (start.y + position * dy));
+      };
+      const simplify = (points: Point[], tolerance: number): Point[] => {
+        if (points.length <= 2) return points;
+        let furthestIndex = 0;
+        let furthestDistance = 0;
+        for (let index = 1; index < points.length - 1; index += 1) {
+          const distance = pointDistance(points[index], points[0], points[points.length - 1]);
+          if (distance > furthestDistance) {
+            furthestDistance = distance;
+            furthestIndex = index;
+          }
+        }
+        if (furthestDistance <= tolerance) return [points[0], points[points.length - 1]];
+        const first = simplify(points.slice(0, furthestIndex + 1), tolerance);
+        const second = simplify(points.slice(furthestIndex), tolerance);
+        return [...first.slice(0, -1), ...second];
+      };
+
+      const vectorPath = new Path2D();
+      edges.forEach((edge) => {
+        if (edge.used) return;
+        const loop: Point[] = [edge.from];
+        let currentEdge = edge;
+        while (!currentEdge.used) {
+          currentEdge.used = true;
+          loop.push(currentEdge.to);
+          if (pointKey(currentEdge.to) === pointKey(loop[0])) break;
+          const nextIndex = edgesByStart.get(pointKey(currentEdge.to))?.find((index) => !edges[index].used);
+          if (nextIndex === undefined) break;
+          currentEdge = edges[nextIndex];
+        }
+        if (loop.length < 16 || pointKey(loop[0]) !== pointKey(loop[loop.length - 1])) return;
+        const simplified = simplify(loop.slice(0, -1), 2.2);
+        if (simplified.length < 3) return;
+        vectorPath.moveTo(simplified[0].x, simplified[0].y);
+        for (let index = 0; index < simplified.length; index += 1) {
+          const point = simplified[index];
+          const next = simplified[(index + 1) % simplified.length];
+          vectorPath.quadraticCurveTo(point.x, point.y, (point.x + next.x) / 2, (point.y + next.y) / 2);
+        }
+        vectorPath.closePath();
+      });
+      mapPath = vectorPath;
       mapBounds = {
         x: Math.max(0, minX - 8),
         y: Math.max(0, minY - 8),
@@ -175,7 +226,7 @@ function RussiaMapCanvas({ language }: { language: Language }) {
     };
 
     const draw = () => {
-      if (!fillMask || !outlineLayer) return;
+      if (!mapPath) return;
       const width = canvas.clientWidth;
       const height = canvas.clientHeight;
       if (!width || !height) return;
@@ -196,25 +247,47 @@ function RussiaMapCanvas({ language }: { language: Language }) {
       const mapX = (width - mapWidth) / 2;
       const mapY = (height - mapHeight) / 2;
 
-      context.drawImage(fillMask, mapBounds.x, mapBounds.y, mapBounds.width, mapBounds.height, mapX, mapY, mapWidth, mapHeight);
-      context.globalCompositeOperation = 'source-in';
+      if (isWorld) {
+        context.save();
+        context.strokeStyle = 'rgb(159 102 40 / 38%)';
+        context.lineWidth = 1.25;
+        [-0.42, -0.28, -0.14, 0, 0.14, 0.28, 0.42].forEach((offset) => {
+          const centreX = mapX + mapWidth / 2;
+          const topX = centreX + offset * mapWidth * 0.48;
+          const middleX = centreX + offset * mapWidth;
+          context.beginPath();
+          context.moveTo(topX, mapY + mapHeight * 0.08);
+          context.bezierCurveTo(middleX, mapY + mapHeight * 0.3, middleX, mapY + mapHeight * 0.7, topX, mapY + mapHeight * 0.92);
+          context.stroke();
+        });
+        context.restore();
+      }
 
       const gold = context.createLinearGradient(mapX, mapY, mapX + mapWidth, mapY + mapHeight);
       gold.addColorStop(0, '#c99545');
       gold.addColorStop(0.5, '#f1d47d');
       gold.addColorStop(1, '#d7a650');
+      context.save();
+      context.translate(mapX - mapBounds.x * (mapWidth / mapBounds.width), mapY - mapBounds.y * (mapHeight / mapBounds.height));
+      context.scale(mapWidth / mapBounds.width, mapHeight / mapBounds.height);
       context.fillStyle = gold;
-      context.fillRect(mapX, mapY, mapWidth, mapHeight);
-      context.globalCompositeOperation = 'source-over';
-      context.drawImage(outlineLayer, mapBounds.x, mapBounds.y, mapBounds.width, mapBounds.height, mapX, mapY, mapWidth, mapHeight);
+      context.fill(mapPath);
+      context.strokeStyle = '#111111';
+      context.lineWidth = Math.max(1.6, 2.2 * mapBounds.width / mapWidth);
+      context.lineJoin = 'round';
+      context.lineCap = 'round';
+      context.stroke(mapPath);
+      context.restore();
 
-      const markers = [
-        // Albers equal-area projection (central meridian 90° E) fitted to the source outline and its 8 px mask padding.
-        { name: 'Санкт-Петербург', x: 0.144063, y: 0.457566 },
-        { name: 'Москва', x: 0.139739, y: 0.589989 },
-        { name: 'Тюмень', x: 0.322546, y: 0.742538 },
-        { name: 'Центр Республики Алтай', x: 0.469130, y: 0.944220 },
-      ];
+      const markers = isWorld
+        ? [{ name: 'Москва', x: 0.6044, y: 0.1903 }]
+        : [
+            // Albers equal-area projection (central meridian 90° E) fitted to the source outline and its 8 px mask padding.
+            { name: 'Санкт-Петербург', x: 0.144063, y: 0.457566 },
+            { name: 'Москва', x: 0.139739, y: 0.589989 },
+            { name: 'Тюмень', x: 0.322546, y: 0.742538 },
+            { name: 'Центр Республики Алтай', x: 0.469130, y: 0.944220 },
+          ];
       const iconSize = Math.max(28, Math.min(46, mapWidth / 22));
 
       markers.forEach((marker) => {
@@ -252,27 +325,29 @@ function RussiaMapCanvas({ language }: { language: Language }) {
     };
 
     mapImage.onload = () => {
-      prepareMapLayers();
+      prepareMapPath();
       draw();
     };
     locationLogo.onload = () => {
       prepareTreeLayer();
       draw();
     };
-    if (mapImage.complete && mapImage.naturalWidth) prepareMapLayers();
+    if (mapImage.complete && mapImage.naturalWidth) prepareMapPath();
     if (locationLogo.complete && locationLogo.naturalWidth) prepareTreeLayer();
     if (mapImage.complete && locationLogo.complete) draw();
     const observer = new ResizeObserver(draw);
     observer.observe(canvas);
     return () => observer.disconnect();
-  }, [language]);
+  }, [isWorld]);
 
   return (
     <canvas
       ref={canvasRef}
-      className="russia-map-canvas"
+      className={isWorld ? 'world-map-canvas' : 'russia-map-canvas'}
       role="img"
-      aria-label={language === 'ru' ? 'Карта России: Москва, Санкт-Петербург, Тюмень и центр Республики Алтай' : 'Map of Russia: Moscow, Saint Petersburg, Tyumen and the centre of the Altai Republic'}
+      aria-label={isWorld
+        ? (language === 'ru' ? 'Карта мира: Москва' : 'World map: Moscow')
+        : (language === 'ru' ? 'Карта России: Москва, Санкт-Петербург, Тюмень и центр Республики Алтай' : 'Map of Russia: Moscow, Saint Petersburg, Tyumen and the centre of the Altai Republic')}
     />
   );
 }
@@ -322,7 +397,7 @@ export default function Home() {
     containers.forEach((container) => {
       const selector = container.matches('.site-footer')
         ? ':scope > h2, :scope > .footer-contact'
-        : 'h1, h2, h3, p, li, .text-button, .panel-wide, .section-divider, .russia-map-canvas';
+        : 'h1, h2, h3, p, li, .text-button, .panel-wide, .section-divider, .russia-map-canvas, .world-map-canvas, .events-table, .offer-gallery';
       const items = container.querySelectorAll<HTMLElement>(selector);
       items.forEach((item, index) => {
         item.classList.add('reveal-item');
@@ -376,7 +451,7 @@ export default function Home() {
       <section className="site-section hero" id="top">
         <div className="hero-intro">
           <h1>{ru ? 'Древо жизни' : 'The Tree of Life'}</h1>
-          <p className="hero-quote">{ru ? '«С севера пришли они, отважные мужчины и женщины, образующие сильный Народ, продолжающие следовать путём Духа, Души, Сознания, Крови, Совести, Воли и Сокровенной Истины. Именно это вдохнуло в них огромную силу предназначения. В их сердцах пылает огонь стремления, и пламя это позволяет им действовать и созидать».' : '“They came from the North, courageous men and women forming a strong people, continuing along the path of Spirit, Soul, Consciousness, Blood, Conscience, Will and Innermost Truth. This breathed into them the immense power of purpose. The fire of aspiration burns in their hearts, and this flame enables them to act and create.”'}</p>
+          <p className="hero-quote">{ru ? 'С Севера пришли они, мужчины и женщины, образующие сильный Народ, продолжающие следовать путём Духа, Души, Сознания, Крови, Совести, Воли, Света и Сокровенной Истины, в ком сильна Память. Именно это вдохнуло в них огромную силу Предназначения. В их сердцах пылает огонь стремления, и пламя это позволяет им Созидать, СоТворять.' : '“They came from the North, courageous men and women forming a strong people, continuing along the path of Spirit, Soul, Consciousness, Blood, Conscience, Will and Innermost Truth. This breathed into them the immense power of purpose. The fire of aspiration burns in their hearts, and this flame enables them to act and create.”'}</p>
         </div>
         <figure className="panel-wide">
           <img src="./assets/panel-tree-cutout.png" alt={ru ? 'Эскиз панно «Древо жизни»' : 'Tree of Life panel sketch'} />
@@ -390,14 +465,14 @@ export default function Home() {
           <p className="dark-gradient-text">
             {ru ? <><span ref={panelAlignmentAnchorRef}>П</span>роект “СОЛНЦЕ.КУЛЬТУРА” выбирает путь жизни: помогает раскрыть Творца в Человеке, запускает импульс проявления Культурного Кода, формирования Культурного Поля жизни и жизнетворения, формирования Среды СоТворения, укрепляет Национальную Идентичность Народа и Культурный Суверенитет Родины для формирования Нового Мира.</> : <><span ref={panelAlignmentAnchorRef}>S</span>OLNTSE.CULTURE chooses the path of life: it helps reveal the creator within each person, gives an impulse to the Cultural Code and a life-giving Cultural Field, creates an environment of co-creation, and strengthens national identity and cultural sovereignty.</>}
           </p>
-          <p>{ru ? 'Мы предлагаем творческий объект «ДРЕВО ЖИЗНИ» как символ, образ для всех, кто выбирает путь жизни и жизнетворения, предлагаем объединяться и СоТворять Новый Мир.' : 'We offer THE TREE OF LIFE as a symbol for everyone choosing life and life-giving creation, and invite people to unite and co-create a New World.'}</p>
+          <p>{ru ? 'Мы предлагаем творческий объект “ДРЕВО ЖИЗНИ” как символ, образ для всех, кто выбирает путь жизни и жизнетворения, предлагаем объединяться и СоТворять Новый Мир.' : 'We offer THE TREE OF LIFE as a symbol for everyone choosing life and life-giving creation, and invite people to unite and co-create a New World.'}</p>
         </article>
       </section>
 
       <section className="site-section project-section" id="project">
         <div className="project-copy">
           <h2>{ru ? 'Проект Древо жизни' : 'The Tree of Life project'}</h2>
-          <p>{ru ? '«ДРЕВО ЖИЗНИ» представлено в формате монументального панно.' : 'THE TREE OF LIFE is presented as a monumental panel.'}</p>
+          <p>{ru ? '“ДРЕВО ЖИЗНИ” представлено в формате монументального панно.' : 'THE TREE OF LIFE is presented as a monumental panel.'}</p>
           <p className="dark-gradient-text">{ru ? 'Основной смысл панно – наше волеизъявление в выборе жизни и жизнетворения.' : 'The central meaning of the panel is our conscious choice of life and life-giving creation.'}</p>
         </div>
       </section>
@@ -438,17 +513,83 @@ export default function Home() {
         </article>
       </section>
 
+      <section className="site-section offer-section" id="offer">
+        <h2>{ru ? 'Наше предложение' : 'Our proposal'}</h2>
+        <article className="offer-promotion">
+          <h3 className="offer-label">{ru ? '1. Продвижение' : '1. Promotion'}</h3>
+          <p>{ru ? 'Сотрудничество с целью демонстрации панно и совместных проектов с выставочными площадками, информационными партнерами, деятелями культуры, меценатами, предпринимателями и другими заинтересованными лицами.' : 'Cooperation to present the panel and create joint projects with exhibition venues, media partners, cultural practitioners, patrons, entrepreneurs and other interested parties.'}</p>
+          <a className="text-button" href="tel:+79151643278">{ru ? 'Связаться' : 'Contact us'}</a>
+        </article>
+        <div className="offer-divider" aria-hidden="true" />
+        <article className="offer-order">
+          <h3 className="offer-label">{ru ? '2. Индивидуальный заказ' : '2. Bespoke commission'}</h3>
+          <p>{ru ? 'Изготовление панно по индивидуальному заказу для частных лиц, организаций, государственных структур в поддержку общего волеизъявления в выборе жизни и жизнетворения.' : 'A bespoke panel for individuals, organisations and government bodies in support of the shared choice of life and life-giving creation.'}</p>
+          <p>{ru ? 'Панно изготавливается индивидуально с учётом цели:' : 'Each panel is created individually according to its purpose:'}</p>
+          <ul>
+            <li>{ru ? 'Символ живого мира.' : 'A symbol of a living world.'}</li>
+            <li>{ru ? 'Родовое древо для Вашей истории.' : 'A family tree for your story.'}</li>
+            <li>{ru ? 'Древо — символ устойчивости и развития организации.' : 'A tree symbolising the resilience and growth of an organisation.'}</li>
+            <li>{ru ? 'Древо — символ устойчивости и развития региона.' : 'A tree symbolising the resilience and growth of a region.'}</li>
+          </ul>
+          <p>{ru ? 'Разработка индивидуального концепта включает в себя: подбор смыслов, разработку индивидуальной истории, высокохудожественного эскиза, подбор материалов. Уникальное для Вас панно изготавливается в единственном экземпляре.' : 'The bespoke concept includes meanings, an individual story, a highly artistic sketch and selected materials. Your unique panel is made as a single edition.'}</p>
+          <p>{ru ? 'Это то, что будет вечно и передаваться из поколения в поколение.' : 'It is something eternal, passed from one generation to the next.'}</p>
+          <a className="text-button" href="tel:+79151643278">{ru ? 'Связаться' : 'Contact us'}</a>
+        </article>
+        <div className="offer-gallery" aria-label={ru ? 'Примеры художественных деталей панно' : 'Examples of artistic panel details'}>
+          {[0, 1, 2].map((item) => (
+            <figure className={`offer-gallery-item offer-gallery-item-${item + 1}`} key={item}>
+              <img src="./assets/panel-detail.png" alt={ru ? `Фрагмент техники панно ${item + 1}` : `Panel technique detail ${item + 1}`} />
+            </figure>
+          ))}
+        </div>
+        <div className="preview-copy">
+          <p>{ru ? 'Сейчас “ДРЕВО ЖИЗНИ” находится в исполнении, завершение — 2026 год. Панно открыто для индивидуального просмотра партнёрами и заказчиками.' : 'THE TREE OF LIFE is currently in production and will be completed in 2026. The panel is open for private previews by partners and clients.'}</p>
+          <a className="text-button" href="tel:+79151643278">{ru ? 'Связаться для предварительного просмотра' : 'Arrange a private preview'}</a>
+        </div>
+      </section>
+
+      <section className="site-section events-section" id="events">
+        <h2>{ru ? 'Презентация панно Древо жизни' : 'Tree of Life panel presentation'}</h2>
+        <div className="events-content">
+          <h3 className="subsection-title">{ru ? 'Будущие мероприятия' : 'Upcoming events'}</h3>
+          <div className="events-table-wrap">
+            <table className="events-table">
+              <thead>
+                <tr>
+                  <th scope="col">{ru ? 'Дата' : 'Date'}</th>
+                  <th scope="col">{ru ? 'Мероприятие' : 'Event'}</th>
+                  <th scope="col">{ru ? 'Место проведения' : 'Venue'}</th>
+                  <th scope="col">{ru ? 'Ссылка на мероприятие' : 'Event link'}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="events-empty-row">
+                  <td colSpan={4}>{ru ? 'Информация о ближайших мероприятиях появится здесь.' : 'Information about upcoming events will appear here.'}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
       <section className="site-section geography-section" id="geography">
         <h2>{ru ? 'Мы в России' : 'In Russia'}</h2>
-        <RussiaMapCanvas language={language} />
+        <MapCanvas language={language} kind="russia" />
         <p>{ru ? 'Связаться с нами для участия Вашего региона в проекте.' : 'Contact us if you would like your region to take part in the project.'}</p>
+        <a className="text-button" href="tel:+79151643278">{ru ? 'Связаться' : 'Contact us'}</a>
+      </section>
+
+      <section className="site-section geography-section world-section" id="world">
+        <h2>{ru ? 'Мы в мире' : 'In the world'}</h2>
+        <MapCanvas language={language} kind="world" />
+        <p>{ru ? 'Связаться с нами для участия Вашей страны в проекте.' : 'Contact us if you would like your country to take part in the project.'}</p>
         <a className="text-button" href="tel:+79151643278">{ru ? 'Связаться' : 'Contact us'}</a>
       </section>
 
       <footer className="site-footer" id="contacts">
         <h2>{ru ? 'КОНТАКТЫ' : 'CONTACTS'}</h2>
         <div className="footer-contact">
-          <p><strong>{ru ? 'ТЕЛЕФОН' : 'TELEPHONE'}</strong> +7 915 164 32 78</p>
+          <p><strong>{ru ? 'ТЕЛЕФОН' : 'TELEPHONE'}</strong> 8 915 164 32 78</p>
           <p><strong>{ru ? 'ПОЧТА' : 'EMAIL'}</strong> solntse.kultura@mail.ru</p>
         </div>
       </footer>
