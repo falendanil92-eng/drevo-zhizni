@@ -245,7 +245,7 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
 .offer-section { min-height: auto; align-content: start; padding-top: 2.5cm; }
 .offer-section > h2 { grid-column: 3 / 11; margin-bottom: clamp(34px, 4vw, 60px); }
 .offer-promotion, .offer-order { grid-column: 3 / 11; position: relative; }
-.offer-promotion { padding-bottom: clamp(28px, 3.5vw, 50px); text-align: center; }
+.offer-promotion { padding-bottom: clamp(28px, 3.5vw, 50px); }
 .offer-order { padding-top: clamp(28px, 3.5vw, 50px); }
 .offer-label {
   margin: 0 0 clamp(22px, 2.5vw, 34px);
@@ -255,11 +255,12 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
   line-height: 1.2;
   text-transform: uppercase;
 }
-.offer-promotion > p:not(.offer-label) { max-width: 76%; margin-inline: auto; line-height: 1.42; }
+.offer-promotion > p:not(.offer-label) { margin: 0; line-height: 1.42; }
 .offer-order > p, .offer-order li { line-height: 1.42; }
 .offer-order > p { margin-bottom: 18px; }
-.offer-order ul { margin: 10px 0 22px; padding-left: 1.2em; }
+.offer-order ul { margin: 10px 0 28px; padding-left: 1.35em; }
 .offer-order li { margin-bottom: 14px; text-align: left; }
+.offer-order li::marker { color: #111; font-size: .82em; }
 .offer-promotion .text-button, .offer-order .text-button { margin-top: 22px; }
 .offer-divider {
   grid-column: 1 / 13;
@@ -302,7 +303,7 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
 .preview-copy .text-button {
   display: flex;
   width: max-content;
-  margin: 18px calc((100% - min(100%, clamp(533.33px, 55.11vw, 817.78px))) / 2) 0 auto;
+  margin: 18px 0 0;
 }
 
 .events-section { min-height: auto; align-content: start; padding: 2.5cm 0; }
@@ -377,6 +378,11 @@ main > :not(.site-footer) :is(h1, h2, p, li, a, button, span) { text-align: cent
 main > .panel-section .panel-content li { text-align: left; }
 main > .panel-section .technique-copy p,
 main > .panel-section .technique-copy li { text-align: left; }
+main > .offer-section .offer-promotion p,
+main > .offer-section .offer-order p,
+main > .offer-section .offer-order li,
+main > .offer-section .preview-copy p { text-align: left; }
+main > .offer-section .text-button { text-align: center; }
 
 .reveal-item {
   opacity: 0;
