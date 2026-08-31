@@ -281,7 +281,6 @@ export default function Home() {
   const [language, setLanguage] = useState<Language>('ru');
   const [menuOpen, setMenuOpen] = useState(false);
   const panelAlignmentAnchorRef = useRef<HTMLSpanElement>(null);
-  const panelVideoRef = useRef<HTMLVideoElement>(null);
   const ru = language === 'ru';
 
   useEffect(() => {
@@ -349,40 +348,6 @@ export default function Home() {
     return () => observer.disconnect();
   }, []);
 
-  useEffect(() => {
-    const video = panelVideoRef.current;
-    if (!video) return;
-
-    let isThirtyPercentVisible = false;
-
-    const applySoundRule = () => {
-      video.muted = !isThirtyPercentVisible;
-      if (isThirtyPercentVisible) {
-        void video.play().catch(() => {
-          video.muted = true;
-          void video.play().catch(() => undefined);
-        });
-      }
-    };
-
-    const observer = new IntersectionObserver(([entry]) => {
-      isThirtyPercentVisible = entry.isIntersecting && entry.intersectionRatio >= 0.35;
-      applySoundRule();
-    }, { threshold: [0, 0.35, 1] });
-
-    const retryAfterInteraction = () => applySoundRule();
-    observer.observe(video);
-    window.addEventListener('pointerdown', retryAfterInteraction, { passive: true });
-    window.addEventListener('keydown', retryAfterInteraction);
-
-    return () => {
-      observer.disconnect();
-      window.removeEventListener('pointerdown', retryAfterInteraction);
-      window.removeEventListener('keydown', retryAfterInteraction);
-      video.muted = true;
-    };
-  }, []);
-
   const closeMenu = () => setMenuOpen(false);
 
   return (
@@ -441,13 +406,17 @@ export default function Home() {
         <div className="panel-content">
           <h3 className="subsection-title">{ru ? 'О панно' : 'The panel'}</h3>
           <ul>{panelFacts[language].map((fact, index) => (
-            <li key={fact} className={index === 7 ? 'two-line-fact' : undefined}>
-              {index === 7 ? (ru ? <>Используемый материал – натуральный лен, 3 500 метров хлопкового шнура,<br />перевитого вручную и выложенного непрерывно.</> : <>The materials are natural linen and 3,500 metres of cotton cord,<br />twisted by hand and laid continuously.</>) : fact}
+            <li key={fact} className={index === panelFacts[language].length - 3 ? 'panel-fact-two-lines' : undefined}>
+              {index === panelFacts[language].length - 3
+                ? (ru
+                    ? <><span>Используемый материал – натуральный лен, 3 500 метров</span>{' '}<span>хлопкового шнура, перевитого вручную и выложенного непрерывно.</span></>
+                    : <><span>The materials are natural linen and 3,500 metres of cotton cord,</span>{' '}<span>twisted by hand and laid continuously.</span></>)
+                : fact}
             </li>
           ))}</ul>
         </div>
         <figure className="panel-video">
-          <video ref={panelVideoRef} autoPlay muted loop playsInline controls preload="metadata" aria-label={ru ? 'Видео о создании панно «Древо жизни»' : 'Video showing the creation of the Tree of Life panel'}>
+          <video autoPlay loop playsInline controls preload="auto" aria-label={ru ? 'Видео о создании панно «Древо жизни»' : 'Video showing the creation of the Tree of Life panel'}>
             <source src="./assets/panel-process.mp4" type="video/mp4" />
           </video>
         </figure>

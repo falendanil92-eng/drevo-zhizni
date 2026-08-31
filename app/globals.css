@@ -209,6 +209,12 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
   border-radius: 50%;
   background: linear-gradient(135deg, #7d0d12 0%, #c93b42 48%, #8f1116 100%);
 }
+@media (min-width: 861px) {
+  .panel-content li.panel-fact-two-lines > span {
+    display: block;
+    white-space: nowrap;
+  }
+}
 .technique-copy { margin-top: 2.5cm; }
 .technique-copy p { margin: 0 0 clamp(20px, 2vw, 30px); line-height: 1.42; }
 .technique-copy p:last-child { margin-bottom: 0; }
@@ -382,14 +388,18 @@ main > .panel-section .technique-copy li { text-align: left; }
     width: 100%;
     margin-left: 0;
   }
-  .panel-content { grid-column: 1 / 13; padding: 0 16px; }
+  .panel-content { grid-column: 1 / 13; padding: 0 20px; }
   .panel-content li {
     max-width: 100%;
-    font-size: clamp(8px, 2.4vw, 12px);
-    letter-spacing: -.02em;
-    white-space: nowrap;
+    margin-bottom: 12px;
+    padding-left: 1.35em;
+    font-size: clamp(13px, 3.6vw, 16px);
+    line-height: 1.35;
+    letter-spacing: 0;
+    white-space: normal;
+    overflow-wrap: break-word;
   }
-  .panel-video { grid-column: 1 / 13; width: calc(100% - 10.67cm); }
+  .panel-video { grid-column: 1 / 13; width: calc(100% - 32px); }
   .russia-map-canvas { grid-column: 1 / 13; width: calc(100% - 2cm); height: clamp(280px, calc((100vw - 2cm) / 1.65), 480px); }
   .section-divider { margin: calc(1.5cm - 5px) 0; }
   .panel-summary { padding-top: 0; }
