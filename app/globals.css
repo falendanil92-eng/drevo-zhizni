@@ -262,7 +262,11 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
 .offer-order ul { margin: 0 0 clamp(20px, 2vw, 30px); padding-left: 1.35em; }
 .offer-order li { margin-bottom: 8px; text-align: left; }
 .offer-order li::marker { color: #111; font-size: .82em; }
-.offer-promotion .text-button, .offer-order .text-button { margin-top: 18px; }
+.offer-promotion .text-button, .offer-order .text-button {
+  display: flex;
+  width: max-content;
+  margin: 18px 0 0 auto;
+}
 .offer-divider {
   grid-column: 1 / 13;
   justify-self: center;
