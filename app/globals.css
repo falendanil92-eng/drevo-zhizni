@@ -382,10 +382,12 @@ main > .panel-section .technique-copy li { text-align: left; }
     width: 100%;
     margin-left: 0;
   }
+  .panel-content { grid-column: 1 / 13; padding: 0 16px; }
   .panel-content li {
     max-width: 100%;
-    white-space: normal;
-    overflow-wrap: anywhere;
+    font-size: clamp(8px, 2.4vw, 12px);
+    letter-spacing: -.02em;
+    white-space: nowrap;
   }
   .panel-video { grid-column: 1 / 13; width: calc(100% - 10.67cm); }
   .russia-map-canvas { grid-column: 1 / 13; width: calc(100% - 2cm); height: clamp(280px, calc((100vw - 2cm) / 1.65), 480px); }
