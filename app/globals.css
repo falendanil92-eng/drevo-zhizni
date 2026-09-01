@@ -146,13 +146,17 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
 .project-copy p { margin-bottom: 10px; line-height: 1.4; }
 .project-copy p:last-child { margin-bottom: 0; }
 .red-gradient-underline {
-  background-image: linear-gradient(90deg, #7d0d12 0%, #c93b42 48%, #8f1116 100%);
-  background-repeat: no-repeat;
-  background-position: 0 100%;
-  background-size: 100% 2px;
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
-  padding-bottom: 2px;
+  position: relative;
+  display: inline-block;
+}
+.red-gradient-underline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #7d0d12 0%, #c93b42 48%, #8f1116 100%);
 }
 .panel-wide {
   grid-column: 3 / 11;
@@ -203,20 +207,20 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
 .panel-content li {
   position: relative;
   margin-bottom: 8px;
-  padding-left: 1.15em;
+  padding-left: 25.6px;
   line-height: 1.34;
   text-align: left;
   white-space: nowrap;
 }
-.panel-content li::before, .technique-copy li::before {
+.panel-content li::before, .technique-copy li::before, .offer-order li::before {
   content: '';
   position: absolute;
-  top: .62em;
-  left: -3.5px;
-  width: 7px;
-  height: 7px;
+  top: .5em;
+  left: 0;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #7d0d12 0%, #c93b42 48%, #8f1116 100%);
+  background: linear-gradient(135deg, #cc3738, #820809);
 }
 .panel-content li.panel-fact-two-lines > span {
   font-size: inherit;
@@ -236,7 +240,7 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
   padding-left: 0;
   list-style: none;
 }
-.technique-copy li { position: relative; margin-bottom: clamp(16px, 1.8vw, 26px); padding-left: 1.15em; line-height: 1.42; }
+.technique-copy li { position: relative; margin-bottom: clamp(16px, 1.8vw, 26px); padding-left: 25.6px; line-height: 1.42; }
 .section-divider {
   grid-column: 1 / 13;
   justify-self: center;
@@ -257,20 +261,31 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
 .offer-promotion { padding-bottom: 0; }
 .offer-order { padding-top: 0; }
 .offer-label {
+  position: relative;
   margin: 0 0 clamp(24px, 2.5vw, 36px);
+  padding-left: 25.6px;
   font-family: 'Nunito Sans', Arial, sans-serif;
   font-size: clamp(22px, 2vw, 28px);
   font-weight: 800;
   line-height: 1.2;
   text-transform: uppercase;
 }
+.offer-label::before {
+  content: '';
+  position: absolute;
+  top: .35em;
+  left: 0;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #cc3738, #820809);
+}
 .offer-promotion > p:not(.offer-label) { margin: 0; line-height: 1.42; }
 .offer-order > p, .offer-order li { line-height: 1.42; }
 .offer-order > p { margin-bottom: clamp(20px, 2vw, 30px); }
 .offer-order > p:last-of-type { margin-bottom: 0; }
-.offer-order ul { margin: 0 0 clamp(20px, 2vw, 30px); padding-left: 1.35em; }
-.offer-order li { margin-bottom: 8px; text-align: left; }
-.offer-order li::marker { color: #111; font-size: .82em; }
+.offer-order ul { margin: 0 0 clamp(20px, 2vw, 30px); padding: 0; list-style: none; }
+.offer-order li { position: relative; margin-bottom: 8px; padding-left: 25.6px; text-align: left; }
 .offer-promotion .text-button, .offer-order .text-button {
   display: flex;
   width: max-content;
@@ -327,28 +342,25 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
 .events-content .subsection-title { margin-left: 0; }
 .events-table-wrap {
   overflow-x: auto;
-  border: 1px solid rgb(159 102 40 / 55%);
-  box-shadow: 0 16px 42px rgb(99 55 18 / 8%);
+  border: 1px solid #000;
 }
 .events-table {
   width: 100%;
   min-width: 760px;
   border-spacing: 0;
-  border-collapse: separate;
+  border-collapse: collapse;
+  background: var(--paper);
   font-size: var(--body-size);
 }
 .events-table th, .events-table td {
   padding: 18px 20px;
-  border-right: 1px solid rgb(159 102 40 / 28%);
-  border-bottom: 1px solid rgb(159 102 40 / 28%);
-  text-align: left;
+  border: 1px solid #000;
+  background: var(--paper);
+  text-align: center;
   vertical-align: middle;
 }
-.events-table th:last-child, .events-table td:last-child { border-right: 0; }
-.events-table tbody tr:last-child td { border-bottom: 0; }
 .events-table th {
-  color: #4b280f;
-  background: linear-gradient(110deg, rgb(224 182 82 / 28%), rgb(198 152 75 / 12%));
+  color: var(--ink);
   font-size: var(--body-size);
   font-weight: 800;
   white-space: nowrap;

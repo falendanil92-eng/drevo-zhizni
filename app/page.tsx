@@ -536,13 +536,13 @@ export default function Home() {
       <section className="site-section offer-section" id="offer">
         <h2>{ru ? 'Наше предложение' : 'Our proposal'}</h2>
         <article className="offer-promotion">
-          <h3 className="offer-label">{ru ? '• Продвижение' : '• Promotion'}</h3>
+          <h3 className="offer-label">{ru ? 'Продвижение' : 'Promotion'}</h3>
           <p>{ru ? 'Сотрудничество с целью демонстрации панно и совместных проектов с выставочными площадками, информационными партнерами, деятелями культуры, меценатами, предпринимателями и другими заинтересованными лицами.' : 'Cooperation to present the panel and create joint projects with exhibition venues, media partners, cultural practitioners, patrons, entrepreneurs and other interested parties.'}</p>
           <a className="text-button" href="tel:+79151643278">{ru ? 'Связаться' : 'Contact us'}</a>
         </article>
         <div className="offer-divider" aria-hidden="true" />
         <article className="offer-order">
-          <h3 className="offer-label">{ru ? '• Индивидуальный заказ' : '• Bespoke commission'}</h3>
+          <h3 className="offer-label">{ru ? 'Индивидуальный заказ' : 'Bespoke commission'}</h3>
           <p>{ru ? 'Изготовление панно по индивидуальному заказу для частных лиц, организаций, государственных структур в поддержку общего волеизъявления в выборе жизни и жизнетворения.' : 'A bespoke panel for individuals, organisations and government bodies in support of the shared choice of life and life-giving creation.'}</p>
           <p>{ru ? 'Панно изготавливается индивидуально с учётом цели:' : 'Each panel is created individually according to its purpose:'}</p>
           <ul>
