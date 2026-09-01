@@ -146,17 +146,10 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
 .project-copy p { margin-bottom: 10px; line-height: 1.4; }
 .project-copy p:last-child { margin-bottom: 0; }
 .red-gradient-underline {
-  position: relative;
-  display: inline-block;
-}
-.red-gradient-underline::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 2px;
-  background: linear-gradient(90deg, #7d0d12 0%, #c93b42 48%, #8f1116 100%);
+  text-decoration-line: underline;
+  text-decoration-color: #9b1617;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
 }
 .panel-wide {
   grid-column: 3 / 11;
