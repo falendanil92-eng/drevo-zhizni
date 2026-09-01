@@ -41,14 +41,14 @@ function MapCanvas({ language, kind }: { language: Language; kind: 'russia' | 'w
 
     const basePath = window.location.pathname.startsWith('/drevo-zhizni') ? '/drevo-zhizni' : '';
     const mapImage = new Image();
-    const worldLandMask = new Image();
+    const landMask = new Image();
     const locationLogo = new Image();
     let mapPath: Path2D | null = null;
     let treeLayer: HTMLCanvasElement | null = null;
     let mapBounds = { x: 0, y: 0, width: 1, height: 1 };
 
-    mapImage.src = `${basePath}/assets/${isWorld ? 'world-map-trace.png' : 'russia-map-photo.jpg'}`;
-    if (isWorld) worldLandMask.src = `${basePath}/assets/world-map-land-mask.png`;
+    mapImage.src = `${basePath}/assets/${isWorld ? 'world-map-trace.png' : 'russia-map-trace.png'}`;
+    landMask.src = `${basePath}/assets/${isWorld ? 'world-map-land-mask.png' : 'russia-map-land-mask.png'}`;
     locationLogo.src = `${basePath}/assets/tree-mark.png`;
 
     const prepareTreeLayer = () => {
@@ -68,17 +68,6 @@ function MapCanvas({ language, kind }: { language: Language; kind: 'russia' | 'w
     };
 
     const prepareMapPath = () => {
-      if (isWorld) {
-        mapPath = new Path2D();
-        mapBounds = {
-          x: 0,
-          y: 0,
-          width: mapImage.naturalWidth,
-          height: mapImage.naturalHeight,
-        };
-        return;
-      }
-
       mapPath = new Path2D();
       mapBounds = {
         x: 0,
@@ -115,23 +104,19 @@ function MapCanvas({ language, kind }: { language: Language; kind: 'russia' | 'w
       gold.addColorStop(0, '#c99545');
       gold.addColorStop(0.5, '#f1d47d');
       gold.addColorStop(1, '#d7a650');
-      if (isWorld) {
-        if (!worldLandMask.naturalWidth) return;
-        const landLayer = document.createElement('canvas');
-        landLayer.width = canvas.width;
-        landLayer.height = canvas.height;
-        const landContext = landLayer.getContext('2d');
-        if (!landContext) return;
-        landContext.setTransform(ratio, 0, 0, ratio, 0, 0);
-        landContext.fillStyle = '#e0b652';
-        landContext.fillRect(mapX, mapY, mapWidth, mapHeight);
-        landContext.globalCompositeOperation = 'destination-in';
-        landContext.drawImage(worldLandMask, mapX, mapY, mapWidth, mapHeight);
-        context.drawImage(landLayer, 0, 0, width, height);
-        context.drawImage(mapImage, mapX, mapY, mapWidth, mapHeight);
-      } else {
-        context.drawImage(mapImage, mapX, mapY, mapWidth, mapHeight);
-      }
+      if (!landMask.naturalWidth) return;
+      const landLayer = document.createElement('canvas');
+      landLayer.width = canvas.width;
+      landLayer.height = canvas.height;
+      const landContext = landLayer.getContext('2d');
+      if (!landContext) return;
+      landContext.setTransform(ratio, 0, 0, ratio, 0, 0);
+      landContext.fillStyle = isWorld ? '#e0b652' : gold;
+      landContext.fillRect(mapX, mapY, mapWidth, mapHeight);
+      landContext.globalCompositeOperation = 'destination-in';
+      landContext.drawImage(landMask, mapX, mapY, mapWidth, mapHeight);
+      context.drawImage(landLayer, 0, 0, width, height);
+      context.drawImage(mapImage, mapX, mapY, mapWidth, mapHeight);
 
       const markers = isWorld
         ? [{ name: 'Москва', x: 0.6044, y: 0.1903 }]
@@ -144,14 +129,7 @@ function MapCanvas({ language, kind }: { language: Language; kind: 'russia' | 'w
           ];
       const baseIconSize = Math.max(28, Math.min(46, mapWidth / 22));
       const iconSize = isWorld ? baseIconSize : baseIconSize * 3;
-      const markerArea = isWorld
-        ? { x: mapX, y: mapY, width: mapWidth, height: mapHeight }
-        : {
-            x: mapX + mapWidth * (186 / 1206),
-            y: mapY + mapHeight * (178 / 898),
-            width: mapWidth * ((1058 - 186) / 1206),
-            height: mapHeight * ((697 - 178) / 898),
-          };
+      const markerArea = { x: mapX, y: mapY, width: mapWidth, height: mapHeight };
 
       markers.forEach((marker) => {
         const halfIcon = iconSize / 2;
@@ -195,10 +173,10 @@ function MapCanvas({ language, kind }: { language: Language; kind: 'russia' | 'w
       prepareTreeLayer();
       draw();
     };
-    worldLandMask.onload = draw;
+    landMask.onload = draw;
     if (mapImage.complete && mapImage.naturalWidth) prepareMapPath();
     if (locationLogo.complete && locationLogo.naturalWidth) prepareTreeLayer();
-    if (isWorld && worldLandMask.complete && worldLandMask.naturalWidth) draw();
+    if (landMask.complete && landMask.naturalWidth) draw();
     if (mapImage.complete && locationLogo.complete) draw();
     const observer = new ResizeObserver(draw);
     observer.observe(canvas);
@@ -344,7 +322,7 @@ export default function Home() {
 
       <section className="site-section panel-section" id="panel">
         <div className="panel-content">
-          <h3 className="subsection-title matching-offer-label">{ru ? 'О панно' : 'The panel'}</h3>
+          <h3 className="subsection-title">{ru ? 'О панно' : 'The panel'}</h3>
           <ul>{panelFacts[language].map((fact, index) => (
             <li key={fact} className={index === panelFacts[language].length - 3 ? 'panel-fact-two-lines' : undefined}>
               {index === panelFacts[language].length - 3
@@ -361,7 +339,7 @@ export default function Home() {
           </video>
         </figure>
         <article className="technique-copy">
-          <h3 className="subsection-title matching-offer-label">{ru ? 'О технике сажение по бели' : 'About the sazhene po beli technique'}</h3>
+          <h3 className="subsection-title">{ru ? 'О технике сажение по бели' : 'About the sazhene po beli technique'}</h3>
           <p>{ru ? 'Изучение европейской и азиатской истории искусств показывает, что рельефное жемчужное шитье всегда оставалось прерогативой узкого круга — верховной знати и высшего духовенства. На Руси сложилась диаметрально противоположная ситуация, обусловленная двумя факторами.' : 'The history of European and Asian art shows that raised pearl embroidery remained the privilege of a narrow circle — the highest nobility and senior clergy. In Rus, a diametrically opposite situation emerged due to two factors.'}</p>
           <ol>
             <li>{ru ? 'Реки Русского Севера (бассейны Северной Двины, Онеги, реки Кольского полуострова) были естественным ареалом обитания пресноводной жемчужницы. Добыча речного (скатного) жемчуга была традиционным промыслом, доступным местному населению.' : 'The rivers of the Russian North (the basins of the Northern Dvina and Onega and the rivers of the Kola Peninsula) were a natural habitat for freshwater pearl mussels. Harvesting river pearls was a traditional craft available to local communities.'}</li>
