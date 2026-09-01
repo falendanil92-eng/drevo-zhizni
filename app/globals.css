@@ -196,6 +196,21 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
   line-height: 1.2;
   text-align: left;
 }
+.subsection-title.matching-offer-label {
+  position: relative;
+  padding-left: 25.6px;
+  text-transform: uppercase;
+}
+.subsection-title.matching-offer-label::before {
+  content: '';
+  position: absolute;
+  top: .35em;
+  left: 0;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #cc3738, #820809);
+}
 .panel-content ul { margin: 0; padding: 0; list-style: none; }
 .panel-content li {
   position: relative;

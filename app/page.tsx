@@ -47,7 +47,7 @@ function MapCanvas({ language, kind }: { language: Language; kind: 'russia' | 'w
     let treeLayer: HTMLCanvasElement | null = null;
     let mapBounds = { x: 0, y: 0, width: 1, height: 1 };
 
-    mapImage.src = `${basePath}/assets/${isWorld ? 'world-map-trace.png' : 'russia-map-source.jpg'}`;
+    mapImage.src = `${basePath}/assets/${isWorld ? 'world-map-trace.png' : 'russia-map-photo.jpg'}`;
     if (isWorld) worldLandMask.src = `${basePath}/assets/world-map-land-mask.png`;
     locationLogo.src = `${basePath}/assets/tree-mark.png`;
 
@@ -79,164 +79,14 @@ function MapCanvas({ language, kind }: { language: Language; kind: 'russia' | 'w
         return;
       }
 
-      const source = document.createElement('canvas');
-      source.width = mapImage.naturalWidth;
-      source.height = mapImage.naturalHeight;
-      const sourceContext = source.getContext('2d', { willReadFrequently: true });
-      if (!sourceContext) return;
-      sourceContext.drawImage(mapImage, 0, 0);
-
-      const { width, height } = source;
-      const sourcePixels = sourceContext.getImageData(0, 0, width, height);
-      const sealed = new Uint8Array(width * height);
-      const outside = new Uint8Array(width * height);
-
-      for (let index = 0; index < width * height; index += 1) {
-        const pixel = index * 4;
-        const luminance = sourcePixels.data[pixel] * 0.299 + sourcePixels.data[pixel + 1] * 0.587 + sourcePixels.data[pixel + 2] * 0.114;
-        if (luminance < 115) sealed[index] = 1;
-      }
-
-      const closedOutline = sealed.slice();
-      const sealRadius = 1;
-      for (let y = sealRadius; y < height - sealRadius; y += 1) {
-        for (let x = sealRadius; x < width - sealRadius; x += 1) {
-          const index = y * width + x;
-          if (!sealed[index]) continue;
-          for (let offsetY = -sealRadius; offsetY <= sealRadius; offsetY += 1) {
-            for (let offsetX = -sealRadius; offsetX <= sealRadius; offsetX += 1) {
-              closedOutline[(y + offsetY) * width + x + offsetX] = 1;
-            }
-          }
-        }
-      }
-
-      const queue = new Int32Array(width * height);
-      let head = 0;
-      let tail = 0;
-      const enqueue = (index: number) => {
-        if (outside[index] || closedOutline[index]) return;
-        outside[index] = 1;
-        queue[tail] = index;
-        tail += 1;
-      };
-
-      for (let x = 0; x < width; x += 1) {
-        enqueue(x);
-        enqueue((height - 1) * width + x);
-      }
-      for (let y = 0; y < height; y += 1) {
-        enqueue(y * width);
-        enqueue(y * width + width - 1);
-      }
-
-      while (head < tail) {
-        const index = queue[head];
-        head += 1;
-        const x = index % width;
-        if (x > 0) enqueue(index - 1);
-        if (x < width - 1) enqueue(index + 1);
-        if (index >= width) enqueue(index - width);
-        if (index < width * (height - 1)) enqueue(index + width);
-      }
-
-      const inside = new Uint8Array(width * height);
-      let minX = width;
-      let minY = height;
-      let maxX = 0;
-      let maxY = 0;
-      for (let index = 0; index < width * height; index += 1) {
-        if (!outside[index]) {
-          inside[index] = 1;
-          const x = index % width;
-          const y = Math.floor(index / width);
-          minX = Math.min(minX, x);
-          minY = Math.min(minY, y);
-          maxX = Math.max(maxX, x);
-          maxY = Math.max(maxY, y);
-        }
-      }
-
-      type Point = { x: number; y: number };
-      type Edge = { from: Point; to: Point; used: boolean };
-      const edges: Edge[] = [];
-      const edgesByStart = new Map<string, number[]>();
-      const pointKey = (point: Point) => `${point.x},${point.y}`;
-      const addEdge = (from: Point, to: Point) => {
-        const edgeIndex = edges.length;
-        edges.push({ from, to, used: false });
-        const key = pointKey(from);
-        const matches = edgesByStart.get(key);
-        if (matches) matches.push(edgeIndex);
-        else edgesByStart.set(key, [edgeIndex]);
-      };
-
-      for (let y = minY; y <= maxY; y += 1) {
-        for (let x = minX; x <= maxX; x += 1) {
-          const index = y * width + x;
-          if (!inside[index]) continue;
-          if (y === 0 || !inside[index - width]) addEdge({ x, y }, { x: x + 1, y });
-          if (x === width - 1 || !inside[index + 1]) addEdge({ x: x + 1, y }, { x: x + 1, y: y + 1 });
-          if (y === height - 1 || !inside[index + width]) addEdge({ x: x + 1, y: y + 1 }, { x, y: y + 1 });
-          if (x === 0 || !inside[index - 1]) addEdge({ x, y: y + 1 }, { x, y });
-        }
-      }
-
-      const pointDistance = (point: Point, start: Point, end: Point) => {
-        const dx = end.x - start.x;
-        const dy = end.y - start.y;
-        if (!dx && !dy) return Math.hypot(point.x - start.x, point.y - start.y);
-        const position = Math.max(0, Math.min(1, ((point.x - start.x) * dx + (point.y - start.y) * dy) / (dx * dx + dy * dy)));
-        return Math.hypot(point.x - (start.x + position * dx), point.y - (start.y + position * dy));
-      };
-      const simplify = (points: Point[], tolerance: number): Point[] => {
-        if (points.length <= 2) return points;
-        let furthestIndex = 0;
-        let furthestDistance = 0;
-        for (let index = 1; index < points.length - 1; index += 1) {
-          const distance = pointDistance(points[index], points[0], points[points.length - 1]);
-          if (distance > furthestDistance) {
-            furthestDistance = distance;
-            furthestIndex = index;
-          }
-        }
-        if (furthestDistance <= tolerance) return [points[0], points[points.length - 1]];
-        const first = simplify(points.slice(0, furthestIndex + 1), tolerance);
-        const second = simplify(points.slice(furthestIndex), tolerance);
-        return [...first.slice(0, -1), ...second];
-      };
-
-      const vectorPath = new Path2D();
-      edges.forEach((edge) => {
-        if (edge.used) return;
-        const loop: Point[] = [edge.from];
-        let currentEdge = edge;
-        while (!currentEdge.used) {
-          currentEdge.used = true;
-          loop.push(currentEdge.to);
-          if (pointKey(currentEdge.to) === pointKey(loop[0])) break;
-          const nextIndex = edgesByStart.get(pointKey(currentEdge.to))?.find((index) => !edges[index].used);
-          if (nextIndex === undefined) break;
-          currentEdge = edges[nextIndex];
-        }
-        if (loop.length < 16 || pointKey(loop[0]) !== pointKey(loop[loop.length - 1])) return;
-        const simplified = simplify(loop.slice(0, -1), 2.2);
-        if (simplified.length < 3) return;
-        vectorPath.moveTo(simplified[0].x, simplified[0].y);
-        for (let index = 0; index < simplified.length; index += 1) {
-          const point = simplified[index];
-          const next = simplified[(index + 1) % simplified.length];
-          vectorPath.quadraticCurveTo(point.x, point.y, (point.x + next.x) / 2, (point.y + next.y) / 2);
-        }
-        vectorPath.closePath();
-      });
-      mapPath = vectorPath;
+      mapPath = new Path2D();
       mapBounds = {
-        x: Math.max(0, minX - 8),
-        y: Math.max(0, minY - 8),
-        width: Math.min(width, maxX + 9) - Math.max(0, minX - 8),
-        height: Math.min(height, maxY + 9) - Math.max(0, minY - 8),
+        x: 0,
+        y: 0,
+        width: mapImage.naturalWidth,
+        height: mapImage.naturalHeight,
       };
+      return;
     };
 
     const draw = () => {
@@ -273,28 +123,14 @@ function MapCanvas({ language, kind }: { language: Language; kind: 'russia' | 'w
         const landContext = landLayer.getContext('2d');
         if (!landContext) return;
         landContext.setTransform(ratio, 0, 0, ratio, 0, 0);
-        const landGold = landContext.createLinearGradient(mapX, mapY, mapX + mapWidth, mapY + mapHeight);
-        landGold.addColorStop(0, '#c99545');
-        landGold.addColorStop(0.5, '#f1d47d');
-        landGold.addColorStop(1, '#d7a650');
-        landContext.fillStyle = landGold;
+        landContext.fillStyle = '#e0b652';
         landContext.fillRect(mapX, mapY, mapWidth, mapHeight);
         landContext.globalCompositeOperation = 'destination-in';
         landContext.drawImage(worldLandMask, mapX, mapY, mapWidth, mapHeight);
         context.drawImage(landLayer, 0, 0, width, height);
         context.drawImage(mapImage, mapX, mapY, mapWidth, mapHeight);
       } else {
-        context.save();
-        context.translate(mapX - mapBounds.x * (mapWidth / mapBounds.width), mapY - mapBounds.y * (mapHeight / mapBounds.height));
-        context.scale(mapWidth / mapBounds.width, mapHeight / mapBounds.height);
-        context.fillStyle = gold;
-        context.fill(mapPath);
-        context.strokeStyle = '#111111';
-        context.lineWidth = Math.max(1.6, 2.2 * mapBounds.width / mapWidth);
-        context.lineJoin = 'round';
-        context.lineCap = 'round';
-        context.stroke(mapPath);
-        context.restore();
+        context.drawImage(mapImage, mapX, mapY, mapWidth, mapHeight);
       }
 
       const markers = isWorld
@@ -306,12 +142,21 @@ function MapCanvas({ language, kind }: { language: Language; kind: 'russia' | 'w
             { name: 'Тюмень', x: 0.322546, y: 0.742538 },
             { name: 'Центр Республики Алтай', x: 0.469130, y: 0.944220 },
           ];
-      const iconSize = Math.max(28, Math.min(46, mapWidth / 22));
+      const baseIconSize = Math.max(28, Math.min(46, mapWidth / 22));
+      const iconSize = isWorld ? baseIconSize : baseIconSize * 3;
+      const markerArea = isWorld
+        ? { x: mapX, y: mapY, width: mapWidth, height: mapHeight }
+        : {
+            x: mapX + mapWidth * (186 / 1206),
+            y: mapY + mapHeight * (178 / 898),
+            width: mapWidth * ((1058 - 186) / 1206),
+            height: mapHeight * ((697 - 178) / 898),
+          };
 
       markers.forEach((marker) => {
         const halfIcon = iconSize / 2;
-        const x = Math.max(mapX + halfIcon, Math.min(mapX + mapWidth - halfIcon, mapX + marker.x * mapWidth));
-        const y = Math.max(mapY + halfIcon, Math.min(mapY + mapHeight - halfIcon, mapY + marker.y * mapHeight));
+        const x = Math.max(mapX + halfIcon, Math.min(mapX + mapWidth - halfIcon, markerArea.x + marker.x * markerArea.width));
+        const y = Math.max(mapY + halfIcon, Math.min(mapY + mapHeight - halfIcon, markerArea.y + marker.y * markerArea.height));
         if (treeLayer) {
           context.save();
           context.beginPath();
@@ -499,7 +344,7 @@ export default function Home() {
 
       <section className="site-section panel-section" id="panel">
         <div className="panel-content">
-          <h3 className="subsection-title">{ru ? 'О панно' : 'The panel'}</h3>
+          <h3 className="subsection-title matching-offer-label">{ru ? 'О панно' : 'The panel'}</h3>
           <ul>{panelFacts[language].map((fact, index) => (
             <li key={fact} className={index === panelFacts[language].length - 3 ? 'panel-fact-two-lines' : undefined}>
               {index === panelFacts[language].length - 3
@@ -516,7 +361,7 @@ export default function Home() {
           </video>
         </figure>
         <article className="technique-copy">
-          <h3 className="subsection-title">{ru ? 'О технике сажение по бели' : 'About the sazhene po beli technique'}</h3>
+          <h3 className="subsection-title matching-offer-label">{ru ? 'О технике сажение по бели' : 'About the sazhene po beli technique'}</h3>
           <p>{ru ? 'Изучение европейской и азиатской истории искусств показывает, что рельефное жемчужное шитье всегда оставалось прерогативой узкого круга — верховной знати и высшего духовенства. На Руси сложилась диаметрально противоположная ситуация, обусловленная двумя факторами.' : 'The history of European and Asian art shows that raised pearl embroidery remained the privilege of a narrow circle — the highest nobility and senior clergy. In Rus, a diametrically opposite situation emerged due to two factors.'}</p>
           <ol>
             <li>{ru ? 'Реки Русского Севера (бассейны Северной Двины, Онеги, реки Кольского полуострова) были естественным ареалом обитания пресноводной жемчужницы. Добыча речного (скатного) жемчуга была традиционным промыслом, доступным местному населению.' : 'The rivers of the Russian North (the basins of the Northern Dvina and Onega and the rivers of the Kola Peninsula) were a natural habitat for freshwater pearl mussels. Harvesting river pearls was a traditional craft available to local communities.'}</li>
@@ -540,32 +385,11 @@ export default function Home() {
           <p>{ru ? 'Сотрудничество с целью демонстрации панно и совместных проектов с выставочными площадками, информационными партнерами, деятелями культуры, меценатами, предпринимателями и другими заинтересованными лицами.' : 'Cooperation to present the panel and create joint projects with exhibition venues, media partners, cultural practitioners, patrons, entrepreneurs and other interested parties.'}</p>
           <a className="text-button" href="tel:+79151643278">{ru ? 'Связаться' : 'Contact us'}</a>
         </article>
-        <div className="offer-divider" aria-hidden="true" />
         <article className="offer-order">
           <h3 className="offer-label">{ru ? 'Индивидуальный заказ' : 'Bespoke commission'}</h3>
           <p>{ru ? 'Изготовление панно по индивидуальному заказу для частных лиц, организаций, государственных структур в поддержку общего волеизъявления в выборе жизни и жизнетворения.' : 'A bespoke panel for individuals, organisations and government bodies in support of the shared choice of life and life-giving creation.'}</p>
-          <p>{ru ? 'Панно изготавливается индивидуально с учётом цели:' : 'Each panel is created individually according to its purpose:'}</p>
-          <ul>
-            <li>{ru ? 'Символ живого мира.' : 'A symbol of a living world.'}</li>
-            <li>{ru ? 'Родовое древо для Вашей истории.' : 'A family tree for your story.'}</li>
-            <li>{ru ? 'Древо — символ устойчивости и развития организации.' : 'A tree symbolising the resilience and growth of an organisation.'}</li>
-            <li>{ru ? 'Древо — символ устойчивости и развития региона.' : 'A tree symbolising the resilience and growth of a region.'}</li>
-          </ul>
-          <p>{ru ? 'Разработка индивидуального концепта включает в себя: подбор смыслов, разработку индивидуальной истории, высокохудожественного эскиза, подбор материалов. Уникальное для Вас панно изготавливается в единственном экземпляре.' : 'The bespoke concept includes meanings, an individual story, a highly artistic sketch and selected materials. Your unique panel is made as a single edition.'}</p>
-          <p>{ru ? 'Это то, что будет вечно и передаваться из поколения в поколение.' : 'It is something eternal, passed from one generation to the next.'}</p>
           <a className="text-button" href="tel:+79151643278">{ru ? 'Связаться' : 'Contact us'}</a>
         </article>
-        <div className="offer-gallery" aria-label={ru ? 'Примеры художественных деталей панно' : 'Examples of artistic panel details'}>
-          {[0, 1, 2].map((item) => (
-            <figure className={`offer-gallery-item offer-gallery-item-${item + 1}`} key={item}>
-              <img src="./assets/panel-detail.png" alt={ru ? `Фрагмент техники панно ${item + 1}` : `Panel technique detail ${item + 1}`} />
-            </figure>
-          ))}
-        </div>
-        <div className="preview-copy">
-          <p>{ru ? 'Сейчас “ДРЕВО ЖИЗНИ” находится в исполнении, завершение — 2026 год. Панно открыто для индивидуального просмотра партнёрами и заказчиками.' : 'THE TREE OF LIFE is currently in production and will be completed in 2026. The panel is open for private previews by partners and clients.'}</p>
-          <a className="text-button" href="tel:+79151643278">{ru ? 'Связаться для предварительного просмотра' : 'Arrange a private preview'}</a>
-        </div>
       </section>
 
       <section className="site-section events-section" id="events">
