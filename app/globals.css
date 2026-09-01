@@ -369,8 +369,8 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
 .geography-section { min-height: clamp(780px, 66vw, 960px); align-content: start; justify-items: center; padding-top: 2.5cm; text-align: center; }
 .geography-section h2 { grid-column: 3 / 11; }
 .russia-map-canvas, .world-map-canvas { grid-column: 1 / 13; display: block; justify-self: center; width: calc(100% - 8cm); max-width: 100%; margin-top: clamp(20px, 3vw, 42px); }
-.russia-map-canvas { width: 21cm; height: calc(21cm * 528 / 881); }
-.world-map-canvas { width: 21cm; height: calc(21cm * 1033 / 1800); }
+.russia-map-canvas { width: 26.6cm; height: calc(26.6cm * 528 / 881); }
+.world-map-canvas { width: 26.6cm; height: calc(26.6cm * 1033 / 1800); }
 .geography-section > p { grid-column: 3 / 11; margin-top: 2cm; }
 .geography-section > .text-button { grid-column: 5 / 9; margin-top: 18px; margin-bottom: 2cm; }
 .world-section { min-height: clamp(740px, 62vw, 900px); }
