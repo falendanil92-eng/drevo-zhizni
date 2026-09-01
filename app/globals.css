@@ -148,9 +148,8 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
 .red-gradient-underline {
   display: inline-block;
   max-width: 100%;
-  padding-bottom: 3px;
-  border-bottom: 1px solid transparent;
-  border-image: linear-gradient(90deg, #7d0d12 0%, #c93b42 48%, #8f1116 100%) 1;
+  padding-bottom: 2px;
+  border-bottom: 2px solid currentColor;
 }
 .panel-wide {
   grid-column: 3 / 11;
