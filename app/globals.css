@@ -370,7 +370,7 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
 .geography-section h2 { grid-column: 3 / 11; }
 .russia-map-canvas, .world-map-canvas { grid-column: 1 / 13; display: block; justify-self: center; width: calc(100% - 8cm); max-width: 100%; margin-top: clamp(20px, 3vw, 42px); }
 .russia-map-canvas { width: 21cm; height: calc(21cm * 528 / 881); }
-.world-map-canvas { height: clamp(420px, calc((100vw - 8cm) / 1.75), 690px); }
+.world-map-canvas { width: 21cm; height: calc(21cm * 1033 / 1800); }
 .geography-section > p { grid-column: 3 / 11; margin-top: 2cm; }
 .geography-section > .text-button { grid-column: 5 / 9; margin-top: 18px; margin-bottom: 2cm; }
 .world-section { min-height: clamp(740px, 62vw, 900px); }
@@ -527,7 +527,7 @@ main > .offer-section .text-button { text-align: center; }
   .events-table th, .events-table td { padding: 15px 16px; }
   .russia-map-canvas, .world-map-canvas { grid-column: 1 / 13; width: calc(100vw - 2cm); max-width: calc(100vw - 2cm); }
   .russia-map-canvas { height: clamp(280px, calc((100vw - 2cm) * 528 / 881), 480px); }
-  .world-map-canvas { height: clamp(260px, calc((100vw - 2cm) / 1.75), 440px); }
+  .world-map-canvas { height: clamp(260px, calc((100vw - 2cm) * 1033 / 1800), 440px); }
   .section-divider { margin: calc(1.5cm - 5px) 0; }
   .panel-summary { padding-top: 0; }
   .geography-section > .text-button { grid-column: 3 / 11; margin-bottom: 80px; }
@@ -548,7 +548,7 @@ main > .offer-section .text-button { text-align: center; }
   .tree-figure { grid-column: 2 / 12; }
   .panel-wide { height: auto; }
   .russia-map-canvas { height: calc((100vw - 2cm) * 528 / 881); }
-  .world-map-canvas { height: calc((100vw - 2cm) / 1.75); }
+  .world-map-canvas { height: calc((100vw - 2cm) * 1033 / 1800); }
   .offer-gallery { grid-template-columns: 1fr; gap: 18px; }
   .offer-gallery-item { aspect-ratio: 4 / 3; }
   .footer-socials { grid-template-columns: repeat(4, 48px); }
