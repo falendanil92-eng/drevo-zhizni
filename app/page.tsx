@@ -493,7 +493,7 @@ export default function Home() {
         <div className="project-copy">
           <h2>{ru ? 'Проект Древо жизни' : 'The Tree of Life project'}</h2>
           <p>{ru ? '“ДРЕВО ЖИЗНИ” представлено в формате монументального панно.' : 'THE TREE OF LIFE is presented as a monumental panel.'}</p>
-          <p className="dark-gradient-text">{ru ? 'Основной смысл панно – наше волеизъявление в выборе жизни и жизнетворения.' : 'The central meaning of the panel is our conscious choice of life and life-giving creation.'}</p>
+          <p className="dark-gradient-text">{ru ? <span className="red-gradient-underline">Основной смысл панно – наше волеизъявление в выборе жизни и жизнетворения.</span> : 'The central meaning of the panel is our conscious choice of life and life-giving creation.'}</p>
         </div>
       </section>
 

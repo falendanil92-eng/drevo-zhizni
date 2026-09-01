@@ -145,6 +145,13 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
 .project-copy h2 { margin-bottom: clamp(24px, 3vw, 42px); }
 .project-copy p { margin-bottom: 10px; line-height: 1.4; }
 .project-copy p:last-child { margin-bottom: 0; }
+.red-gradient-underline {
+  display: inline-block;
+  max-width: 100%;
+  padding-bottom: 3px;
+  border-bottom: 1px solid transparent;
+  border-image: linear-gradient(90deg, #7d0d12 0%, #c93b42 48%, #8f1116 100%) 1;
+}
 .panel-wide {
   grid-column: 3 / 11;
   justify-self: center;
