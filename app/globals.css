@@ -517,17 +517,32 @@ main > .offer-section .text-button { text-align: center; }
   .offer-section, .events-section { padding-top: 2cm; }
   .offer-section, .events-section, .world-section { overflow-x: clip; }
   .offer-promotion > p:not(.offer-label) { max-width: 100%; }
+  .offer-promotion { margin-bottom: 42px; }
   .offer-order ul { padding-left: 1.4em; }
   .preview-copy .text-button { width: 100%; max-width: 100%; margin-right: 0; white-space: normal; }
   .events-section { padding-bottom: 2cm; }
-  .events-section > h2 { font-size: clamp(18px, 5.4vw, 26px); }
+  .events-section > h2 {
+    justify-self: start;
+    max-width: 320px;
+    font-size: clamp(18px, 5.4vw, 26px);
+    text-align: left;
+    white-space: normal;
+  }
   .events-content { min-width: 0; max-width: 100%; }
   .events-table-wrap { margin-right: -20px; }
   .events-table { min-width: 680px; }
   .events-table th, .events-table td { padding: 15px 16px; }
-  .russia-map-canvas, .world-map-canvas { grid-column: 1 / 13; width: calc(100vw - 2cm); max-width: calc(100vw - 2cm); }
-  .russia-map-canvas { height: clamp(280px, calc((100vw - 2cm) * 528 / 881), 480px); }
-  .world-map-canvas { height: clamp(260px, calc((100vw - 2cm) * 1033 / 1800), 440px); }
+  .russia-map-canvas, .world-map-canvas { grid-column: 1 / 13; }
+  .russia-map-canvas {
+    width: calc(100vw - 3cm);
+    max-width: calc(100vw - 3cm);
+    height: clamp(240px, calc((100vw - 3cm) * 528 / 881), 420px);
+  }
+  .world-map-canvas {
+    width: 100vw;
+    max-width: 100vw;
+    height: clamp(260px, calc(100vw * 1033 / 1800), 440px);
+  }
   .section-divider { margin: calc(1.5cm - 5px) 0; }
   .panel-summary { padding-top: 0; }
   .geography-section > .text-button { grid-column: 3 / 11; margin-bottom: 80px; }
@@ -547,8 +562,8 @@ main > .offer-section .text-button { text-align: center; }
   .hero-intro { grid-column: 2 / 12; }
   .tree-figure { grid-column: 2 / 12; }
   .panel-wide { height: auto; }
-  .russia-map-canvas { height: calc((100vw - 2cm) * 528 / 881); }
-  .world-map-canvas { height: calc((100vw - 2cm) * 1033 / 1800); }
+  .russia-map-canvas { height: calc((100vw - 3cm) * 528 / 881); }
+  .world-map-canvas { height: calc(100vw * 1033 / 1800); }
   .offer-gallery { grid-template-columns: 1fr; gap: 18px; }
   .offer-gallery-item { aspect-ratio: 4 / 3; }
   .footer-socials { grid-template-columns: repeat(4, 48px); }

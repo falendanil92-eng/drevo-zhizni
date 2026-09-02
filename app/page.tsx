@@ -153,8 +153,9 @@ function MapCanvas({ language, kind }: { language: Language; kind: 'russia' | 'w
             { name: 'Тюмень', x: 0.322546, y: 0.742538 },
             { name: 'Центр Республики Алтай', x: 0.469130, y: 0.944220 },
           ];
+      const isCompact = window.matchMedia('(max-width: 860px)').matches;
       const baseIconSize = Math.max(28, Math.min(46, mapWidth / 22));
-      const iconSize = isWorld ? baseIconSize : baseIconSize * 3;
+      const iconSize = isWorld ? baseIconSize : baseIconSize * (isCompact ? 1.85 : 3);
       const markerArea = { x: mapX, y: mapY, width: mapWidth, height: mapHeight };
 
       markers.forEach((marker) => {
@@ -437,7 +438,7 @@ export default function Home() {
       <footer className="site-footer" id="contacts">
         <h2>{ru ? 'КОНТАКТЫ' : 'CONTACTS'}</h2>
         <div className="footer-contact">
-          <p><strong>{ru ? 'ТЕЛЕФОН' : 'TELEPHONE'}</strong> 8 915 164 32 78</p>
+          <p><strong>{ru ? 'ТЕЛЕФОН' : 'TELEPHONE'}</strong> +7 915 164 32 78</p>
           <p><strong>{ru ? 'ПОЧТА' : 'EMAIL'}</strong> solntse.kultura@mail.ru</p>
         </div>
       </footer>
