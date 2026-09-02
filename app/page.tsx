@@ -101,9 +101,15 @@ function MapCanvas({ language, kind }: { language: Language; kind: 'russia' | 'w
       const mapY = (height - mapHeight) / 2;
 
       const gold = context.createLinearGradient(mapX, mapY, mapX + mapWidth, mapY + mapHeight);
-      gold.addColorStop(0, '#c99545');
-      gold.addColorStop(0.5, '#f1d47d');
-      gold.addColorStop(1, '#d7a650');
+      gold.addColorStop(0, '#b98230');
+      gold.addColorStop(0.28, '#d7a64a');
+      gold.addColorStop(0.55, '#f0d987');
+      gold.addColorStop(0.78, '#d0a148');
+      gold.addColorStop(1, '#a86b25');
+      const worldGold = context.createLinearGradient(mapX, mapY, mapX + mapWidth, mapY);
+      worldGold.addColorStop(0, '#c99a42');
+      worldGold.addColorStop(0.5, '#e0bd5e');
+      worldGold.addColorStop(1, '#c99a42');
       if (!landMask.naturalWidth) return;
       const landLayer = document.createElement('canvas');
       landLayer.width = canvas.width;
@@ -111,11 +117,31 @@ function MapCanvas({ language, kind }: { language: Language; kind: 'russia' | 'w
       const landContext = landLayer.getContext('2d');
       if (!landContext) return;
       landContext.setTransform(ratio, 0, 0, ratio, 0, 0);
-      landContext.fillStyle = isWorld ? '#e0b652' : gold;
+      landContext.fillStyle = isWorld ? worldGold : gold;
       landContext.fillRect(mapX, mapY, mapWidth, mapHeight);
+      if (!isWorld) {
+        const glow = landContext.createRadialGradient(
+          mapX + mapWidth * 0.48,
+          mapY + mapHeight * 0.32,
+          mapWidth * 0.05,
+          mapX + mapWidth * 0.48,
+          mapY + mapHeight * 0.32,
+          mapWidth * 0.58,
+        );
+        glow.addColorStop(0, 'rgba(255, 246, 196, 0.42)');
+        glow.addColorStop(0.52, 'rgba(255, 238, 170, 0.14)');
+        glow.addColorStop(1, 'rgba(255, 238, 170, 0)');
+        landContext.fillStyle = glow;
+        landContext.fillRect(mapX, mapY, mapWidth, mapHeight);
+      }
       landContext.globalCompositeOperation = 'destination-in';
       landContext.drawImage(landMask, mapX, mapY, mapWidth, mapHeight);
+      context.save();
+      context.shadowColor = isWorld ? 'rgba(119, 72, 18, 0.12)' : 'rgba(119, 72, 18, 0.22)';
+      context.shadowBlur = isWorld ? 6 : 14;
+      context.shadowOffsetY = isWorld ? 2 : 5;
       context.drawImage(landLayer, 0, 0, width, height);
+      context.restore();
       context.drawImage(mapImage, mapX, mapY, mapWidth, mapHeight);
 
       const markers = isWorld
