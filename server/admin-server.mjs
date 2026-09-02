@@ -3,10 +3,11 @@ import { createReadStream, promises as fs } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const scriptRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)));
+const projectRoot = path.resolve(scriptRoot, '..');
 const siteRoot = path.resolve(process.env.SITE_ROOT || path.join(projectRoot, 'out'));
 const dataFile = path.resolve(process.env.EVENTS_DATA_FILE || path.join(siteRoot, 'data', 'events.json'));
-const adminHtml = path.join(projectRoot, 'server', 'admin.html');
+const adminHtml = path.join(scriptRoot, 'admin.html');
 const adminUser = process.env.ADMIN_USER || 'admin';
 const adminPassword = process.env.ADMIN_PASSWORD;
 const adminPath = process.env.ADMIN_PATH || '/backstage-events-drevo-7f3b9a';
