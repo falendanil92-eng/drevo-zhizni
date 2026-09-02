@@ -332,7 +332,10 @@ export default function Home() {
         <nav id="main-navigation" className={menuOpen ? 'is-open' : ''} aria-label={ru ? 'Основная навигация' : 'Main navigation'}>
           <a href="#top" onClick={closeMenu}>{ru ? 'Древо жизни' : 'Tree of Life'}</a>
           <a href="#project" onClick={closeMenu}>{ru ? 'Проект' : 'Project'}</a>
+          <a href="#offer" onClick={closeMenu}>{ru ? 'Предложение' : 'Proposal'}</a>
+          <a href="#events" onClick={closeMenu}>{ru ? 'Презентация' : 'Presentation'}</a>
           <a href="#geography" onClick={closeMenu}>{ru ? 'Мы в России' : 'In Russia'}</a>
+          <a href="#world" onClick={closeMenu}>{ru ? 'Мы в мире' : 'In the world'}</a>
           <a href="#contacts" onClick={closeMenu}>{ru ? 'Контакты' : 'Contacts'}</a>
         </nav>
         <div className="language-switch" aria-label={ru ? 'Выбор языка' : 'Choose language'}>
