@@ -331,6 +331,8 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
 
 .events-section { min-height: auto; align-content: start; padding: 2.5cm 0; }
 .events-section > h2 { grid-column: 2 / 12; margin-bottom: clamp(42px, 5vw, 72px); }
+.events-section > h2 span { font-size: inherit; }
+.events-section > h2 span + span::before { content: ' '; }
 .events-content { grid-column: 2 / 12; }
 .events-content .subsection-title { margin-left: 0; }
 .events-table-wrap {
@@ -530,6 +532,7 @@ main > .offer-section .text-button { text-align: center; }
     white-space: normal;
   }
   .events-section > h2 span { display: block; font-size: inherit; }
+  .events-section > h2 span + span::before { content: none; }
   .events-content { min-width: 0; max-width: 100%; }
   .events-table-wrap { margin-right: -20px; }
   .events-table { min-width: 680px; }
