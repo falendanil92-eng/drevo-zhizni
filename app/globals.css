@@ -515,6 +515,7 @@ main > .offer-section .text-button { text-align: center; }
   }
   .panel-video { grid-column: 1 / 13; width: calc(100% - 32px); }
   .offer-section, .events-section { padding-top: 2cm; }
+  .events-section { padding-top: calc(2cm - 10px); }
   .offer-section, .events-section, .world-section { overflow-x: clip; }
   .offer-promotion > p:not(.offer-label) { max-width: 100%; }
   .offer-promotion { margin-bottom: 42px; }
@@ -528,6 +529,7 @@ main > .offer-section .text-button { text-align: center; }
     text-align: left;
     white-space: normal;
   }
+  .events-section > h2 span { display: block; font-size: inherit; }
   .events-content { min-width: 0; max-width: 100%; }
   .events-table-wrap { margin-right: -20px; }
   .events-table { min-width: 680px; }

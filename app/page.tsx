@@ -422,7 +422,7 @@ export default function Home() {
       </section>
 
       <section className="site-section events-section" id="events">
-        <h2>{ru ? 'Презентация панно Древо жизни' : 'Tree of Life panel presentation'}</h2>
+        <h2>{ru ? <><span>Презентация панно</span><span>Древо жизни</span></> : 'Tree of Life panel presentation'}</h2>
         <div className="events-content">
           <h3 className="subsection-title">{ru ? 'Будущие мероприятия' : 'Upcoming events'}</h3>
           <div className="events-table-wrap">
