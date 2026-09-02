@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Админка мероприятий — Древо жизни</title>
+  <style>
+    :root {
+      color: #111;
+      background: #f7f1e7;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 32px 20px;
+    }
+
+    main {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 28px;
+      font-weight: 400;
+    }
+
+    p {
+      margin: 0 0 24px;
+      color: #51483e;
+      line-height: 1.45;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border: 1px solid #111;
+    }
+
+    th,
+    td {
+      border: 1px solid #111;
+      padding: 10px;
+      vertical-align: top;
+    }
+
+    th {
+      text-align: left;
+      background: #efe4d3;
+    }
+
+    input {
+      box-sizing: border-box;
+      width: 100%;
+      border: 1px solid #b9a78d;
+      padding: 9px 10px;
+      font: inherit;
+    }
+
+    button {
+      border: 1px solid #8f1116;
+      background: #fff;
+      color: #111;
+      cursor: pointer;
+      font: inherit;
+      padding: 10px 16px;
+    }
+
+    button:hover {
+      background: #f6ecec;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .status {
+      min-height: 24px;
+      margin-top: 16px;
+      color: #8f1116;
+    }
+
+    @media (max-width: 720px) {
+      body {
+        padding: 24px 12px;
+      }
+
+      table,
+      thead,
+      tbody,
+      tr,
+      th,
+      td {
+        display: block;
+      }
+
+      thead {
+        display: none;
+      }
+
+      tr {
+        margin-bottom: 16px;
+        border: 1px solid #111;
+        background: #fff;
+      }
+
+      td {
+        border: 0;
+        border-bottom: 1px solid #ddd;
+      }
+
+      td::before {
+        display: block;
+        margin-bottom: 6px;
+        color: #51483e;
+        font-size: 13px;
+      }
+
+      td:nth-child(1)::before { content: 'Дата'; }
+      td:nth-child(2)::before { content: 'Мероприятие'; }
+      td:nth-child(3)::before { content: 'Место проведения'; }
+      td:nth-child(4)::before { content: 'Ссылка'; }
+      td:nth-child(5)::before { content: 'Действие'; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Мероприятия</h1>
+    <p>Здесь редактируется таблица «Будущие мероприятия». Пустые строки не сохраняются.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Дата</th>
+          <th>Мероприятие</th>
+          <th>Место проведения</th>
+          <th>Ссылка на мероприятие</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+
+    <div class="actions">
+      <button type="button" id="add">Добавить строку</button>
+      <button type="button" id="save">Сохранить</button>
+      <a href="/" target="_blank"><button type="button">Открыть сайт</button></a>
+    </div>
+    <div class="status" id="status"></div>
+  </main>
+
+  <script>
+    const rows = document.querySelector('#rows');
+    const status = document.querySelector('#status');
+
+    const fields = [
+      ['date', 'Дата'],
+      ['event', 'Мероприятие'],
+      ['venue', 'Место проведения'],
+      ['url', 'Ссылка на мероприятие'],
+    ];
+
+    const setStatus = (text) => {
+      status.textContent = text;
+    };
+
+    const createRow = (event = {}) => {
+      const row = document.createElement('tr');
+
+      fields.forEach(([name, label]) => {
+        const cell = document.createElement('td');
+        const input = document.createElement('input');
+        input.name = name;
+        input.placeholder = label;
+        input.value = event[name] || '';
+        cell.append(input);
+        row.append(cell);
+      });
+
+      const actionCell = document.createElement('td');
+      const remove = document.createElement('button');
+      remove.type = 'button';
+      remove.textContent = 'Удалить';
+      remove.addEventListener('click', () => row.remove());
+      actionCell.append(remove);
+      row.append(actionCell);
+
+      rows.append(row);
+    };
+
+    const getEvents = () => Array.from(rows.querySelectorAll('tr')).map((row) => {
+      const event = {};
+      fields.forEach(([name]) => {
+        event[name] = row.querySelector(`[name="${name}"]`).value.trim();
+      });
+      return event;
+    });
+
+    const loadEvents = async () => {
+      const response = await fetch('/api/events', { cache: 'no-store' });
+      const events = response.ok ? await response.json() : [];
+      rows.textContent = '';
+      if (Array.isArray(events) && events.length > 0) {
+        events.forEach(createRow);
+      } else {
+        createRow();
+      }
+    };
+
+    document.querySelector('#add').addEventListener('click', () => createRow());
+
+    document.querySelector('#save').addEventListener('click', async () => {
+      setStatus('Сохраняю…');
+      const response = await fetch('/api/events', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(getEvents()),
+      });
+      setStatus(response.ok ? 'Сохранено.' : 'Не удалось сохранить.');
+    });
+
+    loadEvents().catch(() => {
+      rows.textContent = '';
+      createRow();
+      setStatus('Не удалось загрузить данные.');
+    });
+  </script>
+</body>
+</html>

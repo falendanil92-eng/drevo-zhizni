@@ -534,9 +534,9 @@ main > .offer-section .text-button { text-align: center; }
   .events-table th, .events-table td { padding: 15px 16px; }
   .russia-map-canvas, .world-map-canvas { grid-column: 1 / 13; }
   .russia-map-canvas {
-    width: calc(100vw - 3cm);
-    max-width: calc(100vw - 3cm);
-    height: clamp(240px, calc((100vw - 3cm) * 528 / 881), 420px);
+    width: 100vw;
+    max-width: 100vw;
+    height: clamp(240px, calc(100vw * 528 / 881), 420px);
   }
   .world-map-canvas {
     width: 100vw;
@@ -562,7 +562,7 @@ main > .offer-section .text-button { text-align: center; }
   .hero-intro { grid-column: 2 / 12; }
   .tree-figure { grid-column: 2 / 12; }
   .panel-wide { height: auto; }
-  .russia-map-canvas { height: calc((100vw - 3cm) * 528 / 881); }
+  .russia-map-canvas { height: calc(100vw * 528 / 881); }
   .world-map-canvas { height: calc(100vw * 1033 / 1800); }
   .offer-gallery { grid-template-columns: 1fr; gap: 18px; }
   .offer-gallery-item { aspect-ratio: 4 / 3; }

@@ -4,6 +4,13 @@ import { useEffect, useRef, useState } from 'react';
 
 type Language = 'ru' | 'en';
 
+type EventRow = {
+  date: string;
+  event: string;
+  venue: string;
+  url?: string;
+};
+
 const panelFacts = {
   ru: [
     'Мы создаем – символ Нового Мира живого и животворящего.',
@@ -225,12 +232,29 @@ function MapCanvas({ language, kind }: { language: Language; kind: 'russia' | 'w
 export default function Home() {
   const [language, setLanguage] = useState<Language>('ru');
   const [menuOpen, setMenuOpen] = useState(false);
+  const [events, setEvents] = useState<EventRow[]>([]);
   const panelAlignmentAnchorRef = useRef<HTMLSpanElement>(null);
   const ru = language === 'ru';
 
   useEffect(() => {
     document.documentElement.lang = language;
   }, [language]);
+
+  useEffect(() => {
+    const basePath = window.location.pathname.startsWith('/drevo-zhizni') ? '/drevo-zhizni' : '';
+
+    fetch(`${basePath}/data/events.json`, { cache: 'no-store' })
+      .then((response) => response.ok ? response.json() : [])
+      .then((data) => {
+        if (!Array.isArray(data)) return;
+        setEvents(data.filter((item): item is EventRow => (
+          typeof item?.date === 'string'
+          && typeof item?.event === 'string'
+          && typeof item?.venue === 'string'
+        )));
+      })
+      .catch(() => setEvents([]));
+  }, []);
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : '';
@@ -412,9 +436,18 @@ export default function Home() {
                 </tr>
               </thead>
               <tbody>
-                <tr className="events-empty-row">
-                  <td colSpan={4}>{ru ? 'Информация о ближайших мероприятиях появится здесь.' : 'Information about upcoming events will appear here.'}</td>
-                </tr>
+                {events.length > 0 ? events.map((eventItem, index) => (
+                  <tr key={`${eventItem.date}-${eventItem.event}-${index}`}>
+                    <td>{eventItem.date}</td>
+                    <td>{eventItem.event}</td>
+                    <td>{eventItem.venue}</td>
+                    <td>{eventItem.url ? <a href={eventItem.url} target="_blank" rel="noreferrer">{eventItem.url}</a> : '—'}</td>
+                  </tr>
+                )) : (
+                  <tr className="events-empty-row">
+                    <td colSpan={4}>{ru ? 'Информация о ближайших мероприятиях появится здесь.' : 'Information about upcoming events will appear here.'}</td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
