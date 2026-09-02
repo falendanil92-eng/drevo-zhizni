@@ -471,8 +471,14 @@ export default function Home() {
       <footer className="site-footer" id="contacts">
         <h2>{ru ? 'КОНТАКТЫ' : 'CONTACTS'}</h2>
         <div className="footer-contact">
-          <p><strong>{ru ? 'ТЕЛЕФОН' : 'TELEPHONE'}</strong> +7 915 164 32 78</p>
-          <p><strong>{ru ? 'ПОЧТА' : 'EMAIL'}</strong> solntse.kultura@mail.ru</p>
+          <div className="footer-contact-item">
+            <h3>{ru ? 'ТЕЛЕФОН' : 'TELEPHONE'}</h3>
+            <a href="tel:+79151643278">+7 915 164 32 78</a>
+          </div>
+          <div className="footer-contact-item">
+            <h3>{ru ? 'ПОЧТА' : 'EMAIL'}</h3>
+            <a href="mailto:solntse.kultura@mail.ru">solntse.kultura@mail.ru</a>
+          </div>
         </div>
       </footer>
     </main>

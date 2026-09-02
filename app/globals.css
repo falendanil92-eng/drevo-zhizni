@@ -40,7 +40,7 @@ body, button, a { -webkit-font-smoothing: antialiased; }
 a { color: inherit; text-decoration: none; }
 button { color: inherit; font: inherit; }
 img { display: block; max-width: 100%; }
-p, h1, h2, figure { margin: 0; }
+p, h1, h2, h3, figure { margin: 0; }
 p, li, a, button, span { font-size: var(--body-size); }
 .visually-hidden { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 
@@ -391,10 +391,11 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
 }
 .site-footer > * { position: relative; z-index: 1; }
 .site-footer h2 { grid-column: 3 / 11; grid-row: 1; align-self: start; top: .5cm; font-size: var(--title-size); text-align: center; }
-.site-footer p, .site-footer a, .site-footer span { font-size: var(--footer-body-size); line-height: 1.35; letter-spacing: .02em; }
-.footer-contact { grid-column: 1 / 13; grid-row: 2; top: -.5cm; display: flex; flex-wrap: wrap; align-content: center; justify-content: center; gap: 12px 40px; margin-top: 24px; }
-.footer-contact p, .footer-contact strong { margin: 0; font-size: 1.175rem; }
-.footer-contact strong { margin-right: 12px; font-weight: 800; }
+.site-footer h3, .site-footer a, .site-footer span { font-size: var(--footer-body-size); line-height: 1.35; letter-spacing: .02em; }
+.footer-contact { grid-column: 1 / 13; grid-row: 2; top: -.5cm; display: flex; flex-wrap: wrap; align-content: center; justify-content: center; gap: 12px 28px; margin-top: 24px; }
+.footer-contact-item { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; row-gap: .3rem; }
+.footer-contact-item h3, .footer-contact-item a { font-size: 1.175rem; }
+.footer-contact-item h3 { font-family: var(--sans); font-weight: 800; }
 
 main > :not(.site-footer) :is(h1, h2, p, li, a, button, span) { text-align: center; }
 main > .panel-section .panel-content li { text-align: left; }
