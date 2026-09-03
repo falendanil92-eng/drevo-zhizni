@@ -376,7 +376,7 @@ export default function Home() {
 
       <section className="site-section panel-section" id="panel">
         <div className="panel-content">
-          <h3 className="subsection-title">{ru ? 'О панно' : 'The panel'}</h3>
+          <h3 className="offer-label">{ru ? 'О панно' : 'The panel'}</h3>
           <ul>{panelFacts[language].map((fact, index) => (
             <li key={fact} className={index === panelFacts[language].length - 3 ? 'panel-fact-two-lines' : undefined}>
               {index === panelFacts[language].length - 3
@@ -393,7 +393,7 @@ export default function Home() {
           </video>
         </figure>
         <article className="technique-copy">
-          <h3 className="subsection-title">{ru ? 'О технике сажение по бели' : 'About the sazhene po beli technique'}</h3>
+          <h3 className="offer-label">{ru ? 'О технике сажение по бели' : 'About the sazhene po beli technique'}</h3>
           <p>{ru ? 'Изучение европейской и азиатской истории искусств показывает, что рельефное жемчужное шитье всегда оставалось прерогативой узкого круга — верховной знати и высшего духовенства. На Руси сложилась диаметрально противоположная ситуация, обусловленная двумя факторами.' : 'The history of European and Asian art shows that raised pearl embroidery remained the privilege of a narrow circle — the highest nobility and senior clergy. In Rus, a diametrically opposite situation emerged due to two factors.'}</p>
           <ol>
             <li>{ru ? 'Реки Русского Севера (бассейны Северной Двины, Онеги, реки Кольского полуострова) были естественным ареалом обитания пресноводной жемчужницы. Добыча речного (скатного) жемчуга была традиционным промыслом, доступным местному населению.' : 'The rivers of the Russian North (the basins of the Northern Dvina and Onega and the rivers of the Kola Peninsula) were a natural habitat for freshwater pearl mussels. Harvesting river pearls was a traditional craft available to local communities.'}</li>
@@ -427,7 +427,7 @@ export default function Home() {
       <section className="site-section events-section" id="events">
         <h2>{ru ? <><span>Презентация панно</span><span>Древо жизни</span></> : 'Tree of Life panel presentation'}</h2>
         <div className="events-content">
-          <h3 className="subsection-title">{ru ? 'Будущие мероприятия' : 'Upcoming events'}</h3>
+          <h3 className="offer-label">{ru ? 'Будущие мероприятия' : 'Upcoming events'}</h3>
           <div className="events-table-wrap">
             <table className="events-table">
               <thead>

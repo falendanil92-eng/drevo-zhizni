@@ -90,10 +90,10 @@ h1, h2 {
   grid-column: 1 / 13;
   grid-row: 2;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   justify-self: center;
-  width: calc(100% - 18.67cm);
-  gap: 0;
+  width: auto;
+  gap: 1cm;
 }
 .site-header nav a { position: relative; padding: 12px 0; font-family: 'Nunito Sans', Arial, sans-serif; font-size: 18.8px; font-weight: 800; text-transform: uppercase; white-space: nowrap; }
 .site-header nav a::after { content: ''; position: absolute; right: 0; bottom: 5px; left: 0; height: 1px; background: var(--gold-dark); transform: scaleX(0); transform-origin: left; transition: transform 180ms ease; }
