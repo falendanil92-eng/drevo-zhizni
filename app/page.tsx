@@ -15,7 +15,7 @@ const panelFacts = {
   ru: [
     'Мы создаем – символ Нового Мира живого и животворящего.',
     'Наша Формула Творения – Многомерность.',
-    'Обращаемся к высоко-художественной традиционной техника узорочья.',
+    'Обращаемся к высоко-художественной традиционной технике узорочья.',
     'Мы используем древнейший русский приём вышивки сажение по бели.',
     'Размер панно 3 метра х 3 метра.',
     'Проработка эскизов и подготовка образцов элементов панно – 3 месяца.',
@@ -348,7 +348,7 @@ export default function Home() {
       <section className="site-section hero" id="top">
         <div className="hero-intro">
           <h1>{ru ? 'Древо жизни' : 'The Tree of Life'}</h1>
-          <p className="hero-quote">{ru ? 'С Севера пришли они, мужчины и женщины, образующие сильный Народ, продолжающие следовать путём Духа, Души, Сознания, Крови, Совести, Воли, Света и Сокровенной Истины, в ком сильна Память. Именно это вдохнуло в них огромную силу Предназначения. В их сердцах пылает огонь стремления, и пламя это позволяет им Созидать, СоТворять и защищать.' : '“They came from the North, courageous men and women forming a strong people, continuing along the path of Spirit, Soul, Consciousness, Blood, Conscience, Will and Innermost Truth. This breathed into them the immense power of purpose. The fire of aspiration burns in their hearts, and this flame enables them to act and create.”'}</p>
+          <p className="hero-quote">{ru ? 'С Севера пришли они, мужчины и женщины, образующие сильный Народ, продолжающие следовать путём Духа, Души, Сознания, Крови, Совести, Воли, Света и Сокровенной Истины, в ком сильна Память. Именно это вдохнуло в них огромную силу Предназначения. В их сердцах пылает огонь стремления, и пламя это позволяет им Созидать, СоТворять и Защищать.' : '“They came from the North, courageous men and women forming a strong people, continuing along the path of Spirit, Soul, Consciousness, Blood, Conscience, Will and Innermost Truth. This breathed into them the immense power of purpose. The fire of aspiration burns in their hearts, and this flame enables them to act and create.”'}</p>
         </div>
         <figure className="panel-wide">
           <img src="./assets/panel-tree-cutout.png" alt={ru ? 'Эскиз панно «Древо жизни»' : 'Tree of Life panel sketch'} />

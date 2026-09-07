@@ -19,8 +19,8 @@ export const metadata: Metadata = {
     follow: true,
   },
   icons: {
-    icon: '/favicon.png',
-    apple: '/apple-touch-icon.png',
+    icon: '/assets/sun.png',
+    apple: '/assets/sun.png',
   },
   openGraph: {
     type: 'website',
