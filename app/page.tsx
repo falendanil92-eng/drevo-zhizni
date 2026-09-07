@@ -348,7 +348,7 @@ export default function Home() {
       <section className="site-section hero" id="top">
         <div className="hero-intro">
           <h1>{ru ? 'Древо жизни' : 'The Tree of Life'}</h1>
-          <p className="hero-quote">{ru ? 'С Севера пришли они, мужчины и женщины, образующие сильный Народ, продолжающие следовать путём Духа, Души, Сознания, Крови, Совести, Воли, Света и Сокровенной Истины, в ком сильна Память. Именно это вдохнуло в них огромную силу Предназначения. В их сердцах пылает огонь стремления, и пламя это позволяет им Созидать, СоТворять.' : '“They came from the North, courageous men and women forming a strong people, continuing along the path of Spirit, Soul, Consciousness, Blood, Conscience, Will and Innermost Truth. This breathed into them the immense power of purpose. The fire of aspiration burns in their hearts, and this flame enables them to act and create.”'}</p>
+          <p className="hero-quote">{ru ? 'С Севера пришли они, мужчины и женщины, образующие сильный Народ, продолжающие следовать путём Духа, Души, Сознания, Крови, Совести, Воли, Света и Сокровенной Истины, в ком сильна Память. Именно это вдохнуло в них огромную силу Предназначения. В их сердцах пылает огонь стремления, и пламя это позволяет им Созидать, СоТворять и защищать.' : '“They came from the North, courageous men and women forming a strong people, continuing along the path of Spirit, Soul, Consciousness, Blood, Conscience, Will and Innermost Truth. This breathed into them the immense power of purpose. The fire of aspiration burns in their hearts, and this flame enables them to act and create.”'}</p>
         </div>
         <figure className="panel-wide">
           <img src="./assets/panel-tree-cutout.png" alt={ru ? 'Эскиз панно «Древо жизни»' : 'Tree of Life panel sketch'} />
@@ -401,11 +401,11 @@ export default function Home() {
           </ol>
           <p>{ru ? 'Орнаментика жемчужного шитья представляла собой строгую знаковую систему. Жемчуг в древнерусской традиции символизировал чистоту, радость и небесный свет. Прокладывая льняной шнур и покрывая его жемчугом, мастерица буквально структурировала хаос, создавая защитный сакральный контур для себя, своего рода, народа, Родины. Она плела узор будущего.' : 'The ornamentation of pearl embroidery formed a strict symbolic system. In ancient Russian tradition, pearls symbolised purity, joy and heavenly light. By laying linen cord and covering it with pearls, the artisan shaped chaos into a sacred protective contour for herself, her family, her people and her homeland. She wove the pattern of the future.'}</p>
           <p>{ru ? 'Искусство русского «сажения по бели» не имеет мировых аналогов!' : 'The Russian art of sazhene po beli has no equivalent in the world!'}</p>
-          <p>{ru ? 'Русская традиция явила миру идеальный симбиоз надежной органической инженерии (льняная бель) и абсолютной доступности сакральной красоты. Массовое бытование сложнейшего жемчужного шитья свидетельствует о высочайшем уровне внутренней культуры, экономической состоятельности народа и удивительном торжестве эстетической свободы в Древней Руси.' : 'The Russian tradition united reliable organic engineering with access to sacred beauty. The widespread use of complex pearl embroidery testifies to the extraordinary inner culture, prosperity and aesthetic freedom of ancient Rus.'}</p>
+          <p>{ru ? 'Русская традиция явила миру идеальный симбиоз надежной органической инженерии (льняная бель) и абсолютной доступности сакральной красоты. Массовое бытование сложнейшего жемчужного шитья свидетельствует о высочайшем уровне внутренней культуры, состоятельности народа и удивительном торжестве эстетической свободы в Древней Руси.' : 'The Russian tradition united reliable organic engineering with access to sacred beauty. The widespread use of complex pearl embroidery testifies to the extraordinary inner culture, prosperity and aesthetic freedom of ancient Rus.'}</p>
         </article>
         <div className="section-divider" aria-hidden="true" />
         <article className="panel-summary">
-          <p>{ru ? 'Это первое и единственное в России панно с соответствующей целью, смыслом, символами, образом такого размера, выполненного в данной технике исполнения.' : 'This is the first and only panel in Russia with this purpose, meaning and symbolism, at this scale and in this technique.'}</p>
+          <p>{ru ? 'Это первое и единственное в России панно с соответствующей целью, смыслом, символами, образом, такого размера, выполненного в данной технике исполнения.' : 'This is the first and only panel in Russia with this purpose, meaning and symbolism, at this scale and in this technique.'}</p>
           <p>{ru ? 'Панно является экспонатом музейного уровня, уникальным культурным объектом для выставочных пространств, общественной и жилой среды.' : 'The panel is a museum-level exhibit and a unique cultural object for exhibition spaces, public interiors and homes.'}</p>
         </article>
       </section>
@@ -427,7 +427,7 @@ export default function Home() {
       <section className="site-section events-section" id="events">
         <h2>{ru ? <><span>Презентация панно</span><span>Древо жизни</span></> : 'Tree of Life panel presentation'}</h2>
         <div className="events-content">
-          <h3 className="offer-label">{ru ? 'Будущие мероприятия' : 'Upcoming events'}</h3>
+          <h3 className="offer-label">{ru ? 'Грядущие мероприятия' : 'Upcoming events'}</h3>
           <div className="events-table-wrap">
             <table className="events-table">
               <thead>

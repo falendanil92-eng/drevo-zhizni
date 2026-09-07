@@ -87,13 +87,13 @@ h1, h2 {
 .wordmark span, .wordmark strong { font-size: inherit; }
 .wordmark strong { color: var(--red); font-weight: 400; }
 .site-header nav {
-  grid-column: 1 / 13;
+  grid-column: 1 / 12;
   grid-row: 2;
   display: flex;
   justify-content: center;
   justify-self: center;
   width: auto;
-  gap: 1cm;
+  gap: clamp(18px, 2vw, 1cm);
 }
 .site-header nav a { position: relative; padding: 12px 0; font-family: 'Nunito Sans', Arial, sans-serif; font-size: 18.8px; font-weight: 800; text-transform: uppercase; white-space: nowrap; }
 .site-header nav a::after { content: ''; position: absolute; right: 0; bottom: 5px; left: 0; height: 1px; background: var(--gold-dark); transform: scaleX(0); transform-origin: left; transition: transform 180ms ease; }
@@ -200,12 +200,12 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
 .panel-content li {
   position: relative;
   margin-bottom: 8px;
-  padding-left: 25.6px;
+  padding-left: 0;
   line-height: 1.34;
   text-align: left;
   white-space: nowrap;
 }
-.panel-content li::before, .technique-copy li::before, .offer-order li::before {
+.offer-order li::before {
   content: '';
   position: absolute;
   top: .5em;
@@ -233,7 +233,7 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
   padding-left: 0;
   list-style: none;
 }
-.technique-copy li { position: relative; margin-bottom: clamp(16px, 1.8vw, 26px); padding-left: 25.6px; line-height: 1.42; }
+.technique-copy li { position: relative; margin-bottom: clamp(16px, 1.8vw, 26px); padding-left: 0; line-height: 1.42; }
 .section-divider {
   grid-column: 1 / 13;
   justify-self: center;
@@ -256,14 +256,19 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
 .offer-label {
   position: relative;
   margin: 0 0 clamp(24px, 2.5vw, 36px);
-  padding-left: 25.6px;
+  padding-left: 0;
   font-family: 'Nunito Sans', Arial, sans-serif;
   font-size: clamp(22px, 2vw, 28px);
   font-weight: 800;
   line-height: 1.2;
   text-transform: uppercase;
 }
-.offer-label::before {
+.offer-promotion > .offer-label,
+.offer-order > .offer-label {
+  padding-left: 25.6px;
+}
+.offer-promotion > .offer-label::before,
+.offer-order > .offer-label::before {
   content: '';
   position: absolute;
   top: .35em;
@@ -272,6 +277,14 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
   height: 9px;
   border-radius: 50%;
   background: linear-gradient(135deg, #cc3738, #820809);
+}
+.panel-content > .offer-label,
+.technique-copy > .offer-label,
+.events-content > .offer-label {
+  padding-left: 0;
+}
+.events-content > .offer-label::before {
+  content: none;
 }
 .offer-promotion > p:not(.offer-label) { margin: 0; line-height: 1.42; }
 .offer-order > p, .offer-order li { line-height: 1.42; }
@@ -508,7 +521,7 @@ main > .offer-section .text-button { text-align: center; }
   .panel-content li {
     max-width: 100%;
     margin-bottom: 12px;
-    padding-left: 1.35em;
+    padding-left: 0;
     font-size: clamp(13px, 3.6vw, 16px);
     line-height: 1.35;
     letter-spacing: 0;
@@ -517,6 +530,7 @@ main > .offer-section .text-button { text-align: center; }
   }
   .panel-video { grid-column: 1 / 13; width: calc(100% - 32px); }
   .offer-section, .events-section { padding-top: 2cm; }
+  .offer-section { padding-top: 1cm; }
   .events-section { padding-top: calc(2cm - 10px); }
   .offer-section, .events-section, .world-section { overflow-x: clip; }
   .offer-promotion > p:not(.offer-label) { max-width: 100%; }
@@ -534,9 +548,30 @@ main > .offer-section .text-button { text-align: center; }
   .events-section > h2 span { display: block; font-size: inherit; }
   .events-section > h2 span + span::before { content: none; }
   .events-content { min-width: 0; max-width: 100%; }
-  .events-table-wrap { margin-right: -20px; }
-  .events-table { min-width: 680px; }
-  .events-table th, .events-table td { padding: 15px 16px; }
+  .events-table-wrap {
+    width: 100%;
+    max-width: 100%;
+    margin-right: 0;
+    overflow-x: visible;
+  }
+  .events-table {
+    width: 100%;
+    min-width: 0;
+    table-layout: fixed;
+  }
+  .events-table th,
+  .events-table td {
+    padding: 10px 6px;
+    font-size: clamp(10px, 2.8vw, 12px);
+    line-height: 1.25;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    hyphens: auto;
+  }
+  .events-table th:nth-child(1) { width: 20%; }
+  .events-table th:nth-child(2) { width: 28%; }
+  .events-table th:nth-child(3) { width: 28%; }
+  .events-table th:nth-child(4) { width: 24%; }
   .russia-map-canvas, .world-map-canvas { grid-column: 1 / 13; }
   .russia-map-canvas {
     width: 100vw;
