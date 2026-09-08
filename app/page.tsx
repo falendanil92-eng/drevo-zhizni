@@ -466,7 +466,7 @@ export default function Home() {
 
       <section className="site-section geography-section world-section" id="world">
         <h2>{ru ? 'Мы в мире' : 'In the world'}</h2>
-        <div className="world-map-placeholder" aria-hidden="true" />
+        <MapCanvas language={language} kind="world" />
         <p>{ru ? 'Связаться с нами для участия Вашей страны в проекте.' : 'Contact us if you would like your country to take part in the project.'}</p>
         <a className="text-button" href="tel:+79151643278">{ru ? 'Связаться' : 'Contact us'}</a>
       </section>

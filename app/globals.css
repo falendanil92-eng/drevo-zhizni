@@ -394,7 +394,6 @@ main > section:not(.hero) :is(p, li) { font-size: var(--main-copy-size); }
 .geography-section { min-height: clamp(780px, 66vw, 960px); align-content: start; justify-items: center; padding-top: 2cm; text-align: center; }
 .geography-section h2 { grid-column: 3 / 11; }
 .russia-map-canvas, .world-map-canvas { grid-column: 1 / 13; display: block; justify-self: center; width: calc(100% - 8cm); max-width: 100%; margin-top: 1cm; }
-.world-map-placeholder { grid-column: 1 / 13; display: block; justify-self: center; width: 26.6cm; max-width: 100%; height: calc(26.6cm * 1033 / 1800); margin-top: 1cm; visibility: hidden; }
 .russia-map-canvas { width: 26.6cm; height: calc(26.6cm * 528 / 881); }
 .world-map-canvas { width: 26.6cm; height: calc(26.6cm * 1033 / 1800); }
 .geography-section > p { grid-column: 3 / 11; margin-top: 2cm; }
@@ -590,11 +589,6 @@ main > .offer-section .text-button { text-align: center; }
     height: clamp(240px, calc(100vw * 528 / 881), 420px);
   }
   .world-map-canvas {
-    width: 100vw;
-    max-width: 100vw;
-    height: clamp(260px, calc(100vw * 1033 / 1800), 440px);
-  }
-  .world-map-placeholder {
     width: 100vw;
     max-width: 100vw;
     height: clamp(260px, calc(100vw * 1033 / 1800), 440px);
